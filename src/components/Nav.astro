@@ -1,0 +1,20 @@
+---
+const WHATSAPP = 'https://wa.me/5493402500000?text=Hola%20Jab%2C%20quiero%20hablar%20de%20mi%20negocio';
+
+// En el home los links apuntan a secciones de la misma página; desde el blog
+// tienen que volver al home primero, si no el ancla no encuentra nada.
+const enHome = Astro.url.pathname === '/' || Astro.url.pathname === '';
+const base = enHome ? '' : '/';
+---
+<nav class="nav">
+  <a class="nav__logo" href="/" aria-label="Jab Marketing, ir al inicio">
+    <img src="/assets/img/isologo-horizontal-blanco.svg" alt="Jab Marketing" width="454" height="168">
+  </a>
+  <div class="nav__links">
+    <a class="nav__link" href={`${base}#servicios`}>Servicios</a>
+    <a class="nav__link" href={`${base}#metodo`}>Método</a>
+    <a class="nav__link" href="/blog/">Blog</a>
+    <a class="nav__link" href={`${base}#clientes`}>Clientes</a>
+    <a class="btn btn--cta btn--sm" href={WHATSAPP} target="_blank" rel="noopener">WhatsApp</a>
+  </div>
+</nav>

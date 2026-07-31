@@ -1,0 +1,78 @@
+---
+import Base from '../../layouts/Base.astro';
+import TarjetaNota from '../../components/TarjetaNota.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const notas = await getCollection('blog', ({ data }) => !data.borrador);
+  return notas.map((nota) => ({ params: { slug: nota.id }, props: { nota } }));
+}
+
+const { nota } = Astro.props;
+const { titulo, bajada, categoria, fecha, lectura, portada, portadaAlt } = nota.data;
+const { Content } = await render(nota);
+
+const fechaLarga = fecha.toLocaleDateString('es-AR', { day: 'numeric', month: 'long', year: 'numeric' });
+
+// Dos notas más para el final, sin repetir la actual
+const otras = (await getCollection('blog', ({ data }) => !data.borrador))
+  .filter((n) => n.id !== nota.id)
+  .sort((a, b) => b.data.fecha.valueOf() - a.data.fecha.valueOf())
+  .slice(0, 2);
+
+const WHATSAPP = 'https://wa.me/5493402500000?text=Hola%20Jab%2C%20quiero%20hablar%20de%20mi%20negocio';
+---
+
+<Base titulo={`${titulo} — Jab Marketing`} descripcion={bajada} imagen={portada} articulo>
+  <article class="nota">
+    <div class="nota__cabecera">
+      <p class="nota__meta">
+        <a href="/blog/">Blog</a><span></span>{categoria}<span></span>
+        <time datetime={fecha.toISOString()}>{fechaLarga}</time><span></span>{lectura} min de lectura
+      </p>
+      <h1 class="nota__titulo">{titulo}</h1>
+      <p class="nota__bajada">{bajada}</p>
+    </div>
+
+    {portada && (
+      <div class="nota__portada">
+        <img src={portada} alt={portadaAlt ?? ''} width="1200" height="675">
+      </div>
+    )}
+
+    <div class="nota__cuerpo">
+      <Content />
+    </div>
+
+    <aside class="nota__cta">
+      <h2>¿Querés que lo veamos en tu negocio?</h2>
+      <p>Respondemos todas las consultas, incluso las que todavía no son un proyecto.</p>
+      <a class="btn btn--cta" href={WHATSAPP} target="_blank" rel="noopener">
+        Hablemos por WhatsApp <span class="btn__arrow" aria-hidden="true">&rarr;</span>
+      </a>
+    </aside>
+  </article>
+
+  {otras.length > 0 && (
+    <section class="blog">
+      <div class="wrap">
+        <div class="blog__head">
+          <h2 class="blog__title" style="font-size:clamp(28px,3.6vw,48px)">Seguí leyendo</h2>
+        </div>
+        <div class="blog__grid">
+          {otras.map((n) => <TarjetaNota nota={n} />)}
+        </div>
+      </div>
+    </section>
+  )}
+</Base>
+
+<script type="application/ld+json" is:inline set:html={JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: titulo,
+  description: bajada,
+  datePublished: fecha.toISOString(),
+  author: { '@type': 'Organization', name: 'Jab Marketing' },
+  publisher: { '@type': 'Organization', name: 'Jab Marketing' },
+})} />

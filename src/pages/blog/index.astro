@@ -1,0 +1,33 @@
+---
+import Base from '../../layouts/Base.astro';
+import TarjetaNota from '../../components/TarjetaNota.astro';
+import { getCollection } from 'astro:content';
+
+const notas = (await getCollection('blog', ({ data }) => !data.borrador))
+  .sort((a, b) => b.data.fecha.valueOf() - a.data.fecha.valueOf());
+---
+
+<Base
+  titulo="Blog — Jab Marketing"
+  descripcion="Estrategias, análisis y aprendizajes de cuentas reales para vendedores, community managers, emprendedores y dueños de negocios."
+>
+  <section class="blog blog--indice">
+    <div class="wrap">
+
+      <div class="blog__head">
+        <p class="pill">Blog</p>
+        <h2 class="blog__title">Para que tomes <strong>mejores decisiones</strong></h2>
+        <p class="blog__lead">Escribimos para vendedores, community managers, emprendedores y dueños de negocios. Sin humo: lo que vemos funcionar en cuentas reales.</p>
+      </div>
+
+      {notas.length > 0 ? (
+        <div class="blog__grid">
+          {notas.map((nota) => <TarjetaNota nota={nota} />)}
+        </div>
+      ) : (
+        <p class="blog__lead" style="text-align:center">Estamos preparando las primeras notas. Volvé en unos días.</p>
+      )}
+
+    </div>
+  </section>
+</Base>

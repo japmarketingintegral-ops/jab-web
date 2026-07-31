@@ -1,0 +1,95 @@
+# Panel de contenido (Sveltia CMS).
+#
+# Cada nota que se guarda acá es un archivo .md que el panel commitea al repo.
+# Cloudflare detecta el commit, reconstruye el sitio y lo publica: entre "Publicar"
+# y verlo online pasan uno o dos minutos.
+#
+# IMPORTANTE: los campos de abajo tienen que coincidir con el esquema de
+# src/content.config.ts. Si se agrega uno acá y no allá, la compilación falla.
+
+backend:
+  name: github
+  repo: japmarketingintegral-ops/jab-web
+  branch: main
+  # URL del worker de autenticación. Ver README, sección "Panel de contenido".
+  base_url: https://PENDIENTE.workers.dev
+
+# Las imágenes que se suban desde el panel van acá y se sirven desde /assets/img/blog
+media_folder: public/assets/img/blog
+public_folder: /assets/img/blog
+
+locale: es
+
+collections:
+  - name: blog
+    label: Notas del blog
+    label_singular: Nota
+    description: Las notas que se publican en jabmarketing.com/blog
+    folder: src/content/blog
+    create: true
+    slug: '{{slug}}'
+    extension: md
+    format: yaml-frontmatter
+    sortable_fields: [fecha, titulo]
+    summary: '{{titulo}}'
+    fields:
+      - label: Título
+        name: titulo
+        widget: string
+        hint: El que se ve en la tarjeta y en Google. Hasta 60 caracteres funciona mejor.
+
+      - label: Bajada
+        name: bajada
+        widget: text
+        hint: Una o dos líneas. Es lo que aparece debajo del título y en las redes al compartir.
+
+      - label: Categoría
+        name: categoria
+        widget: select
+        default: Estrategia
+        options:
+          - Estrategia
+          - Paid media
+          - Contenido
+          - Social media
+          - Diseño
+          - Desarrollo web
+          - Datos
+
+      - label: Fecha
+        name: fecha
+        widget: datetime
+        format: 'YYYY-MM-DD'
+        date_format: 'DD/MM/YYYY'
+        time_format: false
+
+      - label: Minutos de lectura
+        name: lectura
+        widget: number
+        value_type: int
+        default: 5
+        min: 1
+        max: 60
+        hint: Contá unas 200 palabras por minuto.
+
+      - label: Imagen de portada
+        name: portada
+        widget: image
+        required: false
+        hint: Opcional. Ideal 1200x675. Si no hay, se muestra la categoría.
+
+      - label: Descripción de la portada
+        name: portadaAlt
+        widget: string
+        required: false
+        hint: Qué se ve en la imagen. Para lectores de pantalla y para Google.
+
+      - label: Guardar como borrador
+        name: borrador
+        widget: boolean
+        default: false
+        hint: Si está activado, la nota no aparece en el sitio.
+
+      - label: Contenido
+        name: body
+        widget: markdown

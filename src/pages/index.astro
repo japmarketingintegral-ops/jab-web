@@ -1,63 +1,18 @@
-<!DOCTYPE html>
-<html lang="es-AR">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Jab Marketing — Estrategia que impulsa tu negocio</title>
-<meta name="description" content="Diseñamos sistemas de marketing que entienden cómo funciona tu negocio y trabajan para hacerlo crecer. Consultoría, marketing digital, diseño, desarrollo web, paid media y producción audiovisual.">
-<meta name="theme-color" content="#00002E">
-<link rel="canonical" href="https://www.jabmarketing.com.ar/">
+---
+import Base from '../layouts/Base.astro';
+import TarjetaNota from '../components/TarjetaNota.astro';
+import { getCollection } from 'astro:content';
 
-<!-- Open Graph / redes -->
-<meta property="og:type" content="website">
-<meta property="og:locale" content="es_AR">
-<meta property="og:site_name" content="Jab Marketing">
-<meta property="og:title" content="Jab Marketing — Estrategia que impulsa tu negocio">
-<meta property="og:description" content="El marketing empieza por entender el negocio. Consultoría, digital, diseño, desarrollo web y paid media.">
-<meta property="og:image" content="https://www.jabmarketing.com.ar/assets/img/og.jpg">
-<meta name="twitter:card" content="summary_large_image">
+const notas = (await getCollection('blog', ({ data }) => !data.borrador))
+  .sort((a, b) => b.data.fecha.valueOf() - a.data.fecha.valueOf())
+  .slice(0, 3);
+---
 
-<link rel="icon" href="assets/img/isotipo-blanco.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="assets/img/isotipo-blanco.png">
+<Base
+  titulo="Jab Marketing — Estrategia que impulsa tu negocio"
+  descripcion="Diseñamos sistemas de marketing que entienden cómo funciona tu negocio y trabajan para hacerlo crecer. Consultoría, marketing digital, diseño, desarrollo web, paid media y producción audiovisual."
+>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&family=Funnel+Sans:wght@300..800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/styles.css">
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "ProfessionalService",
-  "name": "Jab Marketing",
-  "description": "Agencia de marketing integral: consultoría, marketing digital, diseño y comunicación, desarrollo web, social media, producción audiovisual y paid media.",
-  "slogan": "Strategy Matters",
-  "url": "https://www.jabmarketing.com.ar/",
-  "email": "jabmarketingintegral@gmail.com",
-  "telephone": "+5493402500000",
-  "areaServed": "AR"
-}
-</script>
-</head>
-<body>
-<a class="skip-link" href="#top">Saltar al contenido</a>
-
-<nav class="nav">
-  <a class="nav__logo" href="#top" aria-label="Jab Marketing, ir al inicio">
-    <img src="assets/img/isologo-horizontal-blanco.svg" alt="Jab Marketing" width="454" height="168">
-  </a>
-  <div class="nav__links">
-    <a class="nav__link" href="#servicios">Servicios</a>
-    <a class="nav__link" href="#metodo">Método</a>
-    <a class="nav__link" href="#blog">Blog</a>
-    <a class="nav__link" href="#clientes">Clientes</a>
-    <a class="btn btn--cta btn--sm"
-       href="https://wa.me/5493402500000?text=Hola%20Jab%2C%20quiero%20hablar%20de%20mi%20negocio"
-       target="_blank" rel="noopener">WhatsApp</a>
-  </div>
-</nav>
-
-<main>
 
   <!-- ==================== HERO ==================== -->
   <section class="hero" id="top">
@@ -298,7 +253,7 @@
     </div>
   </section>
 
-  <!-- ==================== BLOG ==================== -->
+    <!-- ==================== BLOG ==================== -->
   <section class="blog" id="blog">
     <div class="wrap">
 
@@ -308,49 +263,23 @@
         <p class="blog__lead">Estrategias, análisis y aprendizajes de cuentas reales, para que tomes mejores decisiones.</p>
       </div>
 
-      <div class="blog__grid">
-
-        <a class="post" href="#contacto" data-reveal>
-          <!-- Reemplazar el .slot por: <img src="assets/img/blog/nota-01.jpg" alt=""> -->
-          <div class="post__cover"><div class="slot">Portada nota 01</div></div>
-          <div class="post__body">
-            <p class="post__meta">Estrategia<span></span><span>Próximamente</span></p>
-            <h3 class="post__title">Cómo saber si tu marketing está funcionando (sin mirar los likes)</h3>
-            <p>Las tres métricas que sí dicen algo del negocio y cómo leerlas mes a mes.</p>
-            <p class="post__foot">6 min de lectura<span aria-hidden="true">&rarr;</span></p>
+      {notas.length > 0 ? (
+        <>
+          <div class="blog__grid">
+            {notas.map((nota) => <TarjetaNota nota={nota} />)}
           </div>
-        </a>
-
-        <a class="post" href="#contacto" data-reveal>
-          <div class="post__cover"><div class="slot">Portada nota 02</div></div>
-          <div class="post__body">
-            <p class="post__meta">Paid media<span></span><span>Próximamente</span></p>
-            <h3 class="post__title">Cuánto invertir en pauta cuando estás empezando</h3>
-            <p>Un criterio simple para fijar el presupuesto según el ticket promedio y el margen.</p>
-            <p class="post__foot">5 min de lectura<span aria-hidden="true">&rarr;</span></p>
+          <div class="blog__more" data-reveal>
+            <a class="btn btn--ghost btn--sm" href="/blog/">Ver todas las notas</a>
           </div>
-        </a>
-
-        <a class="post" href="#contacto" data-reveal>
-          <div class="post__cover"><div class="slot">Portada nota 03</div></div>
-          <div class="post__body">
-            <p class="post__meta">Contenido<span></span><span>Próximamente</span></p>
-            <h3 class="post__title">El contenido que vende no es el que más gusta</h3>
-            <p>Por qué la constancia le gana a la viralidad, con ejemplos de cuentas reales.</p>
-            <p class="post__foot">4 min de lectura<span aria-hidden="true">&rarr;</span></p>
-          </div>
-        </a>
-
-      </div>
-
-      <div class="blog__more" data-reveal>
-        <a class="btn btn--ghost btn--sm" href="#contacto">Ver todas las notas</a>
-      </div>
+        </>
+      ) : (
+        <p class="blog__lead" style="text-align:center">Estamos preparando las primeras notas.</p>
+      )}
 
     </div>
   </section>
 
-  <!-- ==================== CLIENTES ==================== -->
+<!-- ==================== CLIENTES ==================== -->
   <!-- Cada celda: <img src="assets/img/clientes/nombre.png" alt="Nombre del cliente"> -->
   <section class="clientes" id="clientes">
     <div class="wrap">
@@ -446,15 +375,7 @@
       </form>
 
     </div>
-
-    <div class="pie">
-      <img src="assets/img/isologo-rubro-blanco.png" alt="Jab Marketing" width="1891" height="768">
-      <p class="pie__legal">Strategy Matters &mdash; &copy; <span id="anio">2026</span> Jab</p>
-    </div>
   </section>
 
-</main>
 
-<script src="assets/js/main.js" defer></script>
-</body>
-</html>
+</Base>

@@ -1116,3 +1116,166 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; }
   .js [data-reveal] { opacity: 1; transform: none; transition: none; }
   * { transition-duration: .01ms !important; }
 }
+
+/* --------------------------------------------------------------------------
+   Blog: listado y nota
+   -------------------------------------------------------------------------- */
+
+/* El listado no tiene hero arriba, así que necesita despejar el nav fijo */
+.blog--indice { padding-top: calc(var(--nav-h) + clamp(32px, 6vh, 72px)); }
+
+.nota {
+  max-width: 760px;
+  margin-inline: auto;
+  padding: calc(var(--nav-h) + clamp(32px, 6vh, 72px)) var(--gutter) clamp(40px, 6vh, 64px);
+}
+
+.nota__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 22px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--blue-600);
+}
+.nota__meta a { color: var(--blue-600); }
+.nota__meta a:hover { color: var(--lime-500); }
+.nota__meta span {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(224, 244, 251, 0.35);
+}
+.nota__meta time { color: var(--text-faint); }
+
+.nota__titulo {
+  font-weight: 700;
+  font-size: clamp(30px, 4.4vw, 56px);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.nota__bajada {
+  margin: 20px 0 0;
+  font-size: clamp(17px, 1.5vw, 21px);
+  line-height: 1.5;
+  color: var(--text-muted);
+  text-wrap: pretty;
+}
+
+.nota__portada {
+  margin: clamp(32px, 5vh, 56px) 0;
+  border: 1px solid var(--border-dark);
+}
+.nota__portada img { width: 100%; height: auto; }
+
+/* Cuerpo de la nota: lo escribe Markdown, así que se estila por etiqueta */
+.nota__cuerpo {
+  margin-top: clamp(32px, 5vh, 56px);
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--text-muted);
+}
+.nota__cuerpo > * + * { margin-top: 1.2em; }
+
+.nota__cuerpo h2 {
+  margin-top: 1.9em;
+  font-weight: 700;
+  font-size: clamp(23px, 2.4vw, 32px);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+.nota__cuerpo h3 {
+  margin-top: 1.6em;
+  font-weight: 700;
+  font-size: clamp(19px, 1.8vw, 24px);
+  color: var(--text);
+}
+
+.nota__cuerpo strong { color: var(--text); font-weight: 700; }
+.nota__cuerpo a { text-decoration: underline; text-underline-offset: 3px; }
+
+.nota__cuerpo ul,
+.nota__cuerpo ol { padding-left: 1.3em; }
+.nota__cuerpo li + li { margin-top: .5em; }
+.nota__cuerpo li::marker { color: var(--blue-600); }
+
+/* Cita destacada: el chevron de la marca, no una barra genérica */
+.nota__cuerpo blockquote {
+  margin-inline: 0;
+  padding: clamp(20px, 2.6vw, 30px);
+  background: var(--navy-800);
+  border: 1px solid var(--border-dark);
+  clip-path: polygon(0 0, calc(100% - 26px) 0, 100% 26px, 100% 100%, 26px 100%, 0 calc(100% - 26px));
+  color: var(--text);
+  font-size: 18px;
+}
+.nota__cuerpo blockquote > * + * { margin-top: .8em; }
+
+.nota__cuerpo table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+  display: block;
+  overflow-x: auto;
+}
+.nota__cuerpo th,
+.nota__cuerpo td {
+  padding: 12px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-dark);
+  vertical-align: top;
+}
+.nota__cuerpo th { color: var(--text); font-weight: 700; white-space: nowrap; }
+
+.nota__cuerpo code {
+  background: var(--navy-800);
+  border: 1px solid var(--border-dark);
+  padding: 2px 6px;
+  font-size: .92em;
+}
+.nota__cuerpo pre {
+  background: var(--navy-800);
+  border: 1px solid var(--border-dark);
+  padding: 18px;
+  overflow-x: auto;
+}
+.nota__cuerpo pre code { background: none; border: 0; padding: 0; }
+
+.nota__cuerpo hr {
+  border: 0;
+  border-top: 1px solid var(--border-dark);
+  margin-block: 2em;
+}
+
+/* Cierre con la acción, al final de cada nota */
+.nota__cta {
+  margin-top: clamp(48px, 8vh, 80px);
+  padding: clamp(28px, 3.4vw, 48px);
+  background: var(--navy-800);
+  border: 1px solid var(--border-dark);
+  clip-path: polygon(0 0, calc(100% - 40px) 0, 100% 40px, 100% 100%, 40px 100%, 0 calc(100% - 40px));
+}
+.nota__cta h2 {
+  font-weight: 700;
+  font-size: clamp(22px, 2.4vw, 32px);
+  line-height: 1.15;
+}
+.nota__cta p {
+  margin: 14px 0 26px;
+  color: var(--text-soft);
+  max-width: 46ch;
+}
+
+/* --------------------------------------------------------------------------
+   Pie como elemento propio, fuera de la sección de contacto
+   -------------------------------------------------------------------------- */
+
+.pie-wrap { padding: 0 var(--gutter) clamp(40px, 6vh, 64px); }
+.pie-wrap .pie { margin-top: 0; }
