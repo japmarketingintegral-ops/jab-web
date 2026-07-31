@@ -18,16 +18,15 @@
     formulario();
   });
 
-  /* --- El ciclo de un cliente, mes a mes --------------------------------- */
+  /* --- El cliente recorriendo las etapas del ciclo ----------------------- */
 
   function cicloMetodologia() {
     var loop = document.querySelector('[data-loop]');
     if (!loop) return;
 
     var marcador = loop.querySelector('[data-loop-marcador]');
-    var mes = loop.querySelector('[data-loop-mes]');
     var pasos = Array.prototype.slice.call(loop.querySelectorAll('.paso'));
-    if (!marcador || !mes || pasos.length !== 4) return;
+    if (!marcador || pasos.length !== 4) return;
 
     var PASO_MS = 2800;
     var i = 0;
@@ -39,7 +38,6 @@
       // El ángulo siempre crece: así el marcador sigue girando hacia adelante
       // en vez de pegar la vuelta para atrás al cerrar el ciclo.
       marcador.style.setProperty('--a', (-90 + i * 90) + 'deg');
-      mes.textContent = ('0' + (i % 12 + 1)).slice(-2);
       pasos.forEach(function (p, k) { p.classList.toggle('is-activo', k === etapa); });
     }
 

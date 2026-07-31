@@ -80,8 +80,11 @@
       del CSS es lo que lo funde con el navy: no reemplazar por una versión
       recortada ni cambiar el fondo de la sección sin revisar ese efecto.
     -->
+    <!-- Tres capas para animar por separado: entrada, flotación y giro -->
     <div class="hero__art">
-      <img src="assets/img/isotipo-3d.webp" alt="" width="1037" height="1080" fetchpriority="high">
+      <div class="hero__art-orbita">
+        <img src="assets/img/isotipo-3d.webp" alt="" width="1037" height="1080" fetchpriority="high">
+      </div>
     </div>
   </section>
 
@@ -216,9 +219,14 @@
         <div class="loop__ring" aria-hidden="true"></div>
         <div class="loop__core" aria-hidden="true">
           <img class="loop__isotipo" src="assets/img/isotipo-blanco.svg" alt="" width="454" height="454">
-          <p class="loop__mes">Mes <span data-loop-mes>01</span></p>
         </div>
-        <div class="loop__marcador" aria-hidden="true" data-loop-marcador></div>
+        <!-- El cliente recorriendo su propio ciclo -->
+        <div class="loop__marcador" aria-hidden="true" data-loop-marcador>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="8.2" r="3.3"/>
+            <path d="M4.8 20c0-3.9 3.2-7 7.2-7s7.2 3.1 7.2 7"/>
+          </svg>
+        </div>
         <div class="loop__tick loop__tick--1" aria-hidden="true">&#9650;</div>
         <div class="loop__tick loop__tick--2" aria-hidden="true">&#9650;</div>
         <div class="loop__tick loop__tick--3" aria-hidden="true">&#9650;</div>
