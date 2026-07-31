@@ -51,25 +51,63 @@
       return;
     }
 
-    // El escalonado se aplica por posición en la fila, no por índice global:
-    // así la última tarjeta de una grilla larga no espera medio segundo.
+    // Cuántas columnas tiene realmente la grilla en este ancho. Se cuenta cuántos
+    // hijos comparten la fila del primero: sirve igual con 1, 2 o 3 columnas, sin
+    // repetir en JS los breakpoints del CSS.
+    function columnas(cont) {
+      var hijos = cont.children, n = 0;
+      if (!hijos.length) return 1;
+      for (var i = 0; i < hijos.length; i++) {
+        if (hijos[i].offsetTop !== hijos[0].offsetTop) break;
+        n++;
+      }
+      return n || 1;
+    }
+
+    // El escalonado va por posición en la fila, no por índice global: así la
+    // última tarjeta de una grilla larga no espera medio segundo, y las de una
+    // misma fila entran en cascada de izquierda a derecha.
+    function retardo(el) {
+      var padre = el.parentElement;
+      if (!padre) return 0;
+      var hermanos = Array.prototype.filter.call(padre.children, function (c) {
+        return c.hasAttribute('data-reveal');
+      });
+      if (hermanos.length < 2) return 0;
+      return (hermanos.indexOf(el) % columnas(padre)) * 90;
+    }
+
+    function mostrar(el) {
+      if (el.classList.contains('is-in')) return;
+      el.style.transitionDelay = retardo(el) + 'ms';
+      el.classList.add('is-in');
+      io.unobserve(el);
+    }
+
     var io = new IntersectionObserver(function (entradas) {
       entradas.forEach(function (e) {
-        if (!e.isIntersecting) return;
-        var i = items.indexOf(e.target);
-        e.target.style.transitionDelay = (i % 3) * 80 + 'ms';
-        e.target.classList.add('is-in');
-        io.unobserve(e.target);
+        if (e.isIntersecting) mostrar(e.target);
       });
     }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
 
     items.forEach(function (el) { io.observe(el); });
 
-    // Red de seguridad: si algo no se observó nunca (scroll muy rápido, salto
-    // por ancla, pestaña en segundo plano), a los 4s se muestra igual.
-    setTimeout(function () {
-      items.forEach(function (el) { el.classList.add('is-in'); });
-    }, 4000);
+    // Red de seguridad para scroll muy rápido, saltos por ancla o un observer que
+    // no reporta. Revela SOLO lo que ya está a la vista: si acá se revelara todo,
+    // el que tarda unos segundos en scrollear se encontraría la página entera ya
+    // mostrada y no vería ninguna animación.
+    var barrer = function () {
+      var alto = window.innerHeight;
+      items.forEach(function (el) {
+        if (el.classList.contains('is-in')) return;
+        var r = el.getBoundingClientRect();
+        if (r.top < alto * 0.92 && r.bottom > 0) mostrar(el);
+      });
+    };
+
+    window.addEventListener('scroll', barrer, { passive: true });
+    window.addEventListener('resize', barrer, { passive: true });
+    barrer();
   }
 
   /* --- Formulario --------------------------------------------------------- */
