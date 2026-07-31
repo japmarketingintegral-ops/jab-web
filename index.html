@@ -207,17 +207,22 @@
         <p class="metodo__lead">Cuatro etapas que no terminan: cada ciclo vuelve a empezar con más información que el anterior.</p>
       </div>
 
-      <!-- Anillo: se muestra a partir de 1280px, donde entra sin apretarse -->
-      <div class="loop" aria-hidden="true">
-        <div class="loop__ring"></div>
-        <div class="loop__core">
-          <img src="assets/img/isotipo-blanco.svg" alt="" width="454" height="454">
-          <span>En loop</span>
+      <!--
+        Anillo: se muestra a partir de 1280px, donde entra sin apretarse.
+        Solo las piezas decorativas llevan aria-hidden; el texto de las etapas
+        tiene que seguir siendo legible para un lector de pantalla.
+      -->
+      <div class="loop" data-loop>
+        <div class="loop__ring" aria-hidden="true"></div>
+        <div class="loop__core" aria-hidden="true">
+          <img class="loop__isotipo" src="assets/img/isotipo-blanco.svg" alt="" width="454" height="454">
+          <p class="loop__mes">Mes <span data-loop-mes>01</span></p>
         </div>
-        <div class="loop__tick loop__tick--1">&#9650;</div>
-        <div class="loop__tick loop__tick--2">&#9650;</div>
-        <div class="loop__tick loop__tick--3">&#9650;</div>
-        <div class="loop__tick loop__tick--4">&#9650;</div>
+        <div class="loop__marcador" aria-hidden="true" data-loop-marcador></div>
+        <div class="loop__tick loop__tick--1" aria-hidden="true">&#9650;</div>
+        <div class="loop__tick loop__tick--2" aria-hidden="true">&#9650;</div>
+        <div class="loop__tick loop__tick--3" aria-hidden="true">&#9650;</div>
+        <div class="loop__tick loop__tick--4" aria-hidden="true">&#9650;</div>
 
         <div class="paso paso--1" data-reveal>
           <p class="paso__num">01 &mdash;</p>
@@ -244,7 +249,7 @@
       <!-- Línea de tiempo: misma información, apilada -->
       <div class="timeline">
         <div class="timeline__core">
-          <div><img src="assets/img/isotipo-blanco.svg" alt="" width="454" height="454"></div>
+          <div><img class="loop__isotipo" src="assets/img/isotipo-blanco.svg" alt="" width="454" height="454"></div>
         </div>
         <div class="paso">
           <p class="paso__num">01 &mdash;</p>

@@ -13,9 +13,64 @@
     if (anio) anio.textContent = new Date().getFullYear();
 
     navCompacto();
+    cicloMetodologia();
     revelar();
     formulario();
   });
+
+  /* --- El ciclo de un cliente, mes a mes --------------------------------- */
+
+  function cicloMetodologia() {
+    var loop = document.querySelector('[data-loop]');
+    if (!loop) return;
+
+    var marcador = loop.querySelector('[data-loop-marcador]');
+    var mes = loop.querySelector('[data-loop-mes]');
+    var pasos = Array.prototype.slice.call(loop.querySelectorAll('.paso'));
+    if (!marcador || !mes || pasos.length !== 4) return;
+
+    var PASO_MS = 2800;
+    var i = 0;
+
+    // Las etapas están arriba, derecha, abajo e izquierda. En CSS el ángulo 0
+    // apunta a la derecha, así que la etapa 01 arranca en -90.
+    function pintar() {
+      var etapa = i % 4;
+      // El ángulo siempre crece: así el marcador sigue girando hacia adelante
+      // en vez de pegar la vuelta para atrás al cerrar el ciclo.
+      marcador.style.setProperty('--a', (-90 + i * 90) + 'deg');
+      mes.textContent = ('0' + (i % 12 + 1)).slice(-2);
+      pasos.forEach(function (p, k) { p.classList.toggle('is-activo', k === etapa); });
+    }
+
+    pintar();
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    // Solo corre mientras la sección está a la vista: no tiene sentido gastar
+    // batería animando algo que nadie mira.
+    var timer = null;
+    var arrancar = function () {
+      if (timer) return;
+      timer = setInterval(function () { i++; pintar(); }, PASO_MS);
+    };
+    var frenar = function () {
+      clearInterval(timer);
+      timer = null;
+    };
+
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entradas) {
+        entradas.forEach(function (e) { e.isIntersecting ? arrancar() : frenar(); });
+      }, { threshold: 0.25 }).observe(loop);
+    } else {
+      arrancar();
+    }
+
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) frenar();
+    });
+  }
 
   /* --- Nav que se achica al bajar --------------------------------------- */
 

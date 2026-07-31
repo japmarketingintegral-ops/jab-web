@@ -437,13 +437,50 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; }
   gap: 16px;
 }
 .loop__core img { width: 104px; height: auto; }
-.loop__core span {
+
+.loop__mes {
+  margin: 0;
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.28em;
   text-transform: uppercase;
   color: rgba(224, 244, 251, 0.55);
 }
+.loop__mes span {
+  display: inline-block;
+  min-width: 2ch;
+  color: var(--celeste-100);
+}
+
+/* El isotipo gira sobre sí mismo: el ciclo nunca se detiene */
+@keyframes girar360 { to { transform: rotate(360deg); } }
+.js .loop__isotipo { animation: girar360 26s linear infinite; }
+
+/* Marcador que recorre el anillo y va marcando la etapa del mes.
+   El ángulo lo escribe el JS en --a; el transition hace el viaje.
+   Va en celeste y no en lima: el lima queda reservado para acciones. */
+.loop__marcador {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 13px;
+  height: 13px;
+  margin: -6.5px 0 0 -6.5px;
+  border-radius: 50%;
+  background: var(--celeste-100);
+  box-shadow: 0 0 0 6px rgba(224, 244, 251, 0.16);
+  transform: rotate(var(--a, -90deg)) translate(210px);
+  transition: transform 1.1s var(--ease);
+}
+
+/* Etapa activa: se resalta con contraste, sin tocar opacidad para no pelearse
+   con la animación de aparición por scroll */
+.loop .paso__num,
+.loop .paso__title { transition: color .45s var(--ease), text-shadow .45s var(--ease); }
+
+.loop .paso:not(.is-activo) .paso__num { color: rgba(224, 244, 251, 0.4); }
+.loop .paso:not(.is-activo) .paso__title { color: rgba(255, 255, 255, 0.58); }
+.loop .paso.is-activo .paso__title { text-shadow: 0 0 26px rgba(224, 244, 251, 0.4); }
 
 /* Cuatro puntas sobre el anillo, a 45/135/225/315 grados */
 .loop__tick {
@@ -1063,7 +1100,9 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .loop__ring,
+  .js .loop__isotipo,
   .js .hero__art img { animation: none; }
+  .loop__marcador { transition: none; }
   .js .hero__copy > *,
   .js .hero__art {
     opacity: 1;
