@@ -12,9 +12,32 @@
     var anio = document.getElementById('anio');
     if (anio) anio.textContent = new Date().getFullYear();
 
+    navCompacto();
     revelar();
     formulario();
   });
+
+  /* --- Nav que se achica al bajar --------------------------------------- */
+
+  function navCompacto() {
+    var nav = document.querySelector('.nav');
+    if (!nav) return;
+
+    // rAF para no recalcular estilos en cada evento de scroll.
+    var pedido = false;
+    var aplicar = function () {
+      nav.classList.toggle('is-scrolled', window.scrollY > 40);
+      pedido = false;
+    };
+
+    window.addEventListener('scroll', function () {
+      if (pedido) return;
+      pedido = true;
+      requestAnimationFrame(aplicar);
+    }, { passive: true });
+
+    aplicar();
+  }
 
   /* --- Aparición al hacer scroll ------------------------------------------ */
 

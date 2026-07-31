@@ -931,8 +931,104 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; }
 }
 
 /* --------------------------------------------------------------------------
+   Compactado en mobile
+
+   El diseño original se pensó en desktop. Tal cual, en un celular el hero
+   ocupa 1,6 pantallas: los botones quedan abajo del pliegue, que es
+   exactamente donde no tienen que estar.
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 720px) {
+  :root {
+    --section-y: 64px;
+    --nav-h: 74px;
+  }
+
+  /* El hero entra completo en una pantalla, botones incluidos */
+  .hero {
+    min-height: auto;
+    padding: calc(var(--nav-h) + 20px) var(--gutter) 44px;
+    gap: 28px;
+  }
+  .hero__eyebrow { margin-bottom: 18px; }
+  .hero__title { font-size: clamp(34px, 9.4vw, 48px); }
+  .hero__lead { margin-top: 18px; font-size: 15.5px; }
+  .hero__actions { margin-top: 24px; gap: 10px; }
+  .hero__actions .btn { padding: 15px 24px; font-size: 13px; }
+  .rule-label { margin-top: 26px; }
+
+  /* La pieza 3D pasa a ser un acento, no media pantalla */
+  .hero__art { min-height: 0; }
+  .hero__art img { max-width: min(58%, 230px); }
+
+  /* Medio pantallazo en blanco solo para la palabra "Servicios" no se justifica */
+  .servicios__head { min-height: auto; padding: 56px var(--gutter) 28px; }
+  .servicios__grid { row-gap: 30px; padding-bottom: var(--section-y); }
+  .servicio { gap: 14px; }
+  .servicio__title { margin-bottom: 8px; }
+  .servicio p { font-size: 14.5px; }
+
+  .metodo__head { margin-bottom: 32px; }
+  .timeline .paso { padding-bottom: 22px; }
+
+  .blog__head { margin-bottom: 40px; }
+  .post__cover { aspect-ratio: 16 / 9; }
+  .post__body { gap: 10px; }
+
+  .clientes .section-title { margin-bottom: 40px; }
+  .clientes__grid { row-gap: 24px; }
+
+  .datos { margin-top: 32px; padding-top: 24px; }
+}
+
+/* --------------------------------------------------------------------------
    Animaciones de entrada
    -------------------------------------------------------------------------- */
+
+/* -- Hero: entra escalonado al cargar, sin esperar scroll -- */
+
+@keyframes entrar {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes entrarArte {
+  from { opacity: 0; transform: scale(.92); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* Flotación lenta: da vida sin pedir atención */
+@keyframes flotar {
+  50% { transform: translateY(-16px) rotate(1.2deg); }
+}
+
+.js .hero__copy > *,
+.js .hero__art {
+  opacity: 0;
+  animation: entrar .75s var(--ease) forwards;
+}
+.js .hero__copy > *:nth-child(1) { animation-delay: .05s; }
+.js .hero__copy > *:nth-child(2) { animation-delay: .15s; }
+.js .hero__copy > *:nth-child(3) { animation-delay: .25s; }
+.js .hero__copy > *:nth-child(4) { animation-delay: .35s; }
+.js .hero__copy > *:nth-child(5) { animation-delay: .45s; }
+
+.js .hero__art { animation: entrarArte 1s var(--ease) .3s forwards; }
+.js .hero__art img { animation: flotar 8s ease-in-out 1.3s infinite; }
+
+/* -- Nav: se compacta al bajar, para devolver altura de pantalla -- */
+
+.nav {
+  transition: padding .3s var(--ease), background-color .3s var(--ease);
+}
+.nav.is-scrolled {
+  padding-block: 9px;
+  background: rgba(0, 0, 46, 0.95);
+}
+.nav.is-scrolled .nav__logo img { height: 24px; transition: height .3s var(--ease); }
+.nav__logo img { transition: height .3s var(--ease); }
+
+/* -- Bloques que aparecen al hacer scroll -- */
 
 /* Solo se ocultan si JS va a revelarlos; sin JS el contenido queda visible */
 .js [data-reveal] {
@@ -945,9 +1041,16 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; }
   transform: none;
 }
 
+/* Quien pidió menos movimiento ve el sitio completo y quieto, no a medias */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .loop__ring { animation: none; }
+  .loop__ring,
+  .js .hero__art img { animation: none; }
+  .js .hero__copy > *,
+  .js .hero__art {
+    opacity: 1;
+    animation: none;
+  }
   .js [data-reveal] { opacity: 1; transform: none; transition: none; }
   * { transition-duration: .01ms !important; }
 }
