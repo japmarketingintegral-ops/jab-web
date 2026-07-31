@@ -393,19 +393,20 @@
       </div>
 
       <!--
-        Formulario. Sin backend propio: hay que elegir uno de los dos caminos.
+        Los mensajes se envían con Web3Forms y llegan por mail a la casilla
+        asociada a la access_key (jabmarketingintegral@gmail.com).
 
-        A) Formspree / Web3Forms (funciona en GitHub Pages, Cloudflare, Netlify, Vercel)
-           Creá el form en el servicio y pegá la URL en el action de acá abajo.
+        La access_key no es secreta: viaja en el HTML, a la vista de cualquiera.
+        Lo único que habilita es mandar mensajes por este formulario. Si algún día
+        empieza a entrar spam, se da de baja en web3forms.com y se pone otra.
 
-        B) Netlify Forms (solo si el sitio vive en Netlify)
-           Agregá al <form>:  data-netlify="true" netlify-honeypot="empresa-web"
-           y borrá el action.
-
-        Mientras el action siga vacío, el JS abre WhatsApp con el mensaje ya armado,
-        así el formulario nunca queda muerto.
+        Si el envío falla, el JS abre WhatsApp con el mensaje ya armado para que la
+        consulta no se pierda.
       -->
-      <form class="form" id="form-contacto" action="" method="POST">
+      <form class="form" id="form-contacto" action="https://api.web3forms.com/submit" method="POST">
+        <input type="hidden" name="access_key" value="eb3719fd-f3cc-4b25-9708-021a6f4f09a9">
+        <input type="hidden" name="subject" value="Nueva consulta desde el sitio web">
+        <input type="hidden" name="from_name" value="Sitio web Jab Marketing">
         <div class="field">
           <label for="nombre">Nombre</label>
           <input id="nombre" name="nombre" type="text" required autocomplete="name" placeholder="Tu nombre">

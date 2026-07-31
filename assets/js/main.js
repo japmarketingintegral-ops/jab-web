@@ -89,10 +89,10 @@
           exito();
         })
         .catch(function () {
-          mostrar(
-            'No pudimos enviarlo. Escribinos por WhatsApp o a jabmarketingintegral@gmail.com.',
-            'error'
-          );
+          // El servicio no respondió. Antes que perder la consulta, la pasamos
+          // a WhatsApp con todo lo que la persona ya había escrito.
+          window.open(enlaceWhatsapp(datos), '_blank', 'noopener');
+          mostrar('No pudimos enviar el mail. Te abrimos WhatsApp con el mensaje listo.', 'error');
         })
         .finally(function () { enviando(false); });
     });

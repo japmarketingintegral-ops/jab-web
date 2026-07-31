@@ -48,7 +48,7 @@ va siempre como imagen, nunca reproducido con Funnel.
 - [ ] **Logos de clientes.** 18 celdas con placeholder en la sección Clientes.
       Reemplazar cada `<div class="slot">` por `<img src="assets/img/clientes/….png" alt="…">`.
 - [ ] **Portadas del blog.** 3 placeholders, mismo procedimiento.
-- [ ] **Formulario.** Ver abajo.
+- [x] ~~**Formulario.**~~ Conectado a Web3Forms.
 - [ ] **Datos de contacto.** El teléfono `+54 9 3402 50000` viene del diseño y
       parece un número de ejemplo. Verificar antes de publicar (aparece en el nav,
       el hero, la sección de contacto y todos los enlaces de WhatsApp).
@@ -59,25 +59,27 @@ va siempre como imagen, nunca reproducido con Funnel.
 
 ## Formulario de contacto
 
-Tal como está, el formulario **no envía mails**: arma el mensaje y abre WhatsApp.
-Funciona en cualquier hosting y nunca queda muerto. Para recibir los mensajes por
-mail hay dos caminos:
+Los mensajes se envían con [Web3Forms](https://web3forms.com) y llegan por mail a
+**jabmarketingintegral@gmail.com**. Plan gratuito: 250 mensajes por mes.
 
-**Formspree o Web3Forms** — funciona en GitHub Pages, Cloudflare, Netlify y Vercel.
-Creá el formulario en el servicio y pegá la URL en el `action`:
+La `access_key` está en el `index.html`, en un campo oculto del formulario. **No es
+un secreto**: viaja en el HTML y cualquiera puede leerla. Lo único que habilita es
+mandar mensajes por este formulario. Si algún día entra spam, se da de baja la clave
+en web3forms.com y se genera otra.
 
-```html
-<form class="form" id="form-contacto" action="https://formspree.io/f/TU_ID" method="POST">
-```
+Si el servicio no responde, el JavaScript abre WhatsApp con el mensaje ya armado,
+así la consulta no se pierde.
 
-**Netlify Forms** — solo si el sitio vive en Netlify. Sacá el `action` y agregá:
+El campo `empresa-web` es una trampa anti-spam invisible: si un bot lo completa, el
+mensaje se descarta en silencio y nunca sale del navegador.
 
-```html
-<form class="form" id="form-contacto" data-netlify="true" netlify-honeypot="empresa-web">
-```
+### Cambiar de servicio
 
-El campo `empresa-web` es una trampa anti-spam invisible: si un bot lo completa,
-el mensaje se descarta en silencio.
+**Formspree** — reemplazar el `action` por `https://formspree.io/f/TU_ID` y borrar
+los tres `<input type="hidden">`.
+
+**Netlify Forms** — solo si el sitio se muda a Netlify. Borrar el `action` y agregar
+al `<form>`: `data-netlify="true" netlify-honeypot="empresa-web"`.
 
 ## Publicar en GitHub Pages
 
