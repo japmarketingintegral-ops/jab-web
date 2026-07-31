@@ -40,11 +40,10 @@ va siempre como imagen, nunca reproducido con Funnel.
 
 ## Pendientes antes de publicar
 
-- [ ] **Render 3D del hero.** `assets/img/isotipo-3d.png` no se pudo bajar entero
-      (supera el límite de 256 KB de la herramienta). Descargalo de Claude Design
-      (`assets/slides/isotipo-3d-crop.png`), guardalo con ese nombre y en
-      `index.html` cambiá el `src` del bloque `.hero__art` y sacale la clase
-      `hero__art--vector`.
+- [x] ~~**Render 3D del hero.**~~ Listo: `assets/img/isotipo-3d.webp`. Viene con
+      fondo negro, sin transparencia, y es el `mix-blend-mode: screen` del CSS el
+      que lo funde con el navy. Si algún día se cambia el fondo de la sección, hay
+      que revisar ese efecto.
 - [ ] **Logos de clientes.** 18 celdas con placeholder en la sección Clientes.
       Reemplazar cada `<div class="slot">` por `<img src="assets/img/clientes/….png" alt="…">`.
 - [ ] **Portadas del blog.** 3 placeholders, mismo procedimiento.

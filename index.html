@@ -76,13 +76,12 @@
       <p class="rule-label">Strategy Matters</p>
     </div>
     <!--
-      Provisorio: el render 3D del isotipo (assets/slides/isotipo-3d-crop.png en
-      Claude Design) pesa más de 256 KB y no se pudo bajar entero. Descargalo y
-      guardalo como assets/img/isotipo-3d.png; después cambiá el src de acá abajo
-      y sacale la clase hero__art--vector.
+      El render viene con fondo negro, sin transparencia. El mix-blend-mode:screen
+      del CSS es lo que lo funde con el navy: no reemplazar por una versión
+      recortada ni cambiar el fondo de la sección sin revisar ese efecto.
     -->
-    <div class="hero__art hero__art--vector">
-      <img src="assets/img/isotipo-blanco.svg" alt="" width="454" height="454" fetchpriority="high">
+    <div class="hero__art">
+      <img src="assets/img/isotipo-3d.webp" alt="" width="1037" height="1080" fetchpriority="high">
     </div>
   </section>
 
