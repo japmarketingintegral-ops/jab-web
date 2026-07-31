@@ -445,7 +445,7 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; }
 
 /* El isotipo gira sobre sí mismo: el ciclo nunca se detiene */
 @keyframes girar360 { to { transform: rotate(360deg); } }
-.js .loop__isotipo { animation: girar360 26s linear infinite; }
+.js .loop__isotipo { animation: girar360 18s linear infinite; }
 
 /* El cliente recorriendo el anillo. El ángulo lo escribe el JS en --a; el
    segundo rotate, invertido, mantiene la figura derecha mientras orbita.
@@ -1058,7 +1058,10 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; }
 }
 
 .js .hero__art-orbita { animation: flotar 8s ease-in-out 1.3s infinite; }
-.js .hero__art img { animation: girar360 46s linear infinite; }
+/* 15s y no 46: la pieza es casi simétrica cada 90 grados, así que el cambio
+   perceptible es un cuarto de vuelta. A 15s eso ocurre cada 3,7 segundos; a 46
+   tardaba 11 y el giro se leía como una imagen quieta. */
+.js .hero__art img { animation: girar360 15s linear infinite; }
 
 .js .hero__copy > *,
 .js .hero__art {
