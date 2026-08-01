@@ -1,28 +1,18 @@
 ---
 import Base from '../layouts/Base.astro';
 import Formulario from '../components/Formulario.astro';
+import IconoEntregable from '../components/IconoEntregable.astro';
 
 // Rescatado del embudo que vivía en GoHighLevel. El video sigue en YouTube.
 const VIDEO = '5HgtZd_8Y7w';
 const WHATSAPP = 'https://wa.me/5493402415366?text=Hola%20Jab%2C%20quiero%20el%20diagn%C3%B3stico%20para%20mi%20empresa%20industrial';
 
-const clientes = [
-  { nombre: 'Gimetal', archivo: 'gimetal' },
-  { nombre: 'Geronzi', archivo: 'geronzi' },
-  { nombre: 'PackGroup', archivo: 'packgroup' },
-  { nombre: 'Montenegro', archivo: 'montenegro' },
-  { nombre: 'Termoplast', archivo: 'termoplast' },
-];
-
-const numeros = [
-  { valor: '+50', texto: 'Consultas calificadas por mes para empresas industriales B2B' },
-  { valor: '4', texto: 'Etapas: diagnóstico, posicionamiento, captación y conversión' },
-  { valor: '0', texto: 'Dependencia de referidos, vendedores únicos o contactos de siempre' },
-];
+const clientes = ['gimetal', 'geronzi', 'packgroup', 'montenegro', 'termoplast'];
+const nombres = { gimetal: 'Gimetal', geronzi: 'Geronzi', packgroup: 'PackGroup', montenegro: 'Montenegro', termoplast: 'Termoplast' };
 
 const etapas = [
   {
-    n: '01', rotulo: 'Diagnóstico', titulo: 'Auditoría de posicionamiento',
+    n: '01', tag: 'Diagnóstico', titulo: ['Auditoría de', 'posicionamiento'],
     texto: 'Analizamos tu empresa, tu mercado y tu competencia para entender dónde estás parado y cuál es la oportunidad real.',
     puntos: [
       'Análisis de presencia digital y puntos de contacto',
@@ -32,7 +22,7 @@ const etapas = [
     ],
   },
   {
-    n: '02', rotulo: 'Estrategia', titulo: 'Posicionamiento industrial',
+    n: '02', tag: 'Estrategia', titulo: ['Posicionamiento', 'industrial'],
     texto: 'Definimos el mensaje diferenciador de tu empresa y construimos la identidad de marca que genera confianza B2B.',
     puntos: [
       'Propuesta de valor clara y diferenciada',
@@ -42,7 +32,7 @@ const etapas = [
     ],
   },
   {
-    n: '03', rotulo: 'Captación', titulo: 'Generación de demanda calificada',
+    n: '03', tag: 'Captación', titulo: ['Generación de', 'demanda calificada'],
     texto: 'Activamos campañas y canales para atraer empresas industriales que realmente necesitan lo que vos ofrecés.',
     puntos: [
       'Campañas pagas en Meta y Google segmentadas por sector',
@@ -52,7 +42,7 @@ const etapas = [
     ],
   },
   {
-    n: '04', rotulo: 'Conversión', titulo: 'Orden comercial',
+    n: '04', tag: 'Conversión', titulo: ['Orden', 'comercial'],
     texto: 'Implementamos el CRM y los procesos para que tu equipo convierta más consultas en clientes sin perder oportunidades.',
     puntos: [
       'CRM configurado con pipeline de venta industrial',
@@ -64,14 +54,14 @@ const etapas = [
 ];
 
 const entregables = [
-  { n: '01', titulo: 'Landing de conversión', texto: 'Página diseñada para captar consultas calificadas de empresas B2B industriales.' },
-  { n: '02', titulo: 'Campañas pagas', texto: 'Meta y Google Ads segmentados para tu sector y decisores industriales.' },
-  { n: '03', titulo: 'Creativos editoriales', texto: 'Placas, copys y piezas visuales con identidad industrial para redes y ads.' },
-  { n: '04', titulo: 'CRM configurado', texto: 'Pipeline de venta industrial listo para usar desde el primer día del sistema.' },
-  { n: '05', titulo: 'Reportes semanales', texto: 'Métricas que importan: consultas generadas, costo por lead y proyección mensual.' },
-  { n: '06', titulo: 'Automatizaciones con IA', texto: 'Flujos de WhatsApp, email y seguimiento para que ninguna consulta quede sin respuesta.' },
-  { n: '07', titulo: 'Onboarding dedicado', texto: 'Sesión de arranque con tu equipo para alinear proceso, herramientas y expectativas.' },
-  { n: '08', titulo: 'Soporte continuo', texto: 'Acompañamiento mensual del equipo JAB con revisión de resultados y ajustes estratégicos.' },
+  { n: '01', ico: 'landing',  titulo: 'Landing de conversión',    texto: 'Página diseñada para captar consultas calificadas de empresas B2B industriales.' },
+  { n: '02', ico: 'campanas', titulo: 'Campañas pagas',           texto: 'Meta y Google Ads segmentados para tu sector y decisores industriales.' },
+  { n: '03', ico: 'creativos',titulo: 'Creativos editoriales',    texto: 'Placas, copys y piezas visuales con identidad industrial para redes y ads.' },
+  { n: '04', ico: 'crm',      titulo: 'CRM configurado',          texto: 'Pipeline de venta industrial listo para usar desde el primer día del sistema.' },
+  { n: '05', ico: 'reportes', titulo: 'Reportes semanales',       texto: 'Métricas que importan: consultas generadas, costo por lead y proyección mensual.' },
+  { n: '06', ico: 'ia',       titulo: 'Automatizaciones con IA',  texto: 'Flujos de WhatsApp, email y seguimiento para que ninguna consulta quede sin respuesta.' },
+  { n: '07', ico: 'onboarding', titulo: 'Onboarding dedicado',    texto: 'Sesión de arranque con tu equipo para alinear proceso, herramientas y expectativas.' },
+  { n: '08', ico: 'soporte',  titulo: 'Soporte continuo',         texto: 'Acompañamiento mensual del equipo JAB con revisión de resultados y ajustes estratégicos.' },
 ];
 
 const faq = [
@@ -98,60 +88,98 @@ const faq = [
   titulo="Sistema B2B Industrial — Jab Marketing"
   descripcion="El sistema que genera consultas calificadas por mes a empresas industriales, sin depender de referidos ni de un solo vendedor."
 >
+<div class="ind">
+
   <!-- ==================== HERO ==================== -->
-  <section class="ind-hero" id="top">
-    <div class="wrap ind-hero__grid">
-      <div>
-        <p class="eyebrow">[ SISTEMA B2B INDUSTRIAL ]</p>
-        <h1 class="ind-hero__titulo">
-          El sistema que genera<br>
-          <strong>+50 consultas calificadas</strong><br>
-          por mes a empresas industriales.
-        </h1>
-        <p class="ind-hero__lead">Diseñamos el sistema JAB, pensado para que empresas industriales puedan vender más sin depender de referidos, de los mismos contactos de siempre o de un solo vendedor.</p>
-        <div class="hero__actions">
-          <a class="btn btn--cta" href={WHATSAPP} target="_blank" rel="noopener">
-            Diagnóstico gratuito <span class="btn__arrow" aria-hidden="true">&rarr;</span>
-          </a>
-          <a class="btn btn--ghost" href="#sistema">Ver cómo funciona</a>
+  <section class="ind-sec ind-hero" id="top">
+    <img class="ind-hero__deco" src="/assets/img/isotipo-blanco.svg" alt="" aria-hidden="true" width="454" height="454">
+
+    <div class="ind-in">
+      <div class="ind-hero__grid">
+
+        <div class="ind-hero__copy">
+          <span class="ind-tag" data-reveal>Sistema B2B Industrial</span>
+          <h1 class="ind-h" data-reveal>
+            El sistema que genera<br>
+            <em>+50 consultas</em><br>
+            calificadas por mes<br>
+            a empresas industriales<br>
+            para vender más.
+          </h1>
+          <p class="ind-hero__sub" data-reveal>
+            Diseñamos el sistema JAB, pensado para que empresas industriales puedan
+            vender más sin depender de referidos, de los mismos contactos de siempre
+            o de un solo vendedor.
+          </p>
         </div>
-        <p class="rule-label">Marketing industrial &middot; B2B &middot; Argentina</p>
+
+        <div class="ind-hero__col">
+          <!--
+            El video se carga recién al hacer clic: si se incrustara de entrada,
+            YouTube trae medio megabyte de scripts que casi nadie va a usar.
+          -->
+          <div class="ind-video" data-video={VIDEO} data-reveal>
+            <button class="ind-video__btn" type="button" aria-label="Reproducir el video: cómo funciona el sistema, 3 minutos">
+              <img class="ind-video__miniatura" src={`https://img.youtube.com/vi/${VIDEO}/maxresdefault.jpg`} alt="" width="1280" height="720" loading="lazy">
+              <span class="ind-video__velo"></span>
+              <span class="ind-video__play" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 22 22" fill="none"><path d="M7 4.5l12 6.5-12 6.5V4.5z" fill="currentColor"/></svg>
+              </span>
+              <span class="ind-video__rot">3 minutos &middot; mirá cómo funciona</span>
+            </button>
+          </div>
+
+          <a class="ind-btn ind-btn--hielo" href={WHATSAPP} target="_blank" rel="noopener" style="width:100%; justify-content:center" data-reveal>
+            Pedir diagnóstico gratuito
+            <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+
       </div>
 
-      <!--
-        El video se carga recién al hacer clic: si se incrustara de entrada,
-        YouTube trae medio megabyte de scripts que casi nadie va a usar.
-      -->
-      <div class="ind-video" data-video={VIDEO}>
-        <button class="ind-video__boton" type="button" aria-label="Reproducir el video: cómo funciona el sistema, 3 minutos">
-          <img src={`https://img.youtube.com/vi/${VIDEO}/maxresdefault.jpg`} alt="" width="1280" height="720" loading="lazy">
-          <span class="ind-video__play" aria-hidden="true">&#9654;</span>
-          <span class="ind-video__rotulo">3 minutos &middot; Mirá cómo funciona</span>
-        </button>
+      <div class="ind-hero__foot" data-reveal>
+        <strong>Strategy Matters</strong>
+        <div>
+          <span>Marketing Industrial</span>
+          <i></i>
+          <span>B2B &middot; Argentina</span>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- ==================== NÚMEROS ==================== -->
-  <section class="ind-numeros">
-    <div class="wrap ind-numeros__grid">
-      {numeros.map((n) => (
-        <div class="ind-numero" data-reveal>
-          <p class="ind-numero__valor">{n.valor}</p>
-          <p class="ind-numero__texto">{n.texto}</p>
+  <section class="ind-sec ind-nums">
+    <div class="ind-in">
+      <div class="ind-nums__grid">
+        <div class="ind-num" data-reveal>
+          <b class="azul">+50</b>
+          <p>Consultas calificadas por mes para empresas industriales B2B</p>
         </div>
-      ))}
+        <div class="ind-num" data-reveal>
+          <b>4</b>
+          <p>Etapas: diagnóstico, posicionamiento, captación y conversión</p>
+        </div>
+        <div class="ind-num" data-reveal>
+          <b class="azul">0</b>
+          <p>Dependencia de referidos, vendedores únicos o contactos de siempre</p>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- ==================== CLIENTES ==================== -->
-  <section class="clientes">
-    <div class="wrap">
-      <p class="ind-rotulo">Empresas que ya implementaron el sistema</p>
-      <div class="clientes__grid">
-        {clientes.map((c) => (
-          <div class="cliente" data-reveal>
-            <img src={`/assets/img/clientes/${c.archivo}.png`} alt={c.nombre} loading="lazy" width="600" height="200">
+  <!-- ==================== EMPRESAS ==================== -->
+  <section class="ind-sec ind-marcas">
+    <div class="ind-in">
+      <p class="ind-marcas__rot" data-reveal>Empresas que ya implementaron el sistema</p>
+    </div>
+    <!-- La lista va dos veces: el desfile se corta a la mitad y vuelve a empezar
+         sin salto visible. -->
+    <div class="ind-cinta">
+      <div class="ind-cinta__pista">
+        {[...clientes, ...clientes].map((c) => (
+          <div class="ind-marca">
+            <img src={`/assets/img/clientes/${c}.png`} alt={nombres[c]} loading="lazy" width="600" height="200">
           </div>
         ))}
       </div>
@@ -159,88 +187,158 @@ const faq = [
   </section>
 
   <!-- ==================== LAS 4 ETAPAS ==================== -->
-  <section class="ind-seccion" id="sistema">
-    <div class="wrap">
-      <div class="ind-cabecera" data-reveal>
-        <p class="eyebrow">[ CÓMO FUNCIONA ]</p>
-        <h2 class="ind-titulo">El sistema en <strong>4 etapas</strong></h2>
-        <p class="ind-lead">Un proceso probado para empresas industriales B2B que quieren generar consultas calificadas de forma predecible y escalable, sin depender de la suerte ni de un vendedor estrella.</p>
+  <section class="ind-sec ind-etapas" id="sistema">
+    <div class="ind-in">
+
+      <div class="ind-cab">
+        <div>
+          <span class="ind-meta" data-reveal>Cómo funciona</span>
+          <h2 class="ind-h" data-reveal>El sistema<br>en <em>4 etapas</em></h2>
+        </div>
+        <p class="ind-cab__sub" data-reveal>
+          Un proceso probado para empresas industriales B2B que quieren generar
+          consultas calificadas de forma <strong>predecible y escalable</strong>,
+          sin depender de la suerte ni de un vendedor estrella.
+        </p>
       </div>
 
-      <div class="ind-etapas">
+      <div class="ind-pilares">
         {etapas.map((e) => (
-          <article class="ind-etapa" data-reveal>
-            <p class="ind-etapa__n">{e.n} &mdash; <span>{e.rotulo}</span></p>
-            <h3 class="ind-etapa__titulo">{e.titulo}</h3>
-            <p class="ind-etapa__texto">{e.texto}</p>
-            <ul class="ind-lista">
-              {e.puntos.map((p) => <li>{p}</li>)}
-            </ul>
+          <article class="ind-pilar">
+            <div class="ind-pilar__grid">
+              <div class="ind-pilar__izq">
+                <span class="ind-pilar__n">{e.n}</span>
+                <span class="ind-tag">{e.tag}</span>
+              </div>
+              <div class="ind-pilar__der">
+                <h3 class="ind-pilar__t">{e.titulo[0]}<br>{e.titulo[1]}</h3>
+                <p class="ind-pilar__d">{e.texto}</p>
+                <ul class="ind-ul">
+                  {e.puntos.map((p) => <li>{p}</li>)}
+                </ul>
+              </div>
+            </div>
           </article>
         ))}
       </div>
+
+      <div class="ind-cta-centro" data-reveal>
+        <a class="ind-btn ind-btn--hielo" href={WHATSAPP} target="_blank" rel="noopener">
+          Pedir diagnóstico gratuito
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+
     </div>
   </section>
 
   <!-- ==================== ENTREGABLES ==================== -->
-  <section class="ind-seccion ind-seccion--azul">
-    <div class="wrap">
-      <div class="ind-cabecera" data-reveal>
-        <p class="eyebrow" style="color:var(--celeste-100)">[ QUÉ INCLUYE EL SISTEMA ]</p>
-        <h2 class="ind-titulo">Todo lo que necesitás<br><strong>para vender más.</strong></h2>
-        <p class="ind-lead">No vendemos horas de consultoría. Entregamos un sistema completo, funcional y medible desde el primer mes. Cada entregable está pensado para el ciclo de venta B2B industrial. No para e-commerce. No para consumo masivo.</p>
+  <section class="ind-sec ind-entregables">
+    <div class="ind-in">
+
+      <div class="ind-cab">
+        <div>
+          <span class="ind-meta" data-reveal>Qué incluye el sistema</span>
+          <h2 class="ind-h" data-reveal style="font-size:clamp(24px,3.2vw,42px)">Todo lo que<br>necesitás para<br>vender más.</h2>
+        </div>
+        <div>
+          <p class="ind-cab__sub" data-reveal>
+            No vendemos horas de consultoría. Entregamos un sistema completo,
+            funcional y medible desde el primer mes.
+          </p>
+          <div class="ind-nota" data-reveal>
+            Cada entregable está pensado para el ciclo de venta B2B industrial.
+            No para e-commerce. No para consumo masivo.
+          </div>
+        </div>
       </div>
 
-      <div class="ind-entregables">
+      <div class="ind-grid2">
         {entregables.map((e) => (
-          <article class="ind-entregable" data-reveal>
-            <p class="ind-entregable__n">{e.n}</p>
-            <h3 class="ind-entregable__titulo">{e.titulo}</h3>
+          <article class="ind-item" data-reveal>
+            <span class="ind-item__ico"><IconoEntregable nombre={e.ico} /></span>
+            <span class="ind-item__n">{e.n}</span>
+            <h3 class="ind-item__t">{e.titulo}</h3>
             <p>{e.texto}</p>
+            <span class="ind-item__badge">Incluido</span>
           </article>
         ))}
       </div>
+
     </div>
   </section>
 
-  <!-- ==================== DIAGNÓSTICO ==================== -->
-  <section class="ind-seccion">
-    <div class="wrap ind-diagnostico" data-reveal>
-      <div>
-        <p class="eyebrow">[ DIAGNÓSTICO GRATUITO ]</p>
-        <h2 class="ind-titulo">El primer paso es una<br><strong>charla de 30 minutos.</strong></h2>
-        <p class="ind-lead">Nos contás dónde está parada tu empresa hoy y qué querés lograr. Nosotros te mostramos si el sistema tiene sentido para vos y cómo lo haríamos.</p>
-        <ul class="ind-lista">
-          <li>Sin compromiso ni presión</li>
-          <li>30 minutos, por videollamada</li>
-          <li>Solo empresas B2B industriales</li>
-        </ul>
-        <a class="btn btn--cta" href={WHATSAPP} target="_blank" rel="noopener" style="margin-top:clamp(24px,4vh,36px)">
-          Pedir el diagnóstico <span class="btn__arrow" aria-hidden="true">&rarr;</span>
-        </a>
-        <p class="ind-nota">Cupos limitados por mes. Solo trabajamos con empresas donde hay potencial real de resultado.</p>
+  <!-- ==================== CIERRE ==================== -->
+  <section class="ind-sec ind-cierre" id="contacto">
+    <div class="ind-in">
+      <div class="ind-cierre__box">
+
+        <span class="ind-cierre__label" data-reveal>Diagnóstico gratuito</span>
+
+        <h2 class="ind-cierre__h" data-reveal>
+          El primer paso<br>
+          es una charla de<br>
+          <em>30 minutos.</em>
+        </h2>
+
+        <p class="ind-cierre__p" data-reveal>
+          Nos contás dónde está parada tu empresa hoy y qué querés lograr.
+          Nosotros te mostramos si el sistema tiene sentido para vos y cómo lo haríamos.
+        </p>
+
+        <div class="ind-chips" data-reveal>
+          <span class="ind-chip">Sin compromiso ni presión</span>
+          <span class="ind-chip">30 min &middot; videollamada</span>
+          <span class="ind-chip">Solo empresas B2B industriales</span>
+        </div>
+
+        <div data-reveal>
+          <a class="ind-btn ind-btn--lima" href={WHATSAPP} target="_blank" rel="noopener" style="font-size:16px; padding:19px 48px">
+            Hablemos por WhatsApp
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+
+        <p class="ind-urg" data-reveal>
+          <strong>Cupos limitados por mes.</strong> Solo trabajamos con empresas donde hay potencial real de resultado.
+        </p>
+
+        <div class="ind-form" data-reveal>
+          <p class="ind-form__rot">O escribinos y te respondemos por mail</p>
+          <Formulario asunto="Diagnóstico — empresa industrial" />
+        </div>
+
       </div>
-      <Formulario asunto="Diagnóstico — empresa industrial" />
     </div>
   </section>
 
   <!-- ==================== PREGUNTAS FRECUENTES ==================== -->
-  <section class="ind-seccion ind-seccion--faq">
-    <div class="wrap">
-      <div class="ind-cabecera" data-reveal>
-        <p class="eyebrow">[ PREGUNTAS FRECUENTES ]</p>
-        <h2 class="ind-titulo">Lo que nos pregunta cada<br><strong>empresa antes de empezar.</strong></h2>
-      </div>
-      <div class="ind-faq">
-        {faq.map((f) => (
-          <details class="ind-faq__item" data-reveal>
-            <summary>{f.p}</summary>
-            <p>{f.r}</p>
-          </details>
-        ))}
+  <section class="ind-sec ind-entregables">
+    <div class="ind-in">
+      <div class="ind-cab">
+        <div>
+          <span class="ind-meta" data-reveal>Preguntas frecuentes</span>
+          <h2 class="ind-h" data-reveal style="font-size:clamp(24px,3.2vw,42px)">Lo que nos<br>pregunta cada<br>empresa antes<br>de empezar.</h2>
+        </div>
+        <div>
+          <p class="ind-cab__sub" data-reveal>
+            Respondemos las dudas más comunes de empresas industriales B2B antes
+            de arrancar con el sistema.
+          </p>
+          <div class="ind-faq">
+            {faq.map((f) => (
+              <details class="ind-faq__item" data-reveal>
+                <summary>{f.p}</summary>
+                <p>{f.r}</p>
+              </details>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   </section>
+
+</div>
 </Base>
 
 <script type="application/ld+json" is:inline set:html={JSON.stringify({

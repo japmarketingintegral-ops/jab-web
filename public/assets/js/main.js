@@ -14,6 +14,7 @@
 
     navCompacto();
     videoDiferido();
+    pilaresApilados();
     cicloMetodologia();
     revelar();
     formulario();
@@ -71,6 +72,34 @@
     });
   }
 
+  /* --- Tarjetas de etapas que se van tapando al bajar --------------------- */
+
+  // Cada tarjeta queda pegada 40px más abajo que la anterior. Cuando la
+  // siguiente la alcanza, la de atrás se atenúa: da sensación de profundidad
+  // sin que el usuario pierda de vista dónde está.
+  function pilaresApilados() {
+    var pilares = document.querySelectorAll('.ind-pilar');
+    if (pilares.length < 2) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    var pedido = false;
+    var aplicar = function () {
+      Array.prototype.forEach.call(pilares, function (p, i) {
+        if (i === pilares.length - 1) return;
+        p.classList.toggle('is-tapado', p.getBoundingClientRect().top <= (i + 1) * 40 + 2);
+      });
+      pedido = false;
+    };
+
+    window.addEventListener('scroll', function () {
+      if (pedido) return;
+      pedido = true;
+      requestAnimationFrame(aplicar);
+    }, { passive: true });
+
+    aplicar();
+  }
+
   /* --- Video que se carga recién al hacer clic --------------------------- */
 
   // Incrustar YouTube de entrada trae medio megabyte de scripts que la mayoría
@@ -88,7 +117,9 @@
         marco.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture';
         marco.allowFullscreen = true;
         marco.loading = 'lazy';
-        caja.replaceChildren(marco);
+        var btn = caja.querySelector('button');
+        if (btn) btn.remove();
+        caja.appendChild(marco);
       });
     });
   }
