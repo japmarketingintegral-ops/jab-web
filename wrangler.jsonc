@@ -1,0 +1,13 @@
+{
+  // Configuración de despliegue en Cloudflare.
+  // El sitio es estático: Cloudflare no ejecuta código, solo sirve lo que Astro
+  // dejó en dist/. Esto es lo que hace que `npx wrangler deploy` funcione.
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "jab-web",
+  "compatibility_date": "2026-07-31",
+  "assets": {
+    "directory": "./dist",
+    // Sirve la página 404 propia en vez del error genérico de Cloudflare
+    "not_found_handling": "404-page"
+  }
+}

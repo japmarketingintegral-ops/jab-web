@@ -1,0 +1,23 @@
+---
+import Base from '../layouts/Base.astro';
+
+const WHATSAPP = 'https://wa.me/5493402500000?text=Hola%20Jab%2C%20quiero%20hablar%20de%20mi%20negocio';
+---
+
+<Base
+  titulo="Página no encontrada — Jab Marketing"
+  descripcion="La página que buscabas no existe o cambió de dirección."
+>
+  <section class="error404">
+    <p class="eyebrow">[ ERROR 404 ]</p>
+    <h1 class="error404__titulo">Esta página<br><strong>no existe.</strong></h1>
+    <p class="error404__lead">Puede que el enlace esté mal escrito o que la hayamos movido de lugar. Estas sí funcionan:</p>
+    <div class="error404__acciones">
+      <a class="btn btn--ghost" href="/">Ir al inicio</a>
+      <a class="btn btn--ghost" href="/blog/">Ver el blog</a>
+      <a class="btn btn--cta" href={WHATSAPP} target="_blank" rel="noopener">
+        Hablemos por WhatsApp <span class="btn__arrow" aria-hidden="true">&rarr;</span>
+      </a>
+    </div>
+  </section>
+</Base>
