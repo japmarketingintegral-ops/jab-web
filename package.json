@@ -15,5 +15,9 @@
   },
   "devDependencies": {
     "wrangler": "^4.118.0"
+  },
+  "engines": {
+    "node": ">=20.11",
+    "npm": ">=10"
   }
 }

@@ -124,3 +124,18 @@ Alojado en **Cloudflare Pages**, que reconstruye y publica con cada push a `main
 
 Para el dominio propio: **Custom domains** en el panel de Cloudflare, y seguir los
 registros DNS que indique. El certificado HTTPS se emite solo.
+
+## Sobre el package-lock.json
+
+Está generado con **npm 10**, que es la versión que usa Cloudflare para compilar.
+
+Si se regenera con npm 11 o superior, el despliegue falla: las dos versiones
+anotan distinto las dependencias que varían según el sistema operativo, y
+Cloudflare corta con `Missing: @emnapi/... from lock file`.
+
+Si hace falta rehacerlo:
+
+```bash
+rm -rf node_modules package-lock.json
+npx npm@10 install
+```
