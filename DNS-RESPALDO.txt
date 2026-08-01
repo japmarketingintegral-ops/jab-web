@@ -1,0 +1,26 @@
+# Respaldo DNS de jabmarketing.site — 2026-08-01 12:18
+# Tomado ANTES de mudar el DNS a Cloudflare.
+
+## Nameservers actuales (Hostinger)
+  hermes.dns-parking.com.
+  artemis.dns-parking.com.
+
+## A (raíz) — hoy apunta a GoHighLevel
+  162.159.140.166
+
+## www
+  sites.ludicrous.cloud.
+  sites.ludicrous.cloud.
+  104.18.35.90
+  172.64.152.166
+
+## MX — CORREO, NO PERDER
+  5 mx1.hostinger.com.
+  10 mx2.hostinger.com.
+
+## TXT
+  "v=spf1 include:_spf.mail.hostinger.com ~all"
+
+## Subdominios habituales
+  autodiscover → autodiscover.mail.hostinger.com. 34.120.251.119 
+  autoconfig → autoconfig.mail.hostinger.com. 34.120.251.119 
