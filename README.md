@@ -95,9 +95,9 @@ Quien vaya a cargar notas necesita permiso de escritura en el repositorio.
       y agregarlo al array `clientes` de `index.astro` e `industrial.astro`.
 - [ ] **Portadas del blog.** Las tres notas no tienen imagen; se muestra la
       categoría en su lugar. Se cargan desde el panel.
-- [ ] **Datos de contacto.** El teléfono `+54 9 3402 50000` viene del diseño y
-      parece un número de ejemplo. Verificar (aparece en el nav, el hero, la
-      sección de contacto y todos los enlaces de WhatsApp).
+- [x] ~~**Datos de contacto.**~~ Teléfono confirmado: `+54 9 3402 41-5366`.
+      Vive en cinco archivos (Nav, Base, 404, industrial, index y main.js). Si
+      vuelve a cambiar, buscar `5493402415366` en todo el proyecto.
 - [ ] **Imagen para redes.** Crear `public/assets/img/og.jpg` (1200×630) para que
       el link se vea bien al compartirlo por WhatsApp o redes.
 
