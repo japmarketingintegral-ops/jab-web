@@ -13,9 +13,11 @@ src/
   content/blog/*.md       las notas del blog, una por archivo
   content.config.ts       qué campos tiene una nota (validado al compilar)
   layouts/Base.astro      head, nav y pie compartidos
-  components/             Nav, Pie, TarjetaNota
+  components/             Nav, Pie, TarjetaNota, Formulario
   pages/
     index.astro           home
+    industrial.astro      embudo B2B industrial (rescatado de GoHighLevel)
+    404.astro             página de error
     blog/index.astro      listado de notas
     blog/[...slug].astro  cada nota
     rss.xml.js            feed RSS
@@ -88,8 +90,9 @@ Quien vaya a cargar notas necesita permiso de escritura en el repositorio.
 - [ ] **Panel de contenido.** Falta el paso de autenticación descrito arriba.
 - [ ] **Dominio propio.** Al conectarlo, actualizar `site` en `astro.config.mjs`:
       de ahí salen el sitemap, el RSS y las etiquetas canónicas.
-- [ ] **Logos de clientes.** 18 celdas con placeholder en la sección Clientes.
-      Reemplazar cada `<div class="slot">` por `<img src="/assets/img/clientes/….png" alt="…">`.
+- [x] ~~**Logos de clientes.**~~ Rescatados del embudo antes de dar de baja
+      GoHighLevel. Para sumar uno: dejar el png en `public/assets/img/clientes`
+      y agregarlo al array `clientes` de `index.astro` e `industrial.astro`.
 - [ ] **Portadas del blog.** Las tres notas no tienen imagen; se muestra la
       categoría en su lugar. Se cargan desde el panel.
 - [ ] **Datos de contacto.** El teléfono `+54 9 3402 50000` viene del diseño y
@@ -97,6 +100,19 @@ Quien vaya a cargar notas necesita permiso de escritura en el repositorio.
       sección de contacto y todos los enlaces de WhatsApp).
 - [ ] **Imagen para redes.** Crear `public/assets/img/og.jpg` (1200×630) para que
       el link se vea bien al compartirlo por WhatsApp o redes.
+
+## La página industrial
+
+`/industrial` es el embudo que antes vivía en GoHighLevel, rehecho con el sistema
+de diseño del sitio. El calendario de GoHighLevel se reemplazó por WhatsApp como
+acción principal más el formulario que manda mails.
+
+El video sigue en YouTube y **se carga recién al hacer clic**: incrustarlo de
+entrada traería medio megabyte de scripts que la mayoría no usa. Hasta el clic
+solo hay una imagen.
+
+Antes de dar de baja GoHighLevel ya se rescató todo lo que estaba alojado ahí
+(los cinco logos de clientes). No queda nada dependiendo de esa cuenta.
 
 ## Formulario de contacto
 

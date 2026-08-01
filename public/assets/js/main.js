@@ -13,6 +13,7 @@
     if (anio) anio.textContent = new Date().getFullYear();
 
     navCompacto();
+    videoDiferido();
     cicloMetodologia();
     revelar();
     formulario();
@@ -67,6 +68,28 @@
 
     document.addEventListener('visibilitychange', function () {
       if (document.hidden) frenar();
+    });
+  }
+
+  /* --- Video que se carga recién al hacer clic --------------------------- */
+
+  // Incrustar YouTube de entrada trae medio megabyte de scripts que la mayoría
+  // no va a usar. Hasta el clic solo hay una imagen.
+  function videoDiferido() {
+    Array.prototype.forEach.call(document.querySelectorAll('[data-video]'), function (caja) {
+      var boton = caja.querySelector('button');
+      if (!boton) return;
+
+      boton.addEventListener('click', function () {
+        var id = caja.getAttribute('data-video');
+        var marco = document.createElement('iframe');
+        marco.src = 'https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0';
+        marco.title = 'Cómo funciona el sistema';
+        marco.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture';
+        marco.allowFullscreen = true;
+        marco.loading = 'lazy';
+        caja.replaceChildren(marco);
+      });
     });
   }
 
@@ -165,10 +188,16 @@
 
   /* --- Formulario --------------------------------------------------------- */
 
+  // Puede haber más de un formulario por página (home y la de industrial),
+  // así que se engancha cada uno por separado.
   function formulario() {
-    var form = document.getElementById('form-contacto');
-    if (!form) return;
+    Array.prototype.forEach.call(
+      document.querySelectorAll('[data-form-contacto]'),
+      engancharFormulario
+    );
+  }
 
+  function engancharFormulario(form) {
     var estado = form.querySelector('.form__status');
     var boton = form.querySelector('button[type="submit"]');
 
