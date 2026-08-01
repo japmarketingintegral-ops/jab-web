@@ -3,6 +3,16 @@ import Base from '../layouts/Base.astro';
 import TarjetaNota from '../components/TarjetaNota.astro';
 import { getCollection } from 'astro:content';
 
+// Logos rescatados del embudo antes de dar de baja GoHighLevel.
+// Para sumar uno: dejar el png en public/assets/img/clientes y agregarlo acá.
+const clientes = [
+  { nombre: 'Gimetal', archivo: 'gimetal' },
+  { nombre: 'Geronzi', archivo: 'geronzi' },
+  { nombre: 'PackGroup', archivo: 'packgroup' },
+  { nombre: 'Montenegro', archivo: 'montenegro' },
+  { nombre: 'Termoplast', archivo: 'termoplast' },
+];
+
 const notas = (await getCollection('blog', ({ data }) => !data.borrador))
   .sort((a, b) => b.data.fecha.valueOf() - a.data.fecha.valueOf())
   .slice(0, 3);
@@ -38,7 +48,7 @@ const notas = (await getCollection('blog', ({ data }) => !data.borrador))
     <!-- Tres capas para animar por separado: entrada, flotación y giro -->
     <div class="hero__art">
       <div class="hero__art-orbita">
-        <img src="assets/img/isotipo-3d.webp" alt="" width="1037" height="1080" fetchpriority="high">
+        <img src="/assets/img/isotipo-3d.webp" alt="" width="1037" height="1080" fetchpriority="high">
       </div>
     </div>
   </section>
@@ -173,7 +183,7 @@ const notas = (await getCollection('blog', ({ data }) => !data.borrador))
       <div class="loop" data-loop>
         <div class="loop__ring" aria-hidden="true"></div>
         <div class="loop__core" aria-hidden="true">
-          <img class="loop__isotipo" src="assets/img/isotipo-blanco.svg" alt="" width="454" height="454">
+          <img class="loop__isotipo" src="/assets/img/isotipo-blanco.svg" alt="" width="454" height="454">
         </div>
         <!-- El cliente recorriendo su propio ciclo -->
         <div class="loop__marcador" aria-hidden="true" data-loop-marcador>
@@ -212,7 +222,7 @@ const notas = (await getCollection('blog', ({ data }) => !data.borrador))
       <!-- Línea de tiempo: misma información, apilada -->
       <div class="timeline">
         <div class="timeline__core">
-          <div><img class="loop__isotipo" src="assets/img/isotipo-blanco.svg" alt="" width="454" height="454"></div>
+          <div><img class="loop__isotipo" src="/assets/img/isotipo-blanco.svg" alt="" width="454" height="454"></div>
         </div>
         <div class="paso">
           <p class="paso__num">01 &mdash;</p>
@@ -279,30 +289,16 @@ const notas = (await getCollection('blog', ({ data }) => !data.borrador))
     </div>
   </section>
 
-<!-- ==================== CLIENTES ==================== -->
-  <!-- Cada celda: <img src="assets/img/clientes/nombre.png" alt="Nombre del cliente"> -->
+  <!-- ==================== CLIENTES ==================== -->
   <section class="clientes" id="clientes">
     <div class="wrap">
       <h2 class="section-title" data-reveal>Clientes</h2>
       <div class="clientes__grid">
-        <div class="cliente" data-reveal><div class="slot">logo cliente</div></div>
-        <div class="cliente" data-reveal><div class="slot">logo cliente</div></div>
-        <div class="cliente" data-reveal><div class="slot">logo cliente</div></div>
-        <div class="cliente" data-reveal><div class="slot">logo cliente</div></div>
-        <div class="cliente" data-reveal><div class="slot">logo cliente</div></div>
-        <div class="cliente" data-reveal><div class="slot">logo cliente</div></div>
-        <div class="cliente" data-reveal><div class="slot">logo cliente</div></div>
-        <div class="cliente" data-reveal><div class="slot">logo cliente</div></div>
-        <div class="cliente" data-reveal><div class="slot">logo cliente</div></div>
-        <div class="cliente" data-reveal><div class="slot">logo cliente</div></div>
-        <div class="cliente" data-reveal><div class="slot">logo cliente</div></div>
-        <div class="cliente" data-reveal><div class="slot">logo cliente</div></div>
-        <div class="cliente" data-reveal><div class="slot">logo cliente</div></div>
-        <div class="cliente" data-reveal><div class="slot">logo cliente</div></div>
-        <div class="cliente" data-reveal><div class="slot">logo cliente</div></div>
-        <div class="cliente" data-reveal><div class="slot">logo cliente</div></div>
-        <div class="cliente" data-reveal><div class="slot">logo cliente</div></div>
-        <div class="cliente" data-reveal><div class="slot">logo cliente</div></div>
+        {clientes.map((c) => (
+          <div class="cliente" data-reveal>
+            <img src={`/assets/img/clientes/${c.archivo}.png`} alt={c.nombre} loading="lazy" width="600" height="200">
+          </div>
+        ))}
       </div>
     </div>
   </section>
