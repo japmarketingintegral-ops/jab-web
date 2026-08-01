@@ -215,6 +215,22 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; }
 }
 .nav__link:hover { color: var(--lime-500); }
 
+/* El menú nunca se parte en dos filas: primero se aprieta, después suelta
+   lastre. Con seis links más el botón, a 1280px ya no entraba de otra forma. */
+.nav__links { flex-wrap: nowrap; }
+
+@media (max-width: 1240px) {
+  .nav__links { gap: clamp(10px, 1.3vw, 20px); }
+  .nav__link { font-size: 11px; letter-spacing: 0.12em; }
+  .btn--sm { padding: 10px 16px; letter-spacing: 0.1em; }
+}
+
+/* Clientes es una sección del home, no un destino propio: es lo primero que se
+   puede sacrificar antes de romper la fila. */
+@media (max-width: 1080px) {
+  .nav__link--opcional { display: none; }
+}
+
 /* En pantallas chicas los links de sección estorban: queda logo + WhatsApp */
 @media (max-width: 720px) {
   .nav__link { display: none; }
@@ -1974,3 +1990,26 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; }
   .ind-cinta__pista { animation: none; }
   .ind-pilar { position: relative; top: auto; }
   .ind-pilar.is-tapado { opacity: 1; transform: none; filter: none; }
+
+/* Servicio que además es un enlace: se distingue apenas, sin romper la grilla */
+.servicio--enlace {
+  color: inherit;
+  transition: transform .3s var(--ease);
+}
+.servicio--enlace:hover { color: inherit; transform: translateY(-3px); }
+.servicio--enlace:hover .servicio__title { color: var(--blue-600); }
+.servicio__title { transition: color .25s var(--ease); }
+
+.servicio__mas {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--blue-600);
+}
+.servicio--enlace:hover .servicio__mas span { transform: translateX(4px); }
+.servicio__mas span { transition: transform .25s var(--ease); }
