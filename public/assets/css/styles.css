@@ -2204,3 +2204,11 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; }
 @media (prefers-reduced-motion: reduce) {
   .carrusel__pista { scroll-behavior: auto; }
 }
+
+/* Imágenes dentro del cuerpo de una nota */
+.nota__cuerpo img {
+  width: 100%;
+  height: auto;
+  margin-block: clamp(28px, 4vh, 44px);
+  border: 1px solid var(--border-dark);
+}

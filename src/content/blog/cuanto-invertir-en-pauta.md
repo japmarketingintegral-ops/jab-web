@@ -5,7 +5,7 @@ categoria: Paid media
 fecha: 2026-07-22
 lectura: 5
 portada: /assets/img/blog/cuanto-invertir-en-pauta.jpg
-portadaAlt: Anillos concéntricos, como un blanco de tiro, sobre fondo azul oscuro
+portadaAlt: Manos usando una calculadora junto a un teclado
 borrador: false
 ---
 
@@ -26,6 +26,8 @@ razonable. Para una inmobiliaria que vende lotes, no alcanza para nada.
 
 La pauta no se define por lo que podés poner, sino por **lo que necesitás que
 pase**.
+
+![Una calculadora y una lapicera sobre un cuaderno](/assets/img/blog/cuanto-invertir-en-pauta-2.jpg)
 
 ## La cuenta, paso a paso
 

@@ -5,7 +5,7 @@ categoria: Contenido
 fecha: 2026-07-29
 lectura: 4
 portada: /assets/img/blog/el-contenido-que-vende.jpg
-portadaAlt: Ondas superpuestas sobre fondo azul oscuro
+portadaAlt: Celular con aplicaciones de redes sociales sobre una mesa de madera
 borrador: false
 ---
 
@@ -27,6 +27,8 @@ La plataforma premia lo primero. Tu negocio necesita lo segundo.
 
 Esto no significa que la viralidad esté mal. Significa que **son dos trabajos
 distintos** y hay que saber cuál estás haciendo.
+
+![Letras de distintos materiales que forman la frase social media](/assets/img/blog/el-contenido-que-vende-2.jpg)
 
 ## Los tres tipos de contenido que necesitás
 

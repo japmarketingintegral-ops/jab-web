@@ -93,8 +93,7 @@ Quien vaya a cargar notas necesita permiso de escritura en el repositorio.
 - [x] ~~**Logos de clientes.**~~ Rescatados del embudo antes de dar de baja
       GoHighLevel. Para sumar uno: dejar el png en `public/assets/img/clientes`
       y agregarlo al array `clientes` de `index.astro` e `industrial.astro`.
-- [ ] **Portadas del blog.** Las tres notas no tienen imagen; se muestra la
-      categoría en su lugar. Se cargan desde el panel.
+- [x] ~~**Portadas del blog.**~~ Cada nota tiene portada e imagen interna.
 - [x] ~~**Datos de contacto.**~~ Teléfono confirmado: `+54 9 3402 41-5366`.
       Vive en cinco archivos (Nav, Base, 404, industrial, index y main.js). Si
       vuelve a cambiar, buscar `5493402415366` en todo el proyecto.
@@ -113,6 +112,16 @@ solo hay una imagen.
 
 Antes de dar de baja GoHighLevel ya se rescató todo lo que estaba alojado ahí
 (los cinco logos de clientes). No queda nada dependiendo de esa cuenta.
+
+## Imágenes del blog
+
+Las fotos vienen de [Unsplash](https://unsplash.com), bajo su licencia: uso
+comercial permitido, sin obligación de atribuir. Están recortadas a 1200×675 las
+portadas y 1000×560 las internas, con la saturación bajada un punto y una tinta
+navy al 16% para que convivan con el resto del sitio.
+
+Para cambiar una: dejar el archivo en `public/assets/img/blog/` con el mismo
+nombre que el slug de la nota, y actualizar `portadaAlt` en el frontmatter.
 
 ## Formulario de contacto
 

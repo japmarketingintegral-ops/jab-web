@@ -5,7 +5,7 @@ categoria: Estrategia
 fecha: 2026-07-15
 lectura: 6
 portada: /assets/img/blog/como-saber-si-tu-marketing-funciona.jpg
-portadaAlt: Barras de un gráfico en ascenso sobre fondo azul oscuro
+portadaAlt: Tablero de analítica con gráficos de tráfico y conversión
 borrador: false
 ---
 
@@ -34,6 +34,8 @@ poner la plata el mes que viene.
 Cómo empezar a medirlo sin herramientas complicadas: **preguntá**. Un "¿cómo nos
 conociste?" en el primer mensaje, anotado en una planilla, ya te da más
 información que cualquier tablero.
+
+![Una notebook mostrando un panel de métricas](/assets/img/blog/como-saber-si-tu-marketing-funciona-2.jpg)
 
 ## 2. Cuánto te costó cada consulta
 

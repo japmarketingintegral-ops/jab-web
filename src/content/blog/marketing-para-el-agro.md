@@ -5,7 +5,7 @@ categoria: Estrategia
 fecha: 2026-08-05
 lectura: 7
 portada: /assets/img/blog/marketing-para-el-agro.jpg
-portadaAlt: Líneas paralelas que evocan surcos de un campo sobre fondo azul oscuro
+portadaAlt: Campo de soja al atardecer, con el cielo abierto sobre los lotes
 borrador: false
 ---
 
@@ -18,22 +18,21 @@ No es que la visita no sirva. Sirve, y en este sector sigue siendo la que cierra
 El problema es **cuándo** se usa: hoy se está usando para averiguar quién tiene
 interés, cuando debería usarse para cerrar a quien ya lo demostró.
 
-## Lo que cuesta realmente una recorrida
+## El número que casi nadie tiene
 
-Hagamos la cuenta con números redondos, que cada uno ajuste con los suyos:
+Preguntale a cualquier empresa del sector cuánto le cuesta una recorrida y la
+respuesta suele ser "y… el combustible". Pero la salida cuesta bastante más que
+eso: hay desgaste del vehículo, viáticos, y sobre todo **un día completo de tu
+vendedor**, que es el recurso más caro y más escaso que tenés.
 
-| Concepto | Por salida |
-|---|---|
-| Combustible (300 km) | $45.000 |
-| Desgaste del vehículo | $20.000 |
-| Comidas y viáticos | $25.000 |
-| Un día de trabajo del vendedor | $60.000 |
-| **Total** | **$150.000** |
+No te vamos a dar un número, porque el tuyo depende de tus distancias, tu
+vehículo y tu equipo. Lo que sí te podemos decir es cómo calcularlo:
 
-Si de esa salida sale una consulta real, esa consulta te costó **$150.000**. Si
-salen dos, $75.000 cada una.
+> **Costo por consulta = todo lo que gastaste en la salida ÷ consultas reales que salieron de ella**
 
-Guardá ese número, porque es contra el que hay que comparar todo lo demás.
+Hacé esa cuenta una vez, con una salida concreta de la semana pasada. El
+resultado suele sorprender, y es el número contra el que hay que comparar
+cualquier otra alternativa.
 
 ## Por qué el agro llegó tarde a esto
 
@@ -48,6 +47,8 @@ Lo que sí es cierto es que **el agro no se vende como el consumo masivo**. Los
 ciclos son largos, las decisiones son técnicas, y la confianza pesa más que el
 precio. Cualquiera que te proponga replicar lo que funciona en una tienda de ropa
 no entendió el negocio.
+
+![Vista aérea de lotes agrícolas separados por caminos](/assets/img/blog/marketing-para-el-agro-2.jpg)
 
 ## Qué hace el marketing digital acá
 
@@ -71,20 +72,22 @@ quien te queda a 600.
 y tenga un botón de WhatsApp. La mitad de las empresas del sector manda al
 visitante a un perfil de Instagram sin información de contacto.
 
-## Los números del otro lado
+## Por qué la comparación suele dar a favor
 
-Con una inversión mensual de **$150.000** —lo mismo que **una sola recorrida**—
-una campaña bien apuntada en el interior suele traer entre **20 y 40 consultas
-por mes**.
+Acá está la diferencia de fondo: **una recorrida tiene un techo y un piso fijos**.
+Gastás lo mismo hayan salido tres consultas o ninguna, y no podés hacer diez
+salidas por semana porque no te da el equipo.
 
-Aun tomando el peor caso, 20 consultas:
+Una campaña por zona funciona al revés. Empezás con poco, medís cuánto te costó
+cada consulta, y **si el número cierra, ponés más**. Si no cierra, ajustás el
+mensaje o frenás. La decisión se toma con datos, no con la sensación de que "hay
+que salir a golpear puertas".
 
-> **$150.000 ÷ 20 consultas = $7.500 por consulta**
+Y hay algo que la recorrida no puede darte: esas consultas **te escribieron
+ellos**. No hay que convencerlas de que te escuchen, ya levantaron la mano.
 
-Contra los **$150.000** que te costaba la consulta que salía de una recorrida.
-
-Y esas 20 son gente que levantó la mano sola. No hace falta convencerlas de que
-te escuchen: ya te escribieron.
+Lo honesto es decirte que el número final depende de tu rubro, tu zona y tu
+competencia. Por eso el primer paso no es invertir: es medir.
 
 ## Lo que no te van a decir
 
@@ -107,7 +110,7 @@ No hace falta rediseñar todo. Empezá por medir:
 
 1. **Anotá durante un mes de dónde salió cada consulta.** Recorrida, referido,
    Instagram, teléfono. Una planilla alcanza.
-2. **Calculá cuánto te cuesta una salida** con los números de tu empresa.
+2. **Calculá cuánto te costó una salida concreta**, con los números reales de tu empresa.
 3. **Probá un mes de anuncios por zona** con el equivalente a una recorrida.
 
 A los 60 días vas a tener tus propios números, y esos valen más que cualquier
