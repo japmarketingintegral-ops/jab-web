@@ -4,6 +4,8 @@ bajada: Las tres métricas que sí dicen algo del negocio y cómo leerlas mes a 
 categoria: Estrategia
 fecha: 2026-07-15
 lectura: 6
+portada: /assets/img/blog/como-saber-si-tu-marketing-funciona.jpg
+portadaAlt: Barras de un gráfico en ascenso sobre fondo azul oscuro
 borrador: false
 ---
 
@@ -41,15 +43,15 @@ La cuenta es simple:
 
 > **Costo por consulta = lo que invertiste ÷ consultas que entraron**
 
-Si pusiste 100.000 pesos en pauta y entraron 50 consultas, cada una te costó
-2.000 pesos.
+Si pusiste $100.000 en pauta y entraron 50 consultas, cada una te costó
+$2.000.
 
 ¿Está bien o mal? Depende de una sola cosa: **cuánto ganás cuando cerrás una
-venta**. Si tu margen por cliente es de 30.000 pesos y cerrás una de cada cinco
-consultas, cada cliente te está costando 10.000 pesos en publicidad y te deja
-30.000. El número cierra.
+venta**. Si tu margen por cliente es de $30.000 y cerrás una de cada cinco
+consultas, cada cliente te está costando $10.000 en publicidad y te deja
+$30.000. El número cierra.
 
-Si tu margen es de 8.000 pesos, no cierra. Y no hay creatividad publicitaria que
+Si tu margen es de $8.000, no cierra. Y no hay creatividad publicitaria que
 lo arregle: hay que revisar el precio, el producto o el canal.
 
 ## 3. Cuántas consultas se convierten en ventas

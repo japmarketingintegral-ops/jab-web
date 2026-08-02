@@ -4,6 +4,8 @@ bajada: Un criterio simple para fijar el presupuesto según el ticket promedio y
 categoria: Paid media
 fecha: 2026-07-22
 lectura: 5
+portada: /assets/img/blog/cuanto-invertir-en-pauta.jpg
+portadaAlt: Anillos concéntricos, como un blanco de tiro, sobre fondo azul oscuro
 borrador: false
 ---
 
@@ -15,11 +17,11 @@ minutos con datos que ya tenés.
 
 ## El error de arrancar por el presupuesto
 
-Lo habitual es decidir al revés: "puedo poner 80.000 pesos por mes". Se pone esa
+Lo habitual es decidir al revés: "puedo poner $80.000 por mes". Se pone esa
 plata, se espera, y al mes siguiente se decide si seguir o no según la sensación.
 
-El problema es que **80.000 pesos puede ser mucho o poco según lo que vendas**.
-Para una casa de repuestos con ticket de 15.000 pesos, es un presupuesto
+El problema es que **$80.000 puede ser mucho o poco según lo que vendas**.
+Para una casa de repuestos con ticket de $15.000, es un presupuesto
 razonable. Para una inmobiliaria que vende lotes, no alcanza para nada.
 
 La pauta no se define por lo que podés poner, sino por **lo que necesitás que
@@ -30,33 +32,32 @@ pase**.
 Necesitás tres números que ya conocés, aunque nunca los hayas escrito juntos.
 
 **1. Tu margen por venta.** No el precio: lo que te queda después de costos. Si
-vendés algo a 50.000 y te cuesta 30.000, tu margen es 20.000.
+vendés algo a $50.000 y te cuesta $30.000, tu margen es $20.000.
 
 **2. Cuántas consultas necesitás para cerrar una venta.** Si de cada diez
 personas que preguntan comprás una, tu tasa es 10%. Si no lo sabés, contá las
 consultas de un mes y las ventas de ese mes.
 
 **3. Cuánto estás dispuesto a pagar por un cliente nuevo.** Una regla prudente
-para empezar: **no más del 20% de tu margen**. Si tu margen es 20.000, pagar
-hasta 4.000 pesos por cliente nuevo es sano.
+para empezar: **no más del 20% de tu margen**. Si tu margen es $20.000, pagar
+hasta $4.000 por cliente nuevo es sano.
 
 Con eso:
 
 > **Costo máximo por consulta = lo que pagás por cliente × tasa de cierre**
 
-Siguiendo el ejemplo: 4.000 pesos por cliente × 10% de cierre = **400 pesos por
-consulta**.
+Siguiendo el ejemplo: $4.000 por cliente × 10% de cierre = **$400 por consulta**.
 
-Ese es tu techo. Si la pauta te trae consultas a 300 pesos, ganás. Si te las trae
-a 900, perdés plata en cada una.
+Ese es tu techo. Si la pauta te trae consultas a $300, ganás. Si te las trae
+a $900, perdés plata en cada una.
 
 ## Y entonces, ¿cuánto pongo?
 
 Ahora sí aparece el presupuesto, y sale de una pregunta distinta: **¿cuántos
 clientes nuevos querés este mes?**
 
-Si querés 5 clientes nuevos, con 10% de cierre necesitás 50 consultas. A 400
-pesos cada una, son **20.000 pesos de pauta**.
+Si querés 5 clientes nuevos, con 10% de cierre necesitás 50 consultas. A $400
+cada una, son **$20.000 de pauta**.
 
 Ese es tu piso. Ni un número inventado ni lo que te sobra: lo que hace falta para
 el objetivo que te pusiste.

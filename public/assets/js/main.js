@@ -16,6 +16,7 @@
     videoDiferido();
     pilaresApilados();
     cicloMetodologia();
+    carrusel();
     revelar();
     formulario();
   });
@@ -92,6 +93,64 @@
     // La posición en la línea de tiempo depende del alto de las etapas, que
     // cambia al rotar el teléfono o al recargar fuentes.
     window.addEventListener('resize', pintar, { passive: true });
+  }
+
+  /* --- Carrusel de notas -------------------------------------------------- */
+
+  // Avanza solo, vuelve al principio al terminar, y se frena apenas alguien
+  // interactúa: nadie quiere leer una tarjeta que se le escapa.
+  function carrusel() {
+    Array.prototype.forEach.call(document.querySelectorAll('[data-carrusel]'), function (caja) {
+      var pista = caja.querySelector('.carrusel__pista');
+      var tarjetas = pista ? pista.children : [];
+      if (!pista || tarjetas.length < 2) return;
+
+      var antes = caja.querySelector('[data-carrusel-antes]');
+      var luego = caja.querySelector('[data-carrusel-luego]');
+      var AVANCE_MS = 5200;
+      var timer = null;
+      var detenido = false;
+
+      function paso() { return tarjetas[0].offsetWidth + parseFloat(getComputedStyle(pista).columnGap || 0); }
+
+      function mover(dir) {
+        var fin = pista.scrollWidth - pista.clientWidth - 4;
+        if (dir > 0 && pista.scrollLeft >= fin) pista.scrollLeft = 0;        // vuelve al principio
+        else if (dir < 0 && pista.scrollLeft <= 4) pista.scrollLeft = fin;   // y al final si va para atrás
+        else pista.scrollLeft += dir * paso();
+      }
+
+      if (antes) antes.addEventListener('click', function () { frenar(); mover(-1); });
+      if (luego) luego.addEventListener('click', function () { frenar(); mover(1); });
+
+      function arrancar() {
+        if (timer || detenido) return;
+        timer = setInterval(function () { mover(1); }, AVANCE_MS);
+      }
+      function pausar() { clearInterval(timer); timer = null; }
+      // Si tocaron el carrusel, deja de moverse solo: mandan ellos.
+      function frenar() { detenido = true; pausar(); }
+
+      caja.addEventListener('mouseenter', pausar);
+      caja.addEventListener('mouseleave', arrancar);
+      caja.addEventListener('focusin', frenar);
+      pista.addEventListener('pointerdown', frenar);
+      pista.addEventListener('wheel', frenar, { passive: true });
+
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (es) {
+          es.forEach(function (e) { e.isIntersecting ? arrancar() : pausar(); });
+        }, { threshold: 0.3 }).observe(caja);
+      } else {
+        arrancar();
+      }
+
+      document.addEventListener('visibilitychange', function () {
+        if (document.hidden) pausar();
+      });
+    });
   }
 
   /* --- Tarjetas de etapas que se van tapando al bajar --------------------- */

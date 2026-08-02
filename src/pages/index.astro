@@ -49,8 +49,7 @@ const etapas = [
 ];
 
 const notas = (await getCollection('blog', ({ data }) => !data.borrador))
-  .sort((a, b) => b.data.fecha.valueOf() - a.data.fecha.valueOf())
-  .slice(0, 3);
+  .sort((a, b) => b.data.fecha.valueOf() - a.data.fecha.valueOf());
 ---
 
 <Base
@@ -206,9 +205,24 @@ const notas = (await getCollection('blog', ({ data }) => !data.borrador))
 
       {notas.length > 0 ? (
         <>
-          <div class="blog__grid">
-            {notas.map((nota) => <TarjetaNota nota={nota} />)}
+          <!--
+            Carrusel: avanza solo, vuelve al principio al llegar al final y se
+            frena apenas alguien lo toca o pasa el mouse. Sin JS queda un
+            deslizable normal, que es como funciona en el celular igual.
+          -->
+          <div class="carrusel" data-carrusel>
+            <div class="carrusel__pista">
+              {notas.map((nota) => <TarjetaNota nota={nota} />)}
+            </div>
+
+            <button class="carrusel__flecha carrusel__flecha--antes" type="button" data-carrusel-antes aria-label="Nota anterior">
+              <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <button class="carrusel__flecha carrusel__flecha--luego" type="button" data-carrusel-luego aria-label="Nota siguiente">
+              <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
           </div>
+
           <div class="blog__more" data-reveal>
             <a class="btn btn--ghost btn--sm" href="/blog/">Ver todas las notas</a>
           </div>

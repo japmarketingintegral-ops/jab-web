@@ -4,6 +4,8 @@ bajada: Por qué la constancia le gana a la viralidad, con ejemplos de cuentas r
 categoria: Contenido
 fecha: 2026-07-29
 lectura: 4
+portada: /assets/img/blog/el-contenido-que-vende.jpg
+portadaAlt: Ondas superpuestas sobre fondo azul oscuro
 borrador: false
 ---
 

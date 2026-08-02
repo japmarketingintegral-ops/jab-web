@@ -2152,3 +2152,55 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; }
   .timeline__marcador { transition: none; }
   .timeline .paso:not(.is-activo) { opacity: 1; }
 }
+
+/* --------------------------------------------------------------------------
+   Carrusel de notas del home
+   -------------------------------------------------------------------------- */
+
+.carrusel { position: relative; }
+
+.carrusel__pista {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: min(390px, 82vw);
+  gap: clamp(16px, 2vw, 28px);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  /* Aire a los costados para que la tarjeta activa no quede pegada al borde */
+  padding: 4px clamp(20px, 4vw, 64px);
+  margin-inline: calc(-1 * clamp(20px, 4vw, 64px));
+  scrollbar-width: none;
+}
+.carrusel__pista::-webkit-scrollbar { display: none; }
+.carrusel__pista > * { scroll-snap-align: center; }
+
+/* Las flechas solo tienen sentido con mouse: en táctil se arrastra */
+.carrusel__flecha {
+  position: absolute;
+  top: 38%;
+  z-index: 3;
+  display: none;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 1px solid var(--border-dark-strong);
+  background: rgba(0, 0, 46, 0.92);
+  backdrop-filter: blur(8px);
+  color: var(--text);
+  cursor: pointer;
+  transition: background .25s var(--ease), border-color .25s var(--ease), opacity .25s var(--ease);
+}
+.carrusel__flecha svg { width: 17px; height: 17px; }
+.carrusel__flecha:hover { background: var(--celeste-100); color: var(--navy-900); border-color: var(--celeste-100); }
+.carrusel__flecha--antes { left: -6px; }
+.carrusel__flecha--luego { right: -6px; }
+
+@media (hover: hover) and (min-width: 900px) {
+  .carrusel__flecha { display: grid; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .carrusel__pista { scroll-behavior: auto; }
+}
