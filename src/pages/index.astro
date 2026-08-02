@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import TarjetaNota from '../components/TarjetaNota.astro';
 import Formulario from '../components/Formulario.astro';
+import IconoServicio from '../components/IconoServicio.astro';
 import { getCollection } from 'astro:content';
 
 // Logos rescatados del embudo antes de dar de baja GoHighLevel.
@@ -12,6 +13,30 @@ const clientes = [
   { nombre: 'PackGroup', archivo: 'packgroup' },
   { nombre: 'Montenegro', archivo: 'montenegro' },
   { nombre: 'Termoplast', archivo: 'termoplast' },
+];
+
+// Para editar un servicio: cambiar el texto acá. El orden de la lista es el
+// orden en que aparecen. Los iconos viven en components/IconoServicio.astro.
+const servicios = [
+  { ico: 'consultoria', titulo: 'Consultoría',
+    texto: 'Analizamos datos internos y de mercado para fundamentar la toma de decisiones. Definimos el posicionamiento de la marca mediante un enfoque integral y sostenible a largo plazo, garantizando coherencia en cada acción.' },
+  { ico: 'digital', titulo: 'Marketing digital',
+    texto: 'Ejecutamos estrategias digitales guiadas por la medición y el análisis de datos. Realizamos un seguimiento constante de las métricas clave en cada canal para saber qué funciona, respaldando cada decisión con información concreta.' },
+  { ico: 'paid', titulo: 'Paid media',
+    texto: 'Gestionamos campañas publicitarias en Meta, Google y TikTok Ads. Optimizamos la inversión seleccionando los canales y formatos adecuados para alcanzar los objetivos comerciales.' },
+  { ico: 'diseno', titulo: 'Diseño y comunicación',
+    texto: 'Construimos marcas con un lenguaje visual sólido y adaptable a múltiples plataformas. Diseñamos piezas de comunicación enfocadas en transmitir los valores de la marca y consolidar su posicionamiento en el mercado.' },
+  { ico: 'web', titulo: 'Desarrollo web',
+    texto: 'Diseñamos y programamos sitios web y landing pages a medida. Cada desarrollo se estructura para optimizar la experiencia del usuario, cumplir una función específica y acompañar el ciclo de venta del negocio.' },
+  { ico: 'crm', titulo: 'CRM y automatizaciones',
+    texto: 'Optimizamos la gestión mediante la implementación de CRM (partners oficiales de Kommo). Diseñamos automatizaciones a medida para ordenar los procesos comerciales y agilizar la calificación y el seguimiento de contactos.' },
+  { ico: 'social', titulo: 'Social media',
+    texto: 'Diseñamos estrategias de contenido alineadas con la etapa en la que se encuentra el negocio. Desarrollamos calendarios editoriales para fortalecer la autoridad de la marca y conectar de forma genuina con su audiencia.' },
+  { ico: 'audiovisual', titulo: 'Producción audiovisual',
+    texto: 'Ejecutamos producciones de alto nivel, incluyendo tomas con drone y cobertura de eventos. Desarrollamos desde videos para redes hasta spots publicitarios para pauta digital o presentaciones institucionales.' },
+  // El único que además es enlace: lleva a la landing del servicio.
+  { ico: 'industrial', titulo: 'Sistemas B2B industriales', enlace: '/industrial/',
+    texto: 'Implementamos sistemas de captación diseñados exclusivamente para el ciclo de venta B2B industrial. Generamos consultas calificadas de forma recurrente para escalar el crecimiento comercial sin depender de referidos.' },
 ];
 
 const notas = (await getCollection('blog', ({ data }) => !data.borrador))
@@ -61,110 +86,19 @@ const notas = (await getCollection('blog', ({ data }) => !data.borrador))
     </div>
 
     <div class="servicios__grid">
-
-      <article class="servicio" data-reveal>
-        <svg class="servicio__icon" viewBox="0 0 24 24" fill="none" stroke="#3D6AF1" stroke-width="1.4" stroke-linecap="round" aria-hidden="true">
-          <circle cx="17.8" cy="5.6" r="2.5"/><circle cx="5.4" cy="11.6" r="2.5"/><circle cx="16.6" cy="18" r="2.5"/>
-          <path d="M7.7 10.1c2.2-1.8 4.7-3.2 7.6-4M7.5 13.5c2.2 1.2 4.6 2.6 6.8 4.2"/>
-        </svg>
-        <div>
-          <h3 class="servicio__title">Consultoría</h3>
-          <p>Analizamos el negocio antes que la campaña —objetivos, margen, canales— y diseñamos una estrategia a medida que transforme los resultados.</p>
-        </div>
-      </article>
-
-      <article class="servicio" data-reveal>
-        <svg class="servicio__icon" viewBox="0 0 24 24" fill="none" stroke="#3D6AF1" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M3.4 11.2c0-1 .6-1.7 1.5-2l11.7-4.1c1.1-.4 2.2.4 2.2 1.6v9.6c0 1.2-1.1 2-2.2 1.6L4.9 13.9c-.9-.3-1.5-1-1.5-2z"/>
-          <path d="M7.6 13.6v3.5c0 1.7 2.4 2.3 3.2.7l.9-1.9"/><path d="M21 8.8c1.1 1.3 1.1 3.5 0 4.8"/>
-        </svg>
-        <div>
-          <h3 class="servicio__title">Marketing digital</h3>
-          <p>Creamos y ejecutamos estrategias digitales para que tu marca no solo tenga presencia online: que se destaque y conecte con su audiencia.</p>
-        </div>
-      </article>
-
-      <article class="servicio" data-reveal>
-        <svg class="servicio__icon" viewBox="0 0 24 24" fill="none" stroke="#3D6AF1" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M12 3.2c5 0 8.9 3.6 8.9 8.3 0 3-2.4 4.7-5 4.7h-1.5c-1 0-1.9.8-1.9 1.9 0 .5.2.9.4 1.2.3.4.4.8.4 1.2 0 1-.8 1.7-1.9 1.7-4.7 0-8.4-4.1-8.4-9.1C3 7.1 7 3.2 12 3.2z"/>
-          <circle cx="8" cy="9.6" r="1.05"/><circle cx="12" cy="7.5" r="1.05"/><circle cx="16" cy="9.9" r="1.05"/>
-        </svg>
-        <div>
-          <h3 class="servicio__title">Diseño y comunicación</h3>
-          <p>Construimos marcas que están donde tienen que estar, con un sistema visual y mensajes adaptados a cada plataforma para maximizar su impacto.</p>
-        </div>
-      </article>
-
-      <article class="servicio" data-reveal>
-        <svg class="servicio__icon" viewBox="0 0 24 24" fill="none" stroke="#3D6AF1" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <rect x="2.6" y="4.2" width="18.8" height="15.6" rx="3.6"/><path d="M2.6 8.6h18.8"/>
-          <circle cx="5.7" cy="6.4" r=".75"/><circle cx="8.1" cy="6.4" r=".75"/>
-          <path d="M10.2 11.6c-1.7.4-2.7 1.4-2.7 2.9s1 2.5 2.7 2.9M13.8 11.6c1.7.4 2.7 1.4 2.7 2.9s-1 2.5-2.7 2.9"/>
-        </svg>
-        <div>
-          <h3 class="servicio__title">Desarrollo web</h3>
-          <p>Diseñamos y programamos sitios y landings a medida del negocio, pensados para que la campaña se convierta en consulta.</p>
-        </div>
-      </article>
-
-      <article class="servicio" data-reveal>
-        <svg class="servicio__icon" viewBox="0 0 24 24" fill="none" stroke="#3D6AF1" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M3 7.4c0-1.7 1.4-3 3.1-3h11.8c1.7 0 3.1 1.3 3.1 3v6.4c0 1.7-1.4 3-3.1 3H9.6L5.4 20.5c-.3.3-.8 0-.8-.4v-3.1C3.7 16.4 3 15.2 3 13.8z"/>
-          <path d="M12 13.4c-1.5-.9-3.1-2.3-3.1-3.9 0-1.6 2-2.4 3.1-1.1 1.1-1.3 3.1-.5 3.1 1.1 0 1.6-1.6 3-3.1 3.9z"/>
-        </svg>
-        <div>
-          <h3 class="servicio__title">Social media</h3>
-          <p>Creamos estrategias y contenido de calidad que generan impacto y conectan tu marca con su audiencia, todo el año.</p>
-        </div>
-      </article>
-
-      <article class="servicio" data-reveal>
-        <svg class="servicio__icon" viewBox="0 0 24 24" fill="none" stroke="#3D6AF1" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <rect x="2.6" y="5.4" width="12.4" height="10.4" rx="3.2"/><circle cx="8.8" cy="10.6" r="2.6"/>
-          <path d="M15 9.6c1.5-1 3-1.9 4.2-2.5 1.1-.5 2.2.3 2.2 1.5v5c0 1.2-1.1 2-2.2 1.5-1.2-.6-2.7-1.5-4.2-2.5"/>
-          <path d="M8.8 15.8c-.4 1.9-1.3 3.6-2.6 5.2M8.8 15.8c.4 1.9 1.3 3.6 2.6 5.2"/>
-        </svg>
-        <div>
-          <h3 class="servicio__title">Productora audiovisual</h3>
-          <p>Contamos con un equipo dedicado a la producción de piezas audiovisuales que capturan la esencia de tu marca y generan resultados.</p>
-        </div>
-      </article>
-
-      <article class="servicio" data-reveal>
-        <svg class="servicio__icon" viewBox="0 0 24 24" fill="none" stroke="#3D6AF1" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <circle cx="11.2" cy="12.8" r="8.2"/><circle cx="11.2" cy="12.8" r="3.5"/>
-          <path d="M13.8 10.2c1.9-2.1 4.2-4.1 6.7-5.8"/><path d="M17.2 4c1.3-.3 2.5-.3 3.6 0 .3 1.1.3 2.4 0 3.6"/>
-        </svg>
-        <div>
-          <h3 class="servicio__title">Paid media</h3>
-          <p>Gestionamos la pauta en Meta y Google con foco en el costo por consulta y la calidad del lead, no en los likes.</p>
-        </div>
-      </article>
-
-      <article class="servicio" data-reveal>
-        <svg class="servicio__icon" viewBox="0 0 24 24" fill="none" stroke="#3D6AF1" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M3.4 3.4v13.9c0 1.7 1.4 3.1 3.1 3.1h14.1"/>
-          <path d="M6.9 16c1.9-4.9 4-7.4 6.2-7.4 2 0 3 3.1 4.3 3.1 1.2 0 2.2-1.9 3-3.8"/><circle cx="13.1" cy="8.6" r="1.05"/>
-        </svg>
-        <div>
-          <h3 class="servicio__title">Datos y reporting</h3>
-          <p>Un tablero mensual con lo que importa: de dónde vienen las consultas, qué canal rinde y qué hay que corregir.</p>
-        </div>
-      </article>
-
-      <a class="servicio servicio--enlace" href="/industrial/" data-reveal>
-        <svg class="servicio__icon" viewBox="0 0 24 24" fill="none" stroke="#3D6AF1" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M2.8 20.6V11l5.4 3.1V11l5.4 3.1V7.2l5.6 3.2v10.2z"/>
-          <path d="M2.8 20.6h18.4"/>
-          <path d="M16.4 4.2h2.6l.6 6.2"/>
-        </svg>
-        <div>
-          <h3 class="servicio__title">Empresas industriales</h3>
-          <p>Un sistema pensado para el ciclo de venta B2B industrial: consultas calificadas todos los meses, sin depender de referidos.</p>
-          <span class="servicio__mas">Ver el sistema <span aria-hidden="true">&rarr;</span></span>
-        </div>
-      </a>
-
+      {servicios.map((s) => {
+        const Caja = s.enlace ? 'a' : 'article';
+        return (
+          <Caja class={`servicio${s.enlace ? ' servicio--enlace' : ''}`} href={s.enlace} data-reveal>
+            <IconoServicio nombre={s.ico} />
+            <div>
+              <h3 class="servicio__title">{s.titulo}</h3>
+              <p>{s.texto}</p>
+              {s.enlace && <span class="servicio__mas">Ver el sistema <span aria-hidden="true">&rarr;</span></span>}
+            </div>
+          </Caja>
+        );
+      })}
     </div>
   </section>
 
