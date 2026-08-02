@@ -39,6 +39,15 @@ const servicios = [
     texto: 'Implementamos sistemas de captación diseñados exclusivamente para el ciclo de venta B2B industrial. Generamos consultas calificadas de forma recurrente para escalar el crecimiento comercial sin depender de referidos.' },
 ];
 
+// Las cuatro etapas del ciclo. Se usan dos veces —anillo en desktop, línea de
+// tiempo en mobile— así que viven acá y no duplicadas en el HTML.
+const etapas = [
+  { n: '01', titulo: 'Entendemos el negocio', texto: 'Márgenes, objetivos, competencia y a quién le vendés. Sin esto, cualquier campaña es una apuesta.' },
+  { n: '02', titulo: 'Detectamos oportunidades', texto: 'Dónde está el crecimiento posible: qué canal rinde, qué mensaje falta y qué se está dejando pasar.' },
+  { n: '03', titulo: 'Ejecutamos con criterio', texto: 'Publicamos, pauteamos y hacemos seguimiento. Cada decisión respaldada por lo que dicen los datos.' },
+  { n: '04', titulo: 'Analizamos y escalamos', texto: 'Lo que funciona se profundiza, lo que no se corrige. Y vuelve a alimentar la etapa 01.' },
+];
+
 const notas = (await getCollection('blog', ({ data }) => !data.borrador))
   .sort((a, b) => b.data.fecha.valueOf() - a.data.fecha.valueOf())
   .slice(0, 3);
@@ -56,7 +65,7 @@ const notas = (await getCollection('blog', ({ data }) => !data.borrador))
       <p class="eyebrow hero__eyebrow">[ MARKETING ]</p>
       <h1 class="hero__title">El marketing empieza<br>por <strong>entender el negocio.</strong></h1>
       <p class="hero__lead">Diseñamos sistemas de marketing que entienden cómo funciona tu negocio y trabajan para hacerlo crecer.</p>
-      <p class="hero__propuesta">Pensar, ejecutar y <strong>generar resultados.</strong></p>
+      <p class="hero__propuesta"><span>Nos enfocamos en lo importante:</span>Pensar, ejecutar y <strong>generar resultados.</strong></p>
       <div class="hero__actions">
         <a class="btn btn--cta"
            href="https://wa.me/5493402415366?text=Hola%20Jab%2C%20quiero%20hablar%20de%20mi%20negocio"
@@ -86,35 +95,29 @@ const notas = (await getCollection('blog', ({ data }) => !data.borrador))
       <h2 class="section-title" data-reveal>Servicios</h2>
     </div>
 
-    <div class="servicios__grid">
-      {servicios.filter((s) => !s.enlace).map((s) => (
-        <article class="servicio" data-reveal>
-          <IconoServicio nombre={s.ico} />
-          <div>
-            <h3 class="servicio__title">{s.titulo}</h3>
-            <p>{s.texto}</p>
-          </div>
-        </article>
-      ))}
-    </div>
-
     <!--
-      El servicio con landing propia no compite con los otros ocho: va como
-      franja al pie de la sección. Además deja la grilla en 8, que en mobile son
-      cuatro filas parejas de a dos.
+      El servicio con landing propia es una tarjeta más en desktop, pero en
+      mobile ocupa el ancho completo y se lee como franja aparte. Es un solo
+      elemento: el cambio es puro CSS, no hay contenido duplicado.
     -->
-    {servicios.filter((s) => s.enlace).map((s) => (
-      <a class="vertical" href={s.enlace} data-reveal>
-        <div class="vertical__texto">
-          <p class="vertical__rotulo"><IconoServicio nombre={s.ico} />Vertical</p>
-          <h3 class="vertical__titulo">{s.titulo}</h3>
-          <p class="vertical__bajada">{s.texto}</p>
-        </div>
-        <span class="btn btn--cta vertical__btn">
-          Ver el sistema <span class="btn__arrow" aria-hidden="true">&rarr;</span>
-        </span>
-      </a>
-    ))}
+    <div class="servicios__grid">
+      {servicios.map((s) => {
+        const Caja = s.enlace ? 'a' : 'article';
+        return (
+          <Caja class={`servicio${s.enlace ? ' servicio--vertical' : ''}`} href={s.enlace} data-reveal>
+            <IconoServicio nombre={s.ico} />
+            <div>
+              {s.enlace && <p class="servicio__rotulo">Vertical</p>}
+              <h3 class="servicio__title">{s.titulo}</h3>
+              <p>{s.texto}</p>
+              {s.enlace && (
+                <span class="servicio__cta">Ver el sistema <span aria-hidden="true">&rarr;</span></span>
+              )}
+            </div>
+          </Caja>
+        );
+      })}
+    </div>
   </section>
 
   <!-- ==================== METODOLOGÍA ==================== -->
@@ -128,8 +131,9 @@ const notas = (await getCollection('blog', ({ data }) => !data.borrador))
       </div>
 
       <!--
-        Anillo: se muestra a partir de 1280px, donde entra sin apretarse.
-        Solo las piezas decorativas llevan aria-hidden; el texto de las etapas
+        Anillo en desktop, línea de tiempo en mobile. Las dos versiones marcan
+        la etapa activa y hacen crecer al cliente con cada vuelta cumplida.
+        Solo las piezas decorativas llevan aria-hidden: el texto de las etapas
         tiene que seguir siendo legible para un lector de pantalla.
       -->
       <div class="loop" data-loop>
@@ -137,7 +141,6 @@ const notas = (await getCollection('blog', ({ data }) => !data.borrador))
         <div class="loop__core" aria-hidden="true">
           <img class="loop__isotipo" src="/assets/img/isotipo-blanco.svg" alt="" width="454" height="454">
         </div>
-        <!-- El cliente recorriendo su propio ciclo -->
         <div class="loop__marcador" aria-hidden="true" data-loop-marcador>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="8.2" r="3.3"/>
@@ -149,59 +152,35 @@ const notas = (await getCollection('blog', ({ data }) => !data.borrador))
         <div class="loop__tick loop__tick--3" aria-hidden="true">&#9650;</div>
         <div class="loop__tick loop__tick--4" aria-hidden="true">&#9650;</div>
 
-        <div class="paso paso--1" data-reveal>
-          <p class="paso__num">01 &mdash;</p>
-          <h3 class="paso__title">Piensa</h3>
-          <p>Diagnóstico, competencia y objetivos. Definimos a quién le hablamos, con qué mensaje y por qué canal.</p>
-        </div>
-        <div class="paso paso--2" data-reveal>
-          <p class="paso__num">02 &mdash;</p>
-          <h3 class="paso__title">Construye</h3>
-          <p>Armamos el sistema: piezas, landing, embudo, seguimiento y contenido listo para salir.</p>
-        </div>
-        <div class="paso paso--3" data-reveal>
-          <p class="paso__num">03 &mdash;</p>
-          <h3 class="paso__title">Ejecuta</h3>
-          <p>Publicamos, pauteamos, medimos y ajustamos. Reunión y reporte mensual.</p>
-        </div>
-        <div class="paso paso--4" data-reveal>
-          <p class="paso__num">04 &mdash;</p>
-          <h3 class="paso__title">Analiza y escala</h3>
-          <p>Lo que funciona se profundiza, lo que no se corrige. Vuelve a alimentar la etapa 01.</p>
-        </div>
+        {etapas.map((e, i) => (
+          <div class={`paso paso--${i + 1}`} data-reveal>
+            <p class="paso__num">{e.n} &mdash;</p>
+            <h3 class="paso__title">{e.titulo}</h3>
+            <p>{e.texto}</p>
+          </div>
+        ))}
       </div>
 
-      <!-- Línea de tiempo: misma información, apilada -->
-      <div class="timeline">
-        <div class="timeline__core">
-          <div><img class="loop__isotipo" src="/assets/img/isotipo-blanco.svg" alt="" width="454" height="454"></div>
+      <div class="timeline" data-loop-mobile>
+        <div class="timeline__marcador" aria-hidden="true" data-loop-marcador>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="8.2" r="3.3"/>
+            <path d="M4.8 20c0-3.9 3.2-7 7.2-7s7.2 3.1 7.2 7"/>
+          </svg>
         </div>
-        <div class="paso">
-          <p class="paso__num">01 &mdash;</p>
-          <h3 class="paso__title">Piensa</h3>
-          <p>Diagnóstico, competencia y objetivos. Definimos a quién le hablamos, con qué mensaje y por qué canal.</p>
-        </div>
-        <div class="paso">
-          <p class="paso__num">02 &mdash;</p>
-          <h3 class="paso__title">Construye</h3>
-          <p>Armamos el sistema: piezas, landing, embudo, seguimiento y contenido listo para salir.</p>
-        </div>
-        <div class="paso">
-          <p class="paso__num">03 &mdash;</p>
-          <h3 class="paso__title">Ejecuta</h3>
-          <p>Publicamos, pauteamos, medimos y ajustamos. Reunión y reporte mensual.</p>
-        </div>
-        <div class="paso">
-          <p class="paso__num">04 &mdash;</p>
-          <h3 class="paso__title">Analiza y escala</h3>
-          <p>Lo que funciona se profundiza, lo que no se corrige. Vuelve a alimentar la etapa 01.</p>
-        </div>
+        {etapas.map((e) => (
+          <div class="paso">
+            <p class="paso__num">{e.n} &mdash;</p>
+            <h3 class="paso__title">{e.titulo}</h3>
+            <p>{e.texto}</p>
+          </div>
+        ))}
         <p class="timeline__loopback"><span aria-hidden="true">&#8634;</span> Vuelve a 01</p>
       </div>
 
       <div class="equipo" data-reveal>
         <div>
-          <h3 class="equipo__title">Equipo dedicado</h3>
+          <h3 class="equipo__title">Un equipo detrás de cada cuenta</h3>
           <p>Cada cuenta tiene un responsable que coordina y especialistas que ejecutan —diseño, contenido, pauta— todo bajo una misma estrategia.</p>
         </div>
         <ul class="equipo__list">

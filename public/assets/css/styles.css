@@ -417,7 +417,7 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; }
 .paso__title {
   margin-bottom: 10px;
   font-weight: 700;
-  font-size: 30px;
+  font-size: 26px;
   line-height: 1;
 }
 .paso p {
@@ -441,22 +441,22 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; }
 }
 
 .loop__ring {
-  width: 380px;
-  height: 380px;
-  margin: -190px 0 0 -190px;
+  width: 300px;
+  height: 300px;
+  margin: -150px 0 0 -150px;
   border: 1px dashed rgba(255, 255, 255, 0.45);
   animation: giro 60s linear infinite;
 }
 
 .loop__core {
-  width: 264px;
-  height: 264px;
-  margin: -132px 0 0 -132px;
+  width: 208px;
+  height: 208px;
+  margin: -104px 0 0 -104px;
   background: var(--navy-900);
   display: grid;
   place-items: center;
 }
-.loop__core img { width: 96px; height: auto; }
+.loop__core img { width: 76px; height: auto; }
 
 /* El isotipo gira sobre sí mismo: el ciclo nunca se detiene */
 @keyframes girar360 { to { transform: rotate(360deg); } }
@@ -479,7 +479,7 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; }
   border: 1px solid rgba(224, 244, 251, 0.5);
   color: var(--celeste-100);
   box-shadow: 0 0 0 7px rgba(61, 106, 241, 0.28);
-  transform: rotate(var(--a, -90deg)) translate(190px) rotate(calc(-1 * var(--a, -90deg)));
+  transform: rotate(var(--a, -90deg)) translate(150px) rotate(calc(-1 * var(--a, -90deg))) scale(var(--escala, 1));
   transition: transform 1.1s var(--ease);
 }
 .loop__marcador svg { width: 23px; height: 23px; }
@@ -501,16 +501,16 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; }
   color: rgba(255, 255, 255, 0.75);
   font-size: 15px;
 }
-.loop__tick--1 { transform: translate(-50%, -50%) rotate(45deg)  translate(190px) rotate(90deg); }
-.loop__tick--2 { transform: translate(-50%, -50%) rotate(135deg) translate(190px) rotate(90deg); }
-.loop__tick--3 { transform: translate(-50%, -50%) rotate(225deg) translate(190px) rotate(90deg); }
-.loop__tick--4 { transform: translate(-50%, -50%) rotate(315deg) translate(190px) rotate(90deg); }
+.loop__tick--1 { transform: translate(-50%, -50%) rotate(45deg)  translate(150px) rotate(90deg); }
+.loop__tick--2 { transform: translate(-50%, -50%) rotate(135deg) translate(150px) rotate(90deg); }
+.loop__tick--3 { transform: translate(-50%, -50%) rotate(225deg) translate(150px) rotate(90deg); }
+.loop__tick--4 { transform: translate(-50%, -50%) rotate(315deg) translate(150px) rotate(90deg); }
 
 .loop .paso { position: absolute; }
-.loop .paso--1 { top: 0;    left: 50%; transform: translateX(-50%); width: 360px; text-align: center; }
-.loop .paso--2 { right: 0;  top: 50%;  transform: translateY(-50%); width: 330px; text-align: left; }
-.loop .paso--3 { bottom: 0; left: 50%; transform: translateX(-50%); width: 360px; text-align: center; }
-.loop .paso--4 { left: 0;   top: 50%;  transform: translateY(-50%); width: 330px; text-align: right; }
+.loop .paso--1 { top: 0;    left: 50%; transform: translateX(-50%); width: 320px; text-align: center; }
+.loop .paso--2 { right: 0;  top: 50%;  transform: translateY(-50%); width: 290px; text-align: left; }
+.loop .paso--3 { bottom: 0; left: 50%; transform: translateX(-50%); width: 320px; text-align: center; }
+.loop .paso--4 { left: 0;   top: 50%;  transform: translateY(-50%); width: 290px; text-align: right; }
 
 @keyframes giro { to { transform: rotate(360deg); } }
 
@@ -566,8 +566,8 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; }
     display: block;
     position: relative;
     width: 100%;
-    max-width: 1120px;
-    height: 720px;
+    max-width: 980px;
+    height: 560px;
     margin-inline: auto;
   }
   .timeline { display: none; }
@@ -2023,87 +2023,132 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; }
   font-weight: 700;
   color: var(--celeste-100);
 }
-
-/* --------------------------------------------------------------------------
-   Vertical: el servicio con landing propia, al pie de Servicios
-   -------------------------------------------------------------------------- */
-
-.vertical {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: clamp(24px, 4vw, 56px);
-  max-width: var(--maxw);
-  margin: 0 auto clamp(56px, 9vh, 110px);
-  padding: clamp(26px, 3.2vw, 44px);
-  color: var(--text);
-  background: var(--navy-800);
-  border: 1px solid var(--border-dark);
-  border-radius: 18px;
-  transition: border-color .3s var(--ease), background .3s var(--ease);
-}
-.vertical:hover {
-  color: var(--text);
-  border-color: rgba(224, 244, 251, 0.34);
-  background: #020c40;
-}
-
-.vertical__rotulo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin: 0 0 14px;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.26em;
+/* Entradilla chica: contextualiza sin robarle peso a las tres palabras */
+.hero__propuesta span {
+  display: block;
+  margin-bottom: 6px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--text-faint);
 }
-/* El ícono acá va en lima porque señala la única acción de la franja */
-.vertical__rotulo svg {
-  width: 20px;
-  height: 20px;
-  stroke: var(--lime-500);
-  flex: 0 0 auto;
-}
 
-.vertical__titulo {
+/* --------------------------------------------------------------------------
+   El servicio con landing propia
+
+   Una sola tarjeta: en desktop es una más de la grilla, en mobile ocupa el
+   ancho completo y se lee como franja destacada.
+   -------------------------------------------------------------------------- */
+
+.servicio--vertical { color: inherit; }
+.servicio--vertical:hover { color: inherit; }
+.servicio--vertical:hover .servicio__title { color: var(--blue-600); }
+.servicio__title { transition: color .25s var(--ease); }
+
+/* El rótulo y el botón grande son cosa de mobile */
+.servicio__rotulo { display: none; }
+
+.servicio__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  font-size: 11px;
   font-weight: 700;
-  font-size: clamp(24px, 2.8vw, 38px);
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-  color: var(--celeste-100);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--blue-600);
 }
-
-.vertical__bajada {
-  margin: 14px 0 0;
-  max-width: 62ch;
-  font-size: clamp(14px, 1.15vw, 16px);
-  line-height: 1.6;
-  color: var(--text-soft);
-  text-wrap: pretty;
-}
-
-.vertical__btn { flex: 0 0 auto; }
-.vertical:hover .vertical__btn {
-  background: var(--celeste-100);
-  border-color: var(--celeste-100);
-  transform: translateY(-2px);
-}
-
-@media (max-width: 860px) {
-  .vertical {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 22px;
-  }
-  .vertical__btn { align-self: stretch; justify-content: center; }
-}
+.servicio__cta span { transition: transform .25s var(--ease); }
+.servicio--vertical:hover .servicio__cta span { transform: translateX(4px); }
 
 @media (max-width: 720px) {
-  .vertical {
-    margin-inline: var(--gutter);
-    margin-bottom: var(--section-y);
+  /* Ocupa las dos columnas y cambia de piel */
+  .servicio--vertical {
+    grid-column: 1 / -1;
+    margin-top: 8px;
+    padding: 24px 20px;
+    background: var(--navy-800);
+    border: 1px solid var(--border-dark);
     border-radius: 14px;
   }
+  .servicio--vertical .servicio__icon { width: 26px; }
+
+  .servicio__rotulo {
+    display: block;
+    margin: 0 0 10px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+
+  .servicio--vertical .servicio__title { font-size: 22px; }
+  .servicio--vertical p { font-size: 14px; }
+
+  /* Acá sí es un botón: es la única acción de la tarjeta */
+  .servicio__cta {
+    display: flex;
+    justify-content: center;
+    margin-top: 18px;
+    padding: 14px 20px;
+    border-radius: 100px;
+    background: var(--lime-500);
+    color: var(--navy-900);
+    font-size: 12px;
+    letter-spacing: 0.14em;
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   El cliente recorriendo el ciclo: se enciende la etapa y crece con cada vuelta
+   -------------------------------------------------------------------------- */
+
+/* La escala la escribe el JS: sube un poco por vuelta cumplida */
+.loop__marcador { transform-origin: center; }
+
+/* Etapa encendida: gana contraste y un halo suave */
+.loop .paso.is-activo .paso__num { color: var(--celeste-100); }
+.loop .paso.is-activo .paso__title { text-shadow: 0 0 26px rgba(224, 244, 251, .45); }
+
+/* -- Versión mobile: la misma idea sobre la línea de tiempo -- */
+
+.timeline { position: relative; }
+
+/* Viaja por la línea punteada, a la altura de la etapa activa */
+.timeline__marcador {
+  position: absolute;
+  left: 8px;
+  top: 0;
+  translate: -50% 0;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--navy-900);
+  border: 1px solid rgba(224, 244, 251, 0.5);
+  color: var(--celeste-100);
+  box-shadow: 0 0 0 6px rgba(0, 0, 46, .9), 0 0 0 9px rgba(61, 106, 241, 0.3);
+  transform-origin: center;
+  transform: scale(var(--escala, 1));
+  transition: top .8s var(--ease), transform .8s var(--ease);
+}
+.timeline__marcador svg { width: 19px; height: 19px; }
+
+.timeline .paso {
+  transition: opacity .5s var(--ease), border-color .5s var(--ease);
+}
+.timeline .paso:not(.is-activo) { opacity: .5; }
+.timeline .paso.is-activo { border-left-color: var(--celeste-100); }
+.timeline .paso.is-activo .paso__num { color: var(--celeste-100); }
+
+@media (prefers-reduced-motion: reduce) {
+  .timeline__marcador { transition: none; }
+  .timeline .paso:not(.is-activo) { opacity: 1; }
 }

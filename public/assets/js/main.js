@@ -22,24 +22,42 @@
 
   /* --- El cliente recorriendo las etapas del ciclo ----------------------- */
 
+  // Dos formas de mostrar lo mismo: el anillo en desktop y la línea de tiempo
+  // en mobile. Solo una está visible a la vez, pero las dos se animan igual.
   function cicloMetodologia() {
-    var loop = document.querySelector('[data-loop]');
-    if (!loop) return;
+    [
+      document.querySelector('[data-loop]'),
+      document.querySelector('[data-loop-mobile]')
+    ].filter(Boolean).forEach(engancharCiclo);
+  }
 
-    var marcador = loop.querySelector('[data-loop-marcador]');
-    var pasos = Array.prototype.slice.call(loop.querySelectorAll('.paso'));
+  function engancharCiclo(caja) {
+    var marcador = caja.querySelector('[data-loop-marcador]');
+    var pasos = Array.prototype.slice.call(caja.querySelectorAll('.paso'));
     if (!marcador || pasos.length !== 4) return;
 
-    var PASO_MS = 2800;
+    var esAnillo = caja.hasAttribute('data-loop');
+    var PASO_MS = 2600;
+    var VUELTAS = 4;   // después de esto el cliente vuelve a su tamaño original
     var i = 0;
 
-    // Las etapas están arriba, derecha, abajo e izquierda. En CSS el ángulo 0
-    // apunta a la derecha, así que la etapa 01 arranca en -90.
     function pintar() {
       var etapa = i % 4;
-      // El ángulo siempre crece: así el marcador sigue girando hacia adelante
-      // en vez de pegar la vuelta para atrás al cerrar el ciclo.
-      marcador.style.setProperty('--a', (-90 + i * 90) + 'deg');
+      var vuelta = Math.floor(i / 4) % VUELTAS;
+
+      // Crece 14% por vuelta cumplida: el cliente que sigue el ciclo, crece.
+      marcador.style.setProperty('--escala', (1 + vuelta * 0.14).toFixed(2));
+
+      if (esAnillo) {
+        // El ángulo siempre crece: así el marcador sigue girando hacia adelante
+        // en vez de pegar la vuelta para atrás al cerrar el ciclo.
+        marcador.style.setProperty('--a', (-90 + i * 90) + 'deg');
+      } else {
+        // En la línea de tiempo se ubica a la altura de la etapa activa.
+        var p = pasos[etapa];
+        marcador.style.top = (p.offsetTop + 6) + 'px';
+      }
+
       pasos.forEach(function (p, k) { p.classList.toggle('is-activo', k === etapa); });
     }
 
@@ -47,8 +65,8 @@
 
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-    // Solo corre mientras la sección está a la vista: no tiene sentido gastar
-    // batería animando algo que nadie mira.
+    // Solo corre mientras la sección está a la vista y la pestaña activa: no
+    // tiene sentido gastar batería animando algo que nadie mira.
     var timer = null;
     var arrancar = function () {
       if (timer) return;
@@ -62,7 +80,7 @@
     if ('IntersectionObserver' in window) {
       new IntersectionObserver(function (entradas) {
         entradas.forEach(function (e) { e.isIntersecting ? arrancar() : frenar(); });
-      }, { threshold: 0.25 }).observe(loop);
+      }, { threshold: 0.25 }).observe(caja);
     } else {
       arrancar();
     }
@@ -70,6 +88,10 @@
     document.addEventListener('visibilitychange', function () {
       if (document.hidden) frenar();
     });
+
+    // La posición en la línea de tiempo depende del alto de las etapas, que
+    // cambia al rotar el teléfono o al recargar fuentes.
+    window.addEventListener('resize', pintar, { passive: true });
   }
 
   /* --- Tarjetas de etapas que se van tapando al bajar --------------------- */
