@@ -55,7 +55,8 @@ const notas = (await getCollection('blog', ({ data }) => !data.borrador))
     <div class="hero__copy">
       <p class="eyebrow hero__eyebrow">[ MARKETING ]</p>
       <h1 class="hero__title">El marketing empieza<br>por <strong>entender el negocio.</strong></h1>
-      <p class="hero__lead">Diseñamos sistemas de marketing que entienden cómo funciona tu negocio y trabajan para hacerlo crecer. Nos enfocamos en lo importante: pensar, ejecutar y generar resultados.</p>
+      <p class="hero__lead">Diseñamos sistemas de marketing que entienden cómo funciona tu negocio y trabajan para hacerlo crecer.</p>
+      <p class="hero__propuesta">Pensar, ejecutar y <strong>generar resultados.</strong></p>
       <div class="hero__actions">
         <a class="btn btn--cta"
            href="https://wa.me/5493402415366?text=Hola%20Jab%2C%20quiero%20hablar%20de%20mi%20negocio"
@@ -86,20 +87,34 @@ const notas = (await getCollection('blog', ({ data }) => !data.borrador))
     </div>
 
     <div class="servicios__grid">
-      {servicios.map((s) => {
-        const Caja = s.enlace ? 'a' : 'article';
-        return (
-          <Caja class={`servicio${s.enlace ? ' servicio--enlace' : ''}`} href={s.enlace} data-reveal>
-            <IconoServicio nombre={s.ico} />
-            <div>
-              <h3 class="servicio__title">{s.titulo}</h3>
-              <p>{s.texto}</p>
-              {s.enlace && <span class="servicio__mas">Ver el sistema <span aria-hidden="true">&rarr;</span></span>}
-            </div>
-          </Caja>
-        );
-      })}
+      {servicios.filter((s) => !s.enlace).map((s) => (
+        <article class="servicio" data-reveal>
+          <IconoServicio nombre={s.ico} />
+          <div>
+            <h3 class="servicio__title">{s.titulo}</h3>
+            <p>{s.texto}</p>
+          </div>
+        </article>
+      ))}
     </div>
+
+    <!--
+      El servicio con landing propia no compite con los otros ocho: va como
+      franja al pie de la sección. Además deja la grilla en 8, que en mobile son
+      cuatro filas parejas de a dos.
+    -->
+    {servicios.filter((s) => s.enlace).map((s) => (
+      <a class="vertical" href={s.enlace} data-reveal>
+        <div class="vertical__texto">
+          <p class="vertical__rotulo"><IconoServicio nombre={s.ico} />Vertical</p>
+          <h3 class="vertical__titulo">{s.titulo}</h3>
+          <p class="vertical__bajada">{s.texto}</p>
+        </div>
+        <span class="btn btn--cta vertical__btn">
+          Ver el sistema <span class="btn__arrow" aria-hidden="true">&rarr;</span>
+        </span>
+      </a>
+    ))}
   </section>
 
   <!-- ==================== METODOLOGÍA ==================== -->

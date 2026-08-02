@@ -304,11 +304,10 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; }
   min-height: min(60vh, 520px);
 }
 
-/* Capa intermedia: existe solo para poder flotar y girar por separado, ya que
-   dos animaciones sobre el mismo transform se pisan entre sí */
+/* Capa intermedia que limita el ancho de la pieza dentro de su celda */
 .hero__art-orbita {
   width: 100%;
-  max-width: 560px;
+  max-width: 680px;
   display: flex;
   justify-content: center;
 }
@@ -1010,9 +1009,8 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; }
   .hero__actions .btn { padding: 15px 24px; font-size: 13px; }
   .rule-label { margin-top: 26px; }
 
-  /* La pieza 3D pasa a ser un acento, no media pantalla */
-  .hero__art { min-height: 0; }
-  .hero__art img { max-width: min(58%, 230px); }
+  /* La pieza 3D no entra en el celular: ocupa pantalla y no aporta */
+  .hero__art { display: none; }
 
   /* Medio pantallazo en blanco solo para la palabra "Servicios" no se justifica */
   .servicios__head { min-height: auto; padding: 56px var(--gutter) 28px; }
@@ -1068,16 +1066,8 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; }
   to   { opacity: 1; transform: none; }
 }
 
-/* Flotación lenta: da vida sin pedir atención */
-@keyframes flotar {
-  50% { transform: translateY(-16px); }
-}
-
-.js .hero__art-orbita { animation: flotar 8s ease-in-out 1.3s infinite; }
-/* 15s y no 46: la pieza es casi simétrica cada 90 grados, así que el cambio
-   perceptible es un cuarto de vuelta. A 15s eso ocurre cada 3,7 segundos; a 46
-   tardaba 11 y el giro se leía como una imagen quieta. */
-.js .hero__art img { animation: girar360 15s linear infinite; }
+/* La pieza del hero va quieta: gira el isotipo del anillo de Metodología, que
+   es donde el movimiento cuenta algo. Acá solo entra al cargar. */
 
 .js .hero__copy > *,
 .js .hero__art {
@@ -1121,8 +1111,7 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .loop__ring,
-  .js .loop__isotipo,
-  .js .hero__art img { animation: none; }
+  .js .loop__isotipo { animation: none; }
   .loop__marcador { transition: none; }
   .js .hero__copy > *,
   .js .hero__art {
@@ -1990,6 +1979,7 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; }
   .ind-cinta__pista { animation: none; }
   .ind-pilar { position: relative; top: auto; }
   .ind-pilar.is-tapado { opacity: 1; transform: none; filter: none; }
+}
 
 /* Servicio que además es un enlace: se distingue apenas, sin romper la grilla */
 .servicio--enlace {
@@ -2013,3 +2003,107 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; }
 }
 .servicio--enlace:hover .servicio__mas span { transform: translateX(4px); }
 .servicio__mas span { transition: transform .25s var(--ease); }
+
+/* --------------------------------------------------------------------------
+   La propuesta, en el hero
+   -------------------------------------------------------------------------- */
+
+/* Va aparte de la bajada para que se lea como declaración, no como coletilla */
+.hero__propuesta {
+  margin: clamp(16px, 2.4vh, 26px) 0 0;
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(20px, 2vw, 30px);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--text-muted);
+  text-wrap: balance;
+}
+.hero__propuesta strong {
+  font-weight: 700;
+  color: var(--celeste-100);
+}
+
+/* --------------------------------------------------------------------------
+   Vertical: el servicio con landing propia, al pie de Servicios
+   -------------------------------------------------------------------------- */
+
+.vertical {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(24px, 4vw, 56px);
+  max-width: var(--maxw);
+  margin: 0 auto clamp(56px, 9vh, 110px);
+  padding: clamp(26px, 3.2vw, 44px);
+  color: var(--text);
+  background: var(--navy-800);
+  border: 1px solid var(--border-dark);
+  border-radius: 18px;
+  transition: border-color .3s var(--ease), background .3s var(--ease);
+}
+.vertical:hover {
+  color: var(--text);
+  border-color: rgba(224, 244, 251, 0.34);
+  background: #020c40;
+}
+
+.vertical__rotulo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 14px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+/* El ícono acá va en lima porque señala la única acción de la franja */
+.vertical__rotulo svg {
+  width: 20px;
+  height: 20px;
+  stroke: var(--lime-500);
+  flex: 0 0 auto;
+}
+
+.vertical__titulo {
+  font-weight: 700;
+  font-size: clamp(24px, 2.8vw, 38px);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--celeste-100);
+}
+
+.vertical__bajada {
+  margin: 14px 0 0;
+  max-width: 62ch;
+  font-size: clamp(14px, 1.15vw, 16px);
+  line-height: 1.6;
+  color: var(--text-soft);
+  text-wrap: pretty;
+}
+
+.vertical__btn { flex: 0 0 auto; }
+.vertical:hover .vertical__btn {
+  background: var(--celeste-100);
+  border-color: var(--celeste-100);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 860px) {
+  .vertical {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 22px;
+  }
+  .vertical__btn { align-self: stretch; justify-content: center; }
+}
+
+@media (max-width: 720px) {
+  .vertical {
+    margin-inline: var(--gutter);
+    margin-bottom: var(--section-y);
+    border-radius: 14px;
+  }
+}
