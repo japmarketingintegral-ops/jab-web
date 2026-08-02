@@ -88,8 +88,8 @@ Quien vaya a cargar notas necesita permiso de escritura en el repositorio.
 ## Pendientes
 
 - [ ] **Panel de contenido.** Falta el paso de autenticación descrito arriba.
-- [ ] **Dominio propio.** Al conectarlo, actualizar `site` en `astro.config.mjs`:
-      de ahí salen el sitemap, el RSS y las etiquetas canónicas.
+- [x] ~~**Dominio propio.**~~ `jabmarketing.site`, configurado en `site` de
+      `astro.config.mjs`.
 - [x] ~~**Logos de clientes.**~~ Rescatados del embudo antes de dar de baja
       GoHighLevel. Para sumar uno: dejar el png en `public/assets/img/clientes`
       y agregarlo al array `clientes` de `index.astro` e `industrial.astro`.
@@ -130,16 +130,23 @@ invisible: si un bot lo completa, el mensaje se descarta en silencio.
 
 ## Publicar el sitio
 
-Alojado en **Cloudflare Pages**, que reconstruye y publica con cada push a `main`.
+Alojado en **Cloudflare Workers** (proyecto `jab-web`), que reconstruye y publica
+con cada push a `main`. La configuración de despliegue vive en `wrangler.jsonc`:
+Cloudflare no ejecuta código, solo sirve lo que Astro dejó en `dist/`.
 
 | Ajuste | Valor |
 |---|---|
-| Framework preset | Astro |
 | Build command | `npm run build` |
-| Build output directory | `dist` |
+| Deploy command | `npx wrangler deploy` |
 
-Para el dominio propio: **Custom domains** en el panel de Cloudflare, y seguir los
-registros DNS que indique. El certificado HTTPS se emite solo.
+El dominio `jabmarketing.site` está conectado desde *Workers & Pages → jab-web →
+Domains*. El certificado HTTPS se emite solo.
+
+**El DNS está en Cloudflare y el dominio tiene correo activo en Hostinger.** Los
+registros MX, SPF, DMARC, DKIM y los CNAME de autoconfiguración tienen que quedar
+siempre en *DNS only* (nube gris): si se ponen en *Proxied*, Cloudflare responde
+tráfico web en lugar del registro real y el correo se rompe. Hay un respaldo del
+estado previo en `DNS-RESPALDO.txt`.
 
 ## Sobre el package-lock.json
 
