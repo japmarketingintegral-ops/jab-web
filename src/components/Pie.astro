@@ -1,11 +1,46 @@
 ---
 const anio = new Date().getFullYear();
+
+// Estos datos tienen que coincidir exactamente con los de la ficha de Google
+// Business Profile: Google los cruza para confiar en que el negocio es real.
+const TEL_VISIBLE = '+54 9 3402 41-5366';
+const TEL_LINK = '5493402415366';
+const MAIL = 'jabmarketingintegral@gmail.com';
 ---
 <footer class="pie-wrap">
+  <div class="pie-datos">
+    <div>
+      <a href="/" aria-label="Jab Marketing, ir al inicio">
+        <img src="/assets/img/isologo-rubro-blanco.png" alt="Jab Marketing" width="1891" height="768">
+      </a>
+      <p class="pie-datos__desc">Agencia de marketing integral. Trabajamos con empresas de Arroyo&nbsp;Seco, Rosario y la región.</p>
+    </div>
+
+    <div>
+      <p class="pie-datos__rotulo">Dónde estamos</p>
+      <p class="pie-datos__dato">Arroyo Seco, Santa Fe<br>Argentina</p>
+    </div>
+
+    <div>
+      <p class="pie-datos__rotulo">Contacto</p>
+      <p class="pie-datos__dato">
+        <a href={`https://wa.me/${TEL_LINK}`} target="_blank" rel="noopener">{TEL_VISIBLE}</a><br>
+        <a href={`mailto:${MAIL}`}>{MAIL}</a>
+      </p>
+    </div>
+
+    <div>
+      <p class="pie-datos__rotulo">Secciones</p>
+      <p class="pie-datos__dato">
+        <a href="/#servicios">Servicios</a><br>
+        <a href="/industrial/">Empresas industriales</a><br>
+        <a href="/blog/">Blog</a>
+      </p>
+    </div>
+  </div>
+
   <div class="pie">
-    <a href="/" aria-label="Jab Marketing, ir al inicio">
-      <img src="/assets/img/isologo-rubro-blanco.png" alt="Jab Marketing" width="1891" height="768">
-    </a>
-    <p class="pie__legal">Strategy Matters &mdash; &copy; {anio} Jab</p>
+    <p class="pie__legal">Strategy Matters &mdash; &copy; {anio} Jab Marketing</p>
+    <p class="pie__legal">Arroyo Seco &middot; Rosario &middot; Santa Fe</p>
   </div>
 </footer>

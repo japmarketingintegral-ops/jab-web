@@ -44,16 +44,53 @@ const imagenAbs = new URL(imagen, Astro.site);
 <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&family=Funnel+Sans:wght@300..800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/css/styles.css">
 
+<!--
+  Ficha del negocio para Google y para los modelos de IA. ProfessionalService
+  es un subtipo de LocalBusiness: sin dirección ni zona de cobertura, Google no
+  puede asociarte a búsquedas locales, que es de donde viene el cliente de una
+  agencia regional.
+-->
 <script type="application/ld+json" set:html={JSON.stringify({
   '@context': 'https://schema.org',
   '@type': 'ProfessionalService',
+  '@id': 'https://jabmarketing.site/#empresa',
   name: 'Jab Marketing',
-  description: 'Agencia de marketing integral: consultoría, marketing digital, diseño y comunicación, desarrollo web, social media, producción audiovisual y paid media.',
+  alternateName: 'JAB Marketing Integral',
+  description: 'Agencia de marketing integral en Arroyo Seco, Santa Fe. Trabaja con empresas de Arroyo Seco, Rosario y la región en consultoría, marketing digital, paid media, diseño, desarrollo web, CRM, social media y producción audiovisual.',
   slogan: 'Strategy Matters',
-  url: Astro.site?.href,
+  url: 'https://jabmarketing.site/',
+  logo: 'https://jabmarketing.site/assets/img/isologo-horizontal-blanco.svg',
+  image: 'https://jabmarketing.site/assets/img/og.jpg',
   email: 'jabmarketingintegral@gmail.com',
   telephone: '+5493402415366',
-  areaServed: 'AR',
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Arroyo Seco',
+    addressRegion: 'Santa Fe',
+    addressCountry: 'AR',
+  },
+  areaServed: [
+    { '@type': 'City', name: 'Arroyo Seco' },
+    { '@type': 'City', name: 'Rosario' },
+    { '@type': 'State', name: 'Santa Fe' },
+    { '@type': 'Country', name: 'Argentina' },
+  ],
+  knowsLanguage: 'es-AR',
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Servicios de marketing',
+    itemListElement: [
+      'Consultoría de marketing',
+      'Marketing digital',
+      'Paid media en Meta, Google y TikTok Ads',
+      'Diseño y comunicación',
+      'Desarrollo web',
+      'CRM y automatizaciones',
+      'Social media',
+      'Producción audiovisual',
+      'Sistemas B2B industriales',
+    ].map((n) => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: n } })),
+  },
 })} />
 </head>
 <body>

@@ -97,8 +97,14 @@ Quien vaya a cargar notas necesita permiso de escritura en el repositorio.
 - [x] ~~**Datos de contacto.**~~ Teléfono confirmado: `+54 9 3402 41-5366`.
       Vive en cinco archivos (Nav, Base, 404, industrial, index y main.js). Si
       vuelve a cambiar, buscar `5493402415366` en todo el proyecto.
-- [ ] **Imagen para redes.** Crear `public/assets/img/og.jpg` (1200×630) para que
-      el link se vea bien al compartirlo por WhatsApp o redes.
+- [x] ~~**Imagen para redes.**~~ `public/assets/img/og.jpg`.
+- [ ] **Ficha de Google Business Profile.** Es lo que más mueve la aguja para un
+      negocio regional, y no depende del sitio. Los datos tienen que coincidir
+      exactamente con los del pie: Jab Marketing, Arroyo Seco (Santa Fe),
+      +54 9 3402 41-5366.
+- [ ] **Páginas por servicio.** Hoy los nueve servicios viven solo en la home.
+      Una página por servicio es lo que permite competir por búsquedas del tipo
+      "diseño web Rosario" o "agencia de publicidad Rosario".
 
 ## La página industrial
 
@@ -122,6 +128,28 @@ navy al 16% para que convivan con el resto del sitio.
 
 Para cambiar una: dejar el archivo en `public/assets/img/blog/` con el mismo
 nombre que el slug de la nota, y actualizar `portadaAlt` en el frontmatter.
+
+## SEO
+
+El objetivo es aparecer en búsquedas locales de **Arroyo Seco y Rosario** para
+servicios de marketing generales. Arroyo Seco es alcanzable en poco tiempo;
+Rosario es una plaza competitiva y lleva más.
+
+Lo que ya está resuelto en el sitio:
+
+- `robots.txt` con permiso explícito a los rastreadores de IA (GPTBot,
+  ClaudeBot, PerplexityBot, OAI-SearchBot, Google-Extended)
+- `llms.txt`, la convención que están adoptando los modelos para entender de qué
+  trata un sitio y poder citarlo
+- Ficha `ProfessionalService` con `PostalAddress` y `areaServed`, que es lo que
+  Google necesita para asociar el sitio a búsquedas locales
+- Dirección y teléfono visibles en el pie, para que coincidan con la ficha
+- Un solo `h1` por página, títulos con ubicación y descripciones dentro del
+  largo que muestra Google
+- Sitemap y RSS
+
+Lo que **no** depende del sitio y pesa más: la ficha de Google Business Profile
+y los enlaces desde otros sitios. Sin eso, el trabajo técnico rinde la mitad.
 
 ## Formulario de contacto
 

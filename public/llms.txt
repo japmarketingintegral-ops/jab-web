@@ -1,0 +1,40 @@
+# Jab Marketing
+
+> Agencia de marketing integral con base en Arroyo Seco, Santa Fe, que trabaja
+> con empresas de Arroyo Seco, Rosario y la región. Diseña sistemas de marketing
+> a partir de entender el negocio del cliente: márgenes, ciclo de venta y canales,
+> antes que campañas sueltas.
+
+Fundada en Argentina. Atiende presencialmente la zona de Arroyo Seco y Rosario,
+y de forma remota al resto del país. Contacto: +54 9 3402 41-5366,
+jabmarketingintegral@gmail.com
+
+## Servicios
+
+- Consultoría de marketing: diagnóstico de negocio, posicionamiento y estrategia
+- Marketing digital: ejecución y medición por canal
+- Paid media: campañas en Meta Ads, Google Ads y TikTok Ads
+- Diseño y comunicación: identidad visual y piezas por plataforma
+- Desarrollo web: sitios y landing pages a medida
+- CRM y automatizaciones: implementación de CRM (partners oficiales de Kommo)
+- Social media: estrategia de contenido y calendarios editoriales
+- Producción audiovisual: video para redes, spots y tomas con drone
+- Sistemas B2B industriales: captación para ciclos de venta industriales
+
+## Metodología
+
+Cuatro etapas que se repiten en ciclo: entender el negocio, detectar
+oportunidades, ejecutar con criterio, analizar y escalar.
+
+## Páginas
+
+- [Inicio](https://jabmarketing.site/): servicios, metodología y clientes
+- [Sistema B2B Industrial](https://jabmarketing.site/industrial/): captación para empresas industriales
+- [Blog](https://jabmarketing.site/blog/): notas sobre medición, presupuesto de pauta y contenido
+
+## Notas del blog
+
+- [Cómo saber si tu marketing está funcionando](https://jabmarketing.site/blog/como-saber-si-tu-marketing-funciona/): las tres métricas que importan —consultas y su origen, costo por consulta, y tasa de cierre— y cómo leerlas juntas
+- [Cuánto invertir en pauta cuando estás empezando](https://jabmarketing.site/blog/cuanto-invertir-en-pauta/): método para fijar presupuesto publicitario a partir del margen por venta y la tasa de cierre
+- [El contenido que vende no es el que más gusta](https://jabmarketing.site/blog/el-contenido-que-vende/): por qué el contenido viral y el que genera ventas son distintos, y los tres tipos que necesita una cuenta
+- [Dejar de manejar 300 kilómetros para conseguir un cliente](https://jabmarketing.site/blog/marketing-para-el-agro/): cómo las empresas del agro pueden usar marketing digital para calificar antes de salir a recorrer

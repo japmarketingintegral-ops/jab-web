@@ -1,0 +1,25 @@
+# Jab Marketing — jabmarketing.site
+
+# Buscadores tradicionales
+User-agent: *
+Allow: /
+Disallow: /admin/
+
+# Rastreadores de IA: se les permite leer para poder ser citados en
+# ChatGPT, Perplexity, Claude y las respuestas generadas de Google.
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+Sitemap: https://jabmarketing.site/sitemap-index.xml
