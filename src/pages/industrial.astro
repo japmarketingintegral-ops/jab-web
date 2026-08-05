@@ -2,13 +2,12 @@
 import Base from '../layouts/Base.astro';
 import Formulario from '../components/Formulario.astro';
 import IconoEntregable from '../components/IconoEntregable.astro';
+import { Image } from 'astro:assets';
+import { clientesIndustriales as clientes } from '../datos/clientes';
 
 // Rescatado del embudo que vivía en GoHighLevel. El video sigue en YouTube.
 const VIDEO = '5HgtZd_8Y7w';
 const WHATSAPP = 'https://wa.me/5493402415366?text=Hola%20Jab%2C%20quiero%20el%20diagn%C3%B3stico%20para%20mi%20empresa%20industrial';
-
-const clientes = ['gimetal', 'geronzi', 'packgroup', 'montenegro', 'termoplast'];
-const nombres = { gimetal: 'Gimetal', geronzi: 'Geronzi', packgroup: 'PackGroup', montenegro: 'Montenegro', termoplast: 'Termoplast' };
 
 const etapas = [
   {
@@ -176,10 +175,10 @@ const faq = [
     <!-- La lista va dos veces: el desfile se corta a la mitad y vuelve a empezar
          sin salto visible. -->
     <div class="ind-cinta">
-      <div class="ind-cinta__pista">
+      <div class="ind-cinta__pista" style={`--desfile:${(clientes.length * 5.6).toFixed(1)}s`}>
         {[...clientes, ...clientes].map((c) => (
           <div class="ind-marca">
-            <img src={`/assets/img/clientes/${c}.png`} alt={nombres[c]} loading="lazy" width="600" height="200">
+            <Image src={c.logo} alt={c.nombre} width={320} loading="lazy" />
           </div>
         ))}
       </div>

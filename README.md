@@ -90,9 +90,8 @@ Quien vaya a cargar notas necesita permiso de escritura en el repositorio.
 - [ ] **Panel de contenido.** Falta el paso de autenticación descrito arriba.
 - [x] ~~**Dominio propio.**~~ `jabmarketing.site`, configurado en `site` de
       `astro.config.mjs`.
-- [x] ~~**Logos de clientes.**~~ Rescatados del embudo antes de dar de baja
-      GoHighLevel. Para sumar uno: dejar el png en `public/assets/img/clientes`
-      y agregarlo al array `clientes` de `index.astro` e `industrial.astro`.
+- [x] ~~**Logos de clientes.**~~ Se cargan solos desde `src/assets/clientes`.
+      Ver *Logos de clientes* más abajo.
 - [x] ~~**Portadas del blog.**~~ Cada nota tiene portada e imagen interna.
 - [x] ~~**Datos de contacto.**~~ Teléfono confirmado: `+54 9 3402 41-5366`.
       Vive en cinco archivos (Nav, Base, 404, industrial, index y main.js). Si
@@ -118,6 +117,35 @@ solo hay una imagen.
 
 Antes de dar de baja GoHighLevel ya se rescató todo lo que estaba alojado ahí
 (los cinco logos de clientes). No queda nada dependiendo de esa cuenta.
+
+## Logos de clientes
+
+**Para sumar un cliente alcanza con dejar el logo en `src/assets/clientes/`.** No
+hay que tocar código: aparece solo en la home y en `/industrial`, comprimido y
+con el nombre puesto. Los cinco actuales bajaron de 256 kB a 49 kB en total sin
+que se note la diferencia.
+
+El nombre del archivo es el nombre que se muestra:
+
+| Archivo | Se muestra |
+|---|---|
+| `gimetal.png` | Gimetal |
+| `pack-group.png` | Pack Group |
+| `03-termoplast.png` | Termoplast |
+
+El número adelante sirve **solo para ordenar**: los numerados van primero, en
+orden; el resto queda alfabético. Es la forma de poner los clientes más fuertes
+al principio.
+
+Sirven `png`, `jpg`, `webp` y `svg`. Lo ideal es un png con fondo transparente
+de unos 600 px de ancho; más grande no hace falta porque se reduce igual.
+
+Si un nombre necesita una escritura que el archivo no puede tener —mayúscula en
+el medio como PackGroup, un acento, un `&`— se agrega en `escrituras`, dentro de
+[`src/datos/clientes.ts`](src/datos/clientes.ts).
+
+El desfile de `/industrial` ajusta su velocidad según cuántos logos haya, así
+que puede crecer sin quedar acelerado.
 
 ## Imágenes del blog
 

@@ -802,30 +802,67 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; }
   padding: var(--section-y) var(--gutter);
 }
 
-.clientes .section-title { margin-bottom: clamp(48px, 8vh, 96px); }
+/* El título y la bajada comparten renglón: la bajada dice cuántos son, que es
+   el argumento de la sección. */
+.clientes__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: clamp(14px, 2.5vw, 56px);
+  margin-bottom: clamp(36px, 6vh, 72px);
+}
+.clientes__head .section-title { margin: 0; }
 
+.clientes__lead {
+  flex: 1 1 320px;
+  max-width: 52ch;
+  margin: 0;
+  font-size: clamp(15px, 1.5vw, 18px);
+  line-height: 1.55;
+  color: rgba(0, 0, 46, 0.62);
+}
+.clientes__lead strong { color: var(--navy-900); font-weight: 600; }
+
+/* Muchos logos, celdas iguales y nada de cajas: la cantidad se lee de un
+   vistazo y ninguna marca pesa más que otra. */
 .clientes__grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  column-gap: clamp(24px, 3vw, 56px);
-  row-gap: clamp(32px, 4.5vh, 64px);
+  grid-template-columns: repeat(auto-fill, minmax(clamp(128px, 14vw, 186px), 1fr));
+  column-gap: clamp(12px, 1.8vw, 32px);
+  row-gap: clamp(16px, 3vh, 40px);
 }
 
 .cliente {
-  aspect-ratio: 16 / 9;
+  min-width: 0;
+  min-height: clamp(96px, 11vw, 148px);
   display: grid;
   place-items: center;
-  padding: clamp(14px, 1.6vw, 26px);
+  padding: clamp(10px, 1.4vw, 22px);
 }
+/* El tope de alto es lo que empareja logos apaisados con logos verticales:
+   ninguno puede crecer más que el resto por tener otra proporción. */
 .cliente img {
   width: 100%;
-  height: 100%;
+  max-height: clamp(58px, 6.4vw, 92px);
   object-fit: contain;
+  /* En gris la grilla se lee como un conjunto; el color aparece al señalar */
   filter: grayscale(1);
-  opacity: 0.75;
-  transition: filter .3s var(--ease), opacity .3s var(--ease);
+  opacity: 0.55;
+  transition: filter .3s var(--ease), opacity .3s var(--ease), transform .3s var(--ease);
 }
-.cliente:hover img { filter: none; opacity: 1; }
+.cliente:hover img {
+  filter: none;
+  opacity: 1;
+  transform: scale(1.06);
+}
+
+/* En pantalla táctil no hay dónde pasar el mouse: van a color directamente */
+@media (hover: none) {
+  .cliente img { filter: none; opacity: 1; }
+}
 
 /* Sobre blanco el placeholder invierte los tonos */
 .clientes .slot {
@@ -1045,7 +1082,15 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; }
   .post__body { gap: 10px; }
 
   .clientes .section-title { margin-bottom: 40px; }
-  .clientes__grid { row-gap: 24px; }
+  .clientes__head { margin-bottom: 28px; }
+  /* Tres columnas: con dos, la sección se comía dos pantallas y media */
+  .clientes__grid {
+    grid-template-columns: repeat(auto-fill, minmax(92px, 1fr));
+    row-gap: 10px;
+    column-gap: 6px;
+  }
+  .cliente { min-height: 68px; padding: 8px; }
+  .cliente img { max-height: 44px; }
 
   .datos { margin-top: 32px; padding-top: 24px; }
 }
@@ -1657,7 +1702,9 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; }
   gap: 12px;
   width: max-content;
   padding: 4px 0;
-  animation: desfile 28s linear infinite;
+  /* La duración se calcula en industrial.astro según cuántos logos haya, así el
+     desfile mantiene siempre la misma velocidad por más clientes que se sumen. */
+  animation: desfile var(--desfile, 28s) linear infinite;
 }
 .ind-cinta:hover .ind-cinta__pista { animation-play-state: paused; }
 @keyframes desfile { to { transform: translateX(-50%); } }

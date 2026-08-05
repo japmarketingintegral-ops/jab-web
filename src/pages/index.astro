@@ -3,17 +3,9 @@ import Base from '../layouts/Base.astro';
 import TarjetaNota from '../components/TarjetaNota.astro';
 import Formulario from '../components/Formulario.astro';
 import IconoServicio from '../components/IconoServicio.astro';
+import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
-
-// Logos rescatados del embudo antes de dar de baja GoHighLevel.
-// Para sumar uno: dejar el png en public/assets/img/clientes y agregarlo acá.
-const clientes = [
-  { nombre: 'Gimetal', archivo: 'gimetal' },
-  { nombre: 'Geronzi', archivo: 'geronzi' },
-  { nombre: 'PackGroup', archivo: 'packgroup' },
-  { nombre: 'Montenegro', archivo: 'montenegro' },
-  { nombre: 'Termoplast', archivo: 'termoplast' },
-];
+import { clientes } from '../datos/clientes';
 
 // Para editar un servicio: cambiar el texto acá. El orden de la lista es el
 // orden en que aparecen. Los iconos viven en components/IconoServicio.astro.
@@ -237,14 +229,20 @@ const notas = (await getCollection('blog', ({ data }) => !data.borrador))
   <!-- ==================== CLIENTES ==================== -->
   <section class="clientes" id="clientes">
     <div class="wrap">
-      <h2 class="section-title" data-reveal>Clientes</h2>
-      <div class="clientes__grid">
-        {clientes.map((c) => (
-          <div class="cliente" data-reveal>
-            <img src={`/assets/img/clientes/${c.archivo}.png`} alt={c.nombre} loading="lazy" width="600" height="200">
-          </div>
-        ))}
+      <div class="clientes__head" data-reveal>
+        <h2 class="section-title">Clientes</h2>
+        <p class="clientes__lead">
+          Marcas que trabajan su marketing con nosotros. Industria, comercio, salud,
+          agro y sector público, desde Arroyo&nbsp;Seco y Rosario hacia todo el país.
+        </p>
       </div>
+      <ul class="clientes__grid">
+        {clientes.map((c) => (
+          <li class="cliente" data-reveal>
+            <Image src={c.logo} alt={c.nombre} width={340} loading="lazy" />
+          </li>
+        ))}
+      </ul>
     </div>
   </section>
 
