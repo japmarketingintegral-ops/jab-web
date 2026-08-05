@@ -236,10 +236,13 @@ const notas = (await getCollection('blog', ({ data }) => !data.borrador))
           agro y sector público, desde Arroyo&nbsp;Seco y Rosario hacia todo el país.
         </p>
       </div>
-      <ul class="clientes__grid">
+      <!-- Van los 30 en el HTML: es lo que leen Google y quien tenga el JS
+           caído. Con JS, main.js deja dos filas y reparte el resto adentro
+           para que las casillas los vayan turnando. -->
+      <ul class="clientes__grid" data-muro>
         {clientes.map((c) => (
-          <li class="cliente" data-reveal>
-            <Image src={c.logo} alt={c.nombre} width={340} loading="lazy" />
+          <li class="cliente">
+            <Image src={c.logo} alt={c.nombre} width={300} loading="lazy" />
           </li>
         ))}
       </ul>
