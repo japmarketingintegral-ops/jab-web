@@ -159,6 +159,25 @@ recurso:
     - "Qué trae, en viñetas"
 ```
 
+### Dónde quedan los contactos
+
+**Web3Forms manda el mail pero no guarda nada.** En el plan gratuito los envíos
+se borran a los 30 días y no hay panel para consultarlos, así que sin nada más la
+lista de contactos es la bandeja de Gmail.
+
+Por eso los dos formularios —el de contacto y el de descarga— mandan además una
+copia a una planilla de Google propia. Es gratis, sin límite de contactos, y la
+planilla es del cliente.
+
+La URL se carga una sola vez en [`src/datos/registros.ts`](src/datos/registros.ts).
+Los pasos para obtenerla están arriba de todo en
+[`herramientas/hoja-de-registros.gs`](herramientas/hoja-de-registros.gs), que es
+el código que hay que pegar en Apps Script.
+
+Mientras esa constante esté vacía el sitio funciona igual: siguen llegando los
+mails, sólo que no se guarda la copia. Si el envío a la planilla falla, el mail
+sale lo mismo: nunca se pierde una consulta por esto.
+
 **La descarga se muestra apenas se envía el formulario, sin esperar ningún
 mail.** El plan gratuito de Web3Forms no manda respuestas automáticas, y hacer
 esperar a alguien que ya dejó el dato es la forma más rápida de perderlo. El mail

@@ -351,10 +351,26 @@
       }
       if (estado) estado.textContent = '';
 
-      fetch(form.action, { method: 'POST', body: new FormData(form) })
+      var datos = new FormData(form);
+      guardarEnHoja(form, datos);
+
+      fetch(form.action, { method: 'POST', body: datos })
         .catch(function () { /* se entrega igual */ })
         .then(entregar);
     });
+  }
+
+  // Copia del contacto a una planilla propia. Web3Forms manda el mail pero no
+  // guarda nada: sin esto la lista de contactos es la bandeja de entrada, y a
+  // los 30 días ya no queda ni el registro del envío.
+  // Va con no-cors porque no necesitamos leer la respuesta, sólo que llegue.
+  function guardarEnHoja(form, datos) {
+    var hoja = form.getAttribute('data-hoja');
+    if (!hoja) return;
+    try {
+      fetch(hoja, { method: 'POST', mode: 'no-cors', body: datos })
+        .catch(function () { /* si falla, el mail llegó igual */ });
+    } catch (e) { /* ídem */ }
   }
 
   function engancharFormulario(form) {
@@ -375,6 +391,8 @@
 
       var datos = new FormData(form);
       datos.delete('empresa-web');
+
+      guardarEnHoja(form, datos);
 
       var accion = (form.getAttribute('action') || '').trim();
 
