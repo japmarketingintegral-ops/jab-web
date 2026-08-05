@@ -802,8 +802,10 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; }
   padding: var(--section-y) var(--gutter);
 }
 
-/* El título y la bajada comparten renglón: la bajada dice cuántos son, que es
-   el argumento de la sección. */
+.clientes { padding-inline: 0; }
+.clientes .wrap { padding-inline: var(--gutter); }
+
+/* El título y la bajada comparten renglón */
 .clientes__head {
   display: flex;
   flex-wrap: wrap;
@@ -823,72 +825,77 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; }
 }
 .clientes__lead strong { color: var(--navy-900); font-weight: 600; }
 
-/* Muchos logos, celdas iguales y nada de cajas: la cantidad se lee de un
-   vistazo y ninguna marca pesa más que otra. */
-.clientes__grid {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+/* -- Las dos cintas --
+   En movimiento los logos no se pueden contar, y esa es la idea: la sensación
+   tiene que ser "son un montón", no "son estos catorce". Van en sentidos
+   opuestos porque cruzándose se lee como muchas más marcas que desfilando
+   todas para el mismo lado. */
+.cinta-clientes {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(clamp(108px, 11vw, 148px), 1fr));
-  column-gap: clamp(10px, 1.4vw, 24px);
-  row-gap: clamp(10px, 1.6vh, 22px);
+  gap: clamp(8px, 1.2vh, 16px);
 }
 
-.cliente {
-  min-width: 0;
-  min-height: clamp(78px, 8vw, 104px);
+.cinta-clientes__banda {
+  overflow: hidden;
+  /* Los extremos se desvanecen para que no se vea el corte contra el borde */
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 7%, #000 93%, transparent);
+          mask-image: linear-gradient(to right, transparent, #000 7%, #000 93%, transparent);
+}
+
+.cinta-clientes__pista {
+  display: flex;
+  width: max-content;
+  animation: desfile var(--desfile, 60s) linear infinite;
+}
+/* La segunda vuelve para el otro lado */
+.cinta-clientes__banda--vuelve .cinta-clientes__pista { animation-direction: reverse; }
+/* Se frena entera al apoyar el mouse, así se puede mirar un logo concreto */
+.cinta-clientes:hover .cinta-clientes__pista { animation-play-state: paused; }
+
+/* La separación va como margen de cada logo y no como gap de la pista: con gap,
+   la mitad de la pista cae medio espacio corrida del punto donde la lista vuelve
+   a empezar, y el desfile pega un salto en cada vuelta. */
+.cinta-clientes__marca {
+  flex: 0 0 auto;
+  width: clamp(104px, 11vw, 148px);
+  height: clamp(62px, 6.6vw, 88px);
+  margin-inline-end: clamp(8px, 1.2vw, 22px);
   display: grid;
   place-items: center;
-  padding: clamp(8px, 1vw, 16px);
+  padding: clamp(6px, 0.9vw, 14px);
 }
 /* El tope de alto es lo que empareja logos apaisados con logos verticales:
    ninguno puede crecer más que el resto por tener otra proporción. */
-.cliente img {
+.cinta-clientes__marca img {
   width: 100%;
-  max-height: clamp(44px, 4.6vw, 62px);
+  max-height: clamp(38px, 4.2vw, 56px);
   object-fit: contain;
-  /* En gris la grilla se lee como un conjunto; el color aparece al señalar */
+  /* En gris la cinta se lee como un conjunto; el color aparece al señalar */
   filter: grayscale(1);
   opacity: 0.55;
   transition: filter .3s var(--ease), opacity .3s var(--ease), transform .3s var(--ease);
 }
-.cliente:hover img {
+.cinta-clientes__marca:hover img {
   filter: none;
   opacity: 1;
-  transform: scale(1.06);
-}
-
-/* -- Las casillas que turnan logos --
-   main.js deja dos filas y mete los logos sobrantes dentro de las casillas que
-   quedaron. Los apila en la misma celda de grilla, así heredan el encuadre y el
-   tamaño de arriba, y va mostrando uno por vez. */
-/* El display:grid de arriba le gana al hidden del navegador, así que hay que
-   apagarlas a mano. */
-.clientes__grid .cliente[hidden] { display: none; }
-
-.clientes__grid .cliente--turno > img {
-  grid-area: 1 / 1;
-  opacity: 0;
-  visibility: hidden;
-  transform: scale(.92);
-  transition: opacity .6s var(--ease), transform .6s var(--ease), filter .3s var(--ease);
-}
-.clientes__grid .cliente--turno > img.esta {
-  opacity: 0.55;
-  visibility: visible;
-  transform: none;
-}
-.clientes__grid .cliente--turno:hover > img.esta {
-  filter: none;
-  opacity: 1;
-  transform: scale(1.06);
+  transform: scale(1.08);
 }
 
 /* En pantalla táctil no hay dónde pasar el mouse: van a color directamente */
 @media (hover: none) {
-  .cliente img,
-  .clientes__grid .cliente--turno > img.esta { filter: none; opacity: 1; }
+  .cinta-clientes__marca img { filter: none; opacity: 1; }
+}
+
+/* Sin movimiento no hay cinta: quedan todos quietos, sin las copias */
+@media (prefers-reduced-motion: reduce) {
+  .cinta-clientes__banda { -webkit-mask-image: none; mask-image: none; }
+  .cinta-clientes__pista {
+    animation: none;
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .cinta-clientes__marca--eco { display: none; }
 }
 
 /* Sobre blanco el placeholder invierte los tonos */
@@ -1110,14 +1117,11 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; }
 
   .clientes .section-title { margin-bottom: 40px; }
   .clientes__head { margin-bottom: 28px; }
-  /* Tres columnas: con dos, la sección se comía dos pantallas y media */
-  .clientes__grid {
-    grid-template-columns: repeat(auto-fill, minmax(92px, 1fr));
-    row-gap: 8px;
-    column-gap: 6px;
-  }
-  .cliente { min-height: 62px; padding: 8px; }
-  .cliente img { max-height: 38px; }
+  .cinta-clientes__marca { width: 96px; height: 58px; padding: 6px; }
+  .cinta-clientes__marca img { max-height: 34px; }
+  /* Los logos son más chicos, así que la misma duración se vería más lenta:
+     se acorta para que la cinta corra igual de viva que en desktop. */
+  .cinta-clientes__pista { animation-duration: calc(var(--desfile, 60s) * 0.6); }
 
   .datos { margin-top: 32px; padding-top: 24px; }
 }

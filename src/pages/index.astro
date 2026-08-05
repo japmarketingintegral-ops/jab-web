@@ -7,6 +7,14 @@ import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import { clientes } from '../datos/clientes';
 
+// Los clientes se reparten alternados entre las dos cintas, no la primera mitad
+// en una y el resto en la otra: así las marcas más conocidas quedan repartidas
+// y cualquiera de las dos bandas que mires tiene algo que reconocer.
+const bandas = [
+  clientes.filter((_, i) => i % 2 === 0),
+  clientes.filter((_, i) => i % 2 === 1),
+];
+
 // Para editar un servicio: cambiar el texto acá. El orden de la lista es el
 // orden en que aparecen. Los iconos viven en components/IconoServicio.astro.
 const servicios = [
@@ -236,16 +244,28 @@ const notas = (await getCollection('blog', ({ data }) => !data.borrador))
           agro y sector público, desde Arroyo&nbsp;Seco y Rosario hacia todo el país.
         </p>
       </div>
-      <!-- Van los 30 en el HTML: es lo que leen Google y quien tenga el JS
-           caído. Con JS, main.js deja dos filas y reparte el resto adentro
-           para que las casillas los vayan turnando. -->
-      <ul class="clientes__grid" data-muro>
-        {clientes.map((c) => (
-          <li class="cliente">
-            <Image src={c.logo} alt={c.nombre} width={300} loading="lazy" />
-          </li>
-        ))}
-      </ul>
+    </div>
+
+    <!-- Dos cintas que corren en sentidos opuestos. Cada lista va dos veces: el
+         desfile se corta a la mitad y vuelve a empezar sin salto visible. La
+         copia lleva alt vacío para que no se lean los nombres dos veces. -->
+    <div class="cinta-clientes">
+      {bandas.map((banda, n) => (
+        <div class={`cinta-clientes__banda${n === 1 ? ' cinta-clientes__banda--vuelve' : ''}`}>
+          <div class="cinta-clientes__pista" style={`--desfile:${(banda.length * 3.8).toFixed(1)}s`}>
+            {banda.map((c) => (
+              <div class="cinta-clientes__marca">
+                <Image src={c.logo} alt={c.nombre} width={300} loading="lazy" />
+              </div>
+            ))}
+            {banda.map((c) => (
+              <div class="cinta-clientes__marca cinta-clientes__marca--eco" aria-hidden="true">
+                <Image src={c.logo} alt="" width={300} loading="lazy" />
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
     </div>
   </section>
 
