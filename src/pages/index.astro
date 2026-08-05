@@ -18,9 +18,9 @@ const bandas = [
 // Para editar un servicio: cambiar el texto acá. El orden de la lista es el
 // orden en que aparecen. Los iconos viven en components/IconoServicio.astro.
 const servicios = [
-  { ico: 'consultoria', titulo: 'Consultoría',
+  { ico: 'consultoria', titulo: 'Consultoría', pagina: 'consultoria',
     texto: 'Analizamos datos internos y de mercado para fundamentar la toma de decisiones. Definimos el posicionamiento de la marca mediante un enfoque integral y sostenible a largo plazo, garantizando coherencia en cada acción.' },
-  { ico: 'digital', titulo: 'Marketing digital',
+  { ico: 'digital', titulo: 'Marketing digital', pagina: 'marketing-digital',
     texto: 'Ejecutamos estrategias digitales guiadas por la medición y el análisis de datos. Realizamos un seguimiento constante de las métricas clave en cada canal para saber qué funciona, respaldando cada decisión con información concreta.' },
   { ico: 'paid', titulo: 'Paid media', pagina: 'paid-media',
     texto: 'Gestionamos campañas publicitarias en Meta, Google y TikTok Ads. Optimizamos la inversión seleccionando los canales y formatos adecuados para alcanzar los objetivos comerciales.' },
@@ -28,7 +28,7 @@ const servicios = [
     texto: 'Construimos marcas con un lenguaje visual sólido y adaptable a múltiples plataformas. Diseñamos piezas de comunicación enfocadas en transmitir los valores de la marca y consolidar su posicionamiento en el mercado.' },
   { ico: 'web', titulo: 'Desarrollo web', pagina: 'desarrollo-web',
     texto: 'Diseñamos y programamos sitios web y landing pages a medida. Cada desarrollo se estructura para optimizar la experiencia del usuario, cumplir una función específica y acompañar el ciclo de venta del negocio.' },
-  { ico: 'crm', titulo: 'CRM y automatizaciones',
+  { ico: 'crm', titulo: 'CRM y automatizaciones', pagina: 'crm-y-automatizaciones',
     texto: 'Optimizamos la gestión mediante la implementación de CRM (partners oficiales de Kommo). Diseñamos automatizaciones a medida para ordenar los procesos comerciales y agilizar la calificación y el seguimiento de contactos.' },
   { ico: 'social', titulo: 'Social media', pagina: 'social-media',
     texto: 'Diseñamos estrategias de contenido alineadas con la etapa en la que se encuentra el negocio. Desarrollamos calendarios editoriales para fortalecer la autoridad de la marca y conectar de forma genuina con su audiencia.' },
@@ -100,27 +100,20 @@ const notas = (await getCollection('blog', ({ data }) => !data.borrador))
       elemento: el cambio es puro CSS, no hay contenido duplicado.
     -->
     <div class="servicios__grid">
-      {servicios.map((s) => {
-        // Los que tienen página propia se vuelven enlace. El industrial además
-        // lleva el rótulo de vertical, porque no es un servicio más.
-        const destino = s.enlace ?? (s.pagina ? `/servicios/${s.pagina}/` : undefined);
-        const Caja = destino ? 'a' : 'article';
-        return (
-          <Caja class={`servicio${s.enlace ? ' servicio--vertical' : ''}`} href={destino} data-reveal>
-            <IconoServicio nombre={s.ico} />
-            <div>
-              {s.enlace && <p class="servicio__rotulo">Vertical</p>}
-              <h3 class="servicio__title">{s.titulo}</h3>
-              <p>{s.texto}</p>
-              {destino && (
-                <span class="servicio__cta">
-                  {s.enlace ? 'Ver el sistema' : 'Ver el servicio'} <span aria-hidden="true">&rarr;</span>
-                </span>
-              )}
-            </div>
-          </Caja>
-        );
-      })}
+      {servicios.map((s) => (
+        <a class={`servicio${s.enlace ? ' servicio--vertical' : ''}`}
+           href={s.enlace ?? `/servicios/${s.pagina}/`} data-reveal>
+          <IconoServicio nombre={s.ico} />
+          <div>
+            {s.enlace && <p class="servicio__rotulo">Vertical</p>}
+            <h3 class="servicio__title">{s.titulo}</h3>
+            <p>{s.texto}</p>
+            <span class="servicio__cta">
+              Ver el servicio <span aria-hidden="true">&rarr;</span>
+            </span>
+          </div>
+        </a>
+      ))}
     </div>
   </section>
 

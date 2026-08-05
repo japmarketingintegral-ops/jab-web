@@ -2099,15 +2099,16 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; }
 }
 
 /* --------------------------------------------------------------------------
-   El servicio con landing propia
+   Tarjetas de servicio
 
-   Una sola tarjeta: en desktop es una más de la grilla, en mobile ocupa el
+   Las nueve son enlaces a su página y se ven exactamente igual. La del sistema
+   industrial es la única que además cambia de piel en mobile, donde ocupa el
    ancho completo y se lee como franja destacada.
    -------------------------------------------------------------------------- */
 
-.servicio--vertical { color: inherit; }
-.servicio--vertical:hover { color: inherit; }
-.servicio--vertical:hover .servicio__title { color: var(--blue-600); }
+.servicio { color: inherit; }
+.servicio:hover { color: inherit; }
+.servicio:hover .servicio__title { color: var(--blue-600); }
 .servicio__title { transition: color .25s var(--ease); }
 
 /* El rótulo y el botón grande son cosa de mobile */
@@ -2125,7 +2126,7 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; }
   color: var(--blue-600);
 }
 .servicio__cta span { transition: transform .25s var(--ease); }
-.servicio--vertical:hover .servicio__cta span { transform: translateX(4px); }
+.servicio:hover .servicio__cta span { transform: translateX(4px); }
 
 @media (max-width: 720px) {
   /* Ocupa las dos columnas y cambia de piel */
@@ -2152,8 +2153,10 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; }
   .servicio--vertical .servicio__title { font-size: 22px; }
   .servicio--vertical p { font-size: 14px; }
 
-  /* Acá sí es un botón: es la única acción de la tarjeta */
-  .servicio__cta {
+  /* El botón lima es sólo de la franja industrial: es la única tarjeta que se
+     presenta como una acción. En las otras ocho sería un muro de botones, y el
+     lima está reservado para los call-to-action. */
+  .servicio--vertical .servicio__cta {
     display: flex;
     justify-content: center;
     margin-top: 18px;
@@ -2163,6 +2166,14 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; }
     color: var(--navy-900);
     font-size: 12px;
     letter-spacing: 0.14em;
+  }
+
+  /* En el resto queda como enlace discreto, más chico para no competir con el
+     texto en una tarjeta angosta. */
+  .servicio__cta {
+    margin-top: 12px;
+    font-size: 10px;
+    letter-spacing: 0.16em;
   }
 }
 

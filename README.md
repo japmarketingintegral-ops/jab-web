@@ -101,7 +101,7 @@ Quien vaya a cargar notas necesita permiso de escritura en el repositorio.
       negocio regional, y no depende del sitio. Los datos tienen que coincidir
       exactamente con los del pie: Jab Marketing, Arroyo Seco (Santa Fe),
       +54 9 3402 41-5366.
-- [x] ~~**Páginas por servicio.**~~ Cinco, en `src/content/servicios`. Ver
+- [x] ~~**Páginas por servicio.**~~ Ocho, en `src/content/servicios`. Ver
       *Páginas de servicio* más abajo.
 
 ## La página industrial
@@ -120,12 +120,12 @@ Antes de dar de baja GoHighLevel ya se rescató todo lo que estaba alojado ahí
 ## Páginas de servicio
 
 Cada servicio es un archivo `.md` en `src/content/servicios/` y se convierte en
-una página propia. Hoy hay cinco: los que la gente busca por su nombre.
+una página propia. Hoy hay ocho, uno por cada tarjeta de la home.
 
 **La barra de solapas se ve como un selector de pestañas, pero cada solapa es un
 enlace a otra página.** Es a propósito, y es la diferencia que hace que esto
-sirva para SEO: si las seis vivieran en una sola dirección, sería una página
-hablando de seis temas y no rankearía por ninguno. Con una página por servicio,
+sirva para SEO: si las nueve vivieran en una sola dirección, sería una página
+hablando de nueve temas y no rankearía por ninguno. Con una página por servicio,
 cada una compite por su búsqueda —"diseño web Rosario", "community manager
 Rosario"— con su propio título, su descripción y sus datos estructurados.
 
@@ -137,9 +137,9 @@ Cada página genera tres fichas de datos estructurados: `Service` atada al negoc
 local, `BreadcrumbList` y `FAQPage`. Esta última es la que puede hacer que las
 preguntas aparezcan desplegadas en Google.
 
-Los otros cuatro servicios —consultoría, marketing digital, CRM y el industrial—
-siguen viviendo en la home. Los tres primeros casi no se buscan por su nombre y
-el industrial ya tiene `/industrial`.
+El noveno servicio, el sistema B2B industrial, no está en esta colección porque
+ya tiene su propia página en `/industrial`. Igual aparece en la barra de solapas
+y en el índice, para que las nueve tarjetas de la home se vean y funcionen igual.
 
 **Ojo con los dos puntos en el frontmatter.** Un valor sin comillas que contenga
 `: ` rompe el YAML. Por eso los textos van entrecomillados.
