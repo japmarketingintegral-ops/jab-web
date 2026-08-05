@@ -307,6 +307,54 @@
       document.querySelectorAll('[data-form-contacto]'),
       engancharFormulario
     );
+    Array.prototype.forEach.call(
+      document.querySelectorAll('[data-recurso]'),
+      engancharRecurso
+    );
+  }
+
+  /* --- Descarga a cambio del mail --------------------------------------- */
+
+  // La descarga se muestra apenas se envía el formulario, sin esperar a que
+  // llegue ningún mail. Y si el envío falla, se entrega igual: el dato ya lo
+  // dejó, negarle el archivo por un problema nuestro no tiene sentido.
+  function engancharRecurso(caja) {
+    var form = caja.querySelector('[data-recurso-form]');
+    var listo = caja.querySelector('[data-recurso-listo]');
+    var estado = caja.querySelector('.recurso__status');
+    var boton = form && form.querySelector('button[type="submit"]');
+    if (!form || !listo) return;
+
+    function entregar() {
+      form.hidden = true;
+      listo.hidden = false;
+      var enlace = listo.querySelector('[data-recurso-descarga]');
+      if (enlace) {
+        enlace.focus();
+        enlace.click();   // arranca la descarga sola
+      }
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      // Trampa anti-spam: si un bot completó el campo invisible, se hace el
+      // que funcionó y no se manda nada.
+      if (form.querySelector('[name="empresa-recurso"]').value) {
+        entregar();
+        return;
+      }
+
+      if (boton) {
+        boton.disabled = true;
+        boton.textContent = 'Preparando…';
+      }
+      if (estado) estado.textContent = '';
+
+      fetch(form.action, { method: 'POST', body: new FormData(form) })
+        .catch(function () { /* se entrega igual */ })
+        .then(entregar);
+    });
   }
 
   function engancharFormulario(form) {

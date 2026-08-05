@@ -1,0 +1,74 @@
+---
+interface Props {
+  /** Título del bloque. */
+  titulo: string;
+  /** Qué se lleva la persona, en una línea. */
+  texto: string;
+  /** Ruta del archivo que se descarga. */
+  archivo: string;
+  /** Asunto del mail que llega, para saber qué recurso pidieron. */
+  asunto: string;
+  /** Viñetas de lo que incluye. */
+  incluye?: string[];
+}
+
+const { titulo, texto, archivo, asunto, incluye = [] } = Astro.props;
+
+/*
+  Deja el mail y se lleva el recurso. El mail llega por Web3Forms, igual que las
+  consultas del formulario de contacto.
+
+  La descarga se muestra apenas se envía, sin esperar a ningún mail: el plan
+  gratuito de Web3Forms no manda respuestas automáticas, y hacer esperar a
+  alguien que ya dejó su dato es la forma más rápida de que se arrepienta.
+*/
+---
+
+<section class="recurso" data-recurso>
+  <div class="recurso__caja">
+    <p class="recurso__rotulo">Recurso gratis</p>
+    <h2 class="recurso__title">{titulo}</h2>
+    <p class="recurso__texto">{texto}</p>
+
+    {incluye.length > 0 && (
+      <ul class="recurso__lista">
+        {incluye.map((i) => <li>{i}</li>)}
+      </ul>
+    )}
+
+    <form class="recurso__form" data-recurso-form
+          action="https://api.web3forms.com/submit" method="POST">
+      <input type="hidden" name="access_key" value="eb3719fd-f3cc-4b25-9708-021a6f4f09a9">
+      <input type="hidden" name="subject" value={asunto}>
+      <input type="hidden" name="from_name" value="Descarga de recurso">
+
+      <div class="recurso__campos">
+        <input name="nombre" type="text" required autocomplete="name"
+               placeholder="Tu nombre" aria-label="Tu nombre">
+        <input name="mail" type="email" required autocomplete="email"
+               placeholder="Tu mail" aria-label="Tu mail">
+        <button type="submit">Descargar <span aria-hidden="true">&darr;</span></button>
+      </div>
+
+      <p class="hp" aria-hidden="true">
+        <label for="empresa-recurso">No completar</label>
+        <input id="empresa-recurso" name="empresa-recurso" type="text" tabindex="-1" autocomplete="off">
+      </p>
+
+      <p class="recurso__legal">Te lo mandamos y listo. No usamos tu mail para otra cosa.</p>
+      <p class="recurso__status" role="status" aria-live="polite"></p>
+    </form>
+
+    <!-- Aparece recién después de enviar; hasta entonces no ocupa lugar. -->
+    <div class="recurso__listo" data-recurso-listo hidden>
+      <p class="recurso__listo-titulo">Listo, es tuyo.</p>
+      <a class="btn btn--cta" href={archivo} download data-recurso-descarga>
+        Descargar la planilla <span class="btn__arrow" aria-hidden="true">&darr;</span>
+      </a>
+      <p class="recurso__legal">
+        Se abre en Google Sheets o en Excel. Para usarla en Sheets:
+        <em>Archivo &rarr; Importar &rarr; Subir</em>.
+      </p>
+    </div>
+  </div>
+</section>

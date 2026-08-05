@@ -14,6 +14,19 @@ const blog = defineCollection({
     lectura: z.number().int().positive(),
     portada: z.string().optional(),
     portadaAlt: z.string().optional(),
+    /**
+     * Recurso descargable a cambio del mail. Si está, se agrega el bloque de
+     * descarga al final de la nota.
+     */
+    recurso: z.object({
+      titulo: z.string(),
+      texto: z.string(),
+      /** Ruta del archivo dentro de public/ */
+      archivo: z.string(),
+      /** Asunto del mail, para saber qué recurso pidieron */
+      asunto: z.string(),
+      incluye: z.array(z.string()).default([]),
+    }).optional(),
     borrador: z.boolean().default(false),
   }),
 });

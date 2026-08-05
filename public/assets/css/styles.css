@@ -2679,3 +2679,139 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; }
   .servicio-pag__texto h2 { margin-top: 1.5em; }
   .servicio-faq__item p { padding-right: 8px; }
 }
+
+/* --------------------------------------------------------------------------
+   Recurso descargable a cambio del mail
+   -------------------------------------------------------------------------- */
+
+/* Va adentro de .nota, que ya pone el ancho y el margen lateral: acá sólo
+   corresponde separarlo del texto de arriba. */
+.recurso { margin-top: clamp(40px, 6vh, 72px); }
+
+.recurso__caja {
+  padding: clamp(26px, 3.4vw, 44px);
+  background: linear-gradient(150deg, rgba(61, 106, 241, 0.16), rgba(1, 9, 53, 0.6));
+  border: 1px solid var(--border-dark-strong);
+}
+
+.recurso__rotulo {
+  margin: 0 0 12px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--lime-500);
+}
+
+.recurso__title {
+  margin: 0 0 10px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(22px, 3vw, 32px);
+  line-height: 1.12;
+  color: var(--celeste-100);
+}
+
+.recurso__texto {
+  margin: 0;
+  font-size: clamp(15px, 1.6vw, 17px);
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+.recurso__lista {
+  list-style: none;
+  margin: 20px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 9px;
+}
+.recurso__lista li {
+  position: relative;
+  padding-left: 22px;
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: var(--text-soft);
+}
+.recurso__lista li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.5em;
+  width: 8px;
+  height: 8px;
+  background: var(--lime-500);
+  clip-path: polygon(0 0, 60% 50%, 0 100%, 25% 50%);
+}
+
+.recurso__form { margin-top: 24px; }
+
+.recurso__campos {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 10px;
+}
+.recurso__campos input {
+  min-width: 0;
+  padding: 14px 16px;
+  background: rgba(0, 0, 46, 0.5);
+  border: 1px solid var(--border-dark-strong);
+  color: var(--celeste-100);
+  font-family: var(--font-body);
+  font-size: 15px;
+}
+.recurso__campos input::placeholder { color: var(--text-faint); }
+.recurso__campos input:focus-visible {
+  outline: 2px solid var(--blue-600);
+  outline-offset: 1px;
+}
+
+.recurso__campos button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 26px;
+  border: 0;
+  border-radius: 100px;
+  background: var(--lime-500);
+  color: var(--navy-900);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: transform .25s var(--ease), filter .25s var(--ease);
+}
+.recurso__campos button:hover { transform: translateY(-2px); filter: brightness(1.06); }
+.recurso__campos button:disabled { opacity: .6; cursor: wait; transform: none; }
+
+.recurso__legal {
+  margin: 12px 0 0;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--text-faint);
+}
+.recurso__legal em { color: var(--text-soft); font-style: normal; }
+
+.recurso__status:empty { display: none; }
+.recurso__status {
+  margin: 10px 0 0;
+  font-size: 13px;
+  color: var(--lime-500);
+}
+
+/* El display:grid le gana al hidden del navegador: hay que apagarlo a mano o el
+   bloque de descarga se ve antes de que nadie complete nada. */
+.recurso__listo[hidden] { display: none; }
+.recurso__listo { display: grid; gap: 14px; justify-items: start; margin-top: 24px; }
+.recurso__listo-titulo {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 19px;
+  color: var(--celeste-100);
+}
+
+@media (max-width: 620px) {
+  .recurso__campos { grid-template-columns: 1fr; }
+  .recurso__campos button { justify-content: center; }
+}

@@ -144,6 +144,35 @@ y en el índice, para que las nueve tarjetas de la home se vean y funcionen igua
 **Ojo con los dos puntos en el frontmatter.** Un valor sin comillas que contenga
 `: ` rompe el YAML. Por eso los textos van entrecomillados.
 
+## Recursos descargables
+
+Una nota puede entregar un archivo a cambio del mail. Se activa agregando el
+campo `recurso` al frontmatter, con el archivo dentro de `public/recursos/`:
+
+```yaml
+recurso:
+  titulo: Llevate el CRM en planilla
+  texto: "Una línea explicando qué se lleva."
+  archivo: /recursos/crm-para-vendedores-jab.xlsx
+  asunto: "Descarga del CRM en planilla"
+  incluye:
+    - "Qué trae, en viñetas"
+```
+
+**La descarga se muestra apenas se envía el formulario, sin esperar ningún
+mail.** El plan gratuito de Web3Forms no manda respuestas automáticas, y hacer
+esperar a alguien que ya dejó el dato es la forma más rápida de perderlo. El mail
+llega igual, a la misma casilla que las consultas, con el asunto que diga
+`asunto`.
+
+Si el envío a Web3Forms falla, el archivo se entrega igual: el dato ya lo dejó y
+negarle la descarga por un problema nuestro no tiene sentido.
+
+El CRM en planilla se genera con un script, no se edita a mano. Está en
+`public/recursos/crm-para-vendedores-jab.xlsx` y las capturas de la nota se
+dibujan leyendo ese mismo archivo, así que lo que se ve en el blog es siempre lo
+que la persona se descarga.
+
 ## Logos de clientes
 
 **Para sumar un cliente alcanza con dejar el logo en `src/assets/clientes/`.** No

@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import TarjetaNota from '../../components/TarjetaNota.astro';
+import Recurso from '../../components/Recurso.astro';
 import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -9,7 +10,7 @@ export async function getStaticPaths() {
 }
 
 const { nota } = Astro.props;
-const { titulo, bajada, categoria, fecha, lectura, portada, portadaAlt } = nota.data;
+const { titulo, bajada, categoria, fecha, lectura, portada, portadaAlt, recurso } = nota.data;
 const { Content } = await render(nota);
 
 const fechaLarga = fecha.toLocaleDateString('es-AR', { day: 'numeric', month: 'long', year: 'numeric' });
@@ -43,6 +44,8 @@ const WHATSAPP = 'https://wa.me/5493402415366?text=Hola%20Jab%2C%20quiero%20habl
     <div class="nota__cuerpo">
       <Content />
     </div>
+
+    {recurso && <Recurso {...recurso} />}
 
     <aside class="nota__cta">
       <h2>¿Querés que lo veamos en tu negocio?</h2>
