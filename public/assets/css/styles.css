@@ -805,25 +805,10 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; }
 .clientes { padding-inline: 0; }
 .clientes .wrap { padding-inline: var(--gutter); }
 
-/* El título y la bajada comparten renglón */
-.clientes__head {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: clamp(14px, 2.5vw, 56px);
-  margin-bottom: clamp(36px, 6vh, 72px);
+.clientes__title {
+  margin: 0 0 clamp(30px, 5vh, 60px);
+  text-align: center;
 }
-.clientes__head .section-title { margin: 0; }
-
-.clientes__lead {
-  flex: 1 1 320px;
-  max-width: 52ch;
-  margin: 0;
-  font-size: clamp(15px, 1.5vw, 18px);
-  line-height: 1.55;
-  color: rgba(0, 0, 46, 0.62);
-}
-.clientes__lead strong { color: var(--navy-900); font-weight: 600; }
 
 /* -- Las dos cintas --
    En movimiento los logos no se pueden contar, y esa es la idea: la sensación
@@ -1116,8 +1101,7 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; }
   .post__cover { aspect-ratio: 16 / 9; }
   .post__body { gap: 10px; }
 
-  .clientes .section-title { margin-bottom: 40px; }
-  .clientes__head { margin-bottom: 28px; }
+  .clientes__title { margin-bottom: 26px; }
   .cinta-clientes__marca { width: 96px; height: 58px; padding: 6px; }
   .cinta-clientes__marca img { max-height: 34px; }
   /* Los logos son más chicos, así que la misma duración se vería más lenta:
