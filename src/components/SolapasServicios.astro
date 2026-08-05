@@ -1,0 +1,51 @@
+---
+import { getCollection } from 'astro:content';
+
+interface Props {
+  /** Slug del servicio abierto, o 'todos' en el índice. */
+  activo?: string;
+}
+const { activo } = Astro.props;
+
+const servicios = (await getCollection('servicios', ({ data }) => !data.borrador))
+  .sort((a, b) => a.data.orden - b.data.orden);
+
+// Cada solapa es un enlace a su propia página, no un botón que cambia el
+// contenido de esta. Se ve y se usa igual, pero así cada servicio tiene su
+// dirección y puede competir por su búsqueda: una sola página hablando de seis
+// temas no rankea por ninguno.
+const solapas = [
+  { href: '/servicios/', texto: 'Todos', id: 'todos' },
+  ...servicios.map((s) => ({
+    href: `/servicios/${s.id}/`,
+    texto: s.data.solapa,
+    id: s.id,
+  })),
+  { href: '/industrial/', texto: 'Industriales', id: 'industrial' },
+];
+---
+
+<nav class="solapas" aria-label="Servicios">
+  <ul class="solapas__lista">
+    {solapas.map((s) => (
+      <li>
+        <a
+          class:list={['solapa', { 'solapa--activa': s.id === activo }]}
+          href={s.href}
+          aria-current={s.id === activo ? 'page' : undefined}
+        >{s.texto}</a>
+      </li>
+    ))}
+  </ul>
+</nav>
+
+<script>
+  // En celular la barra se desliza y la solapa abierta puede quedar fuera de
+  // la vista: entrás a Diseño y ves resaltado nada. Se la trae al principio.
+  const lista = document.querySelector<HTMLElement>('.solapas__lista');
+  const activa = lista?.querySelector<HTMLElement>('.solapa--activa');
+  if (lista && activa && lista.scrollWidth > lista.clientWidth) {
+    lista.scrollLeft = activa.offsetLeft - lista.offsetLeft
+      - parseFloat(getComputedStyle(lista).scrollPaddingInlineStart || '0');
+  }
+</script>

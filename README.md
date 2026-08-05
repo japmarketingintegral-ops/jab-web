@@ -101,9 +101,8 @@ Quien vaya a cargar notas necesita permiso de escritura en el repositorio.
       negocio regional, y no depende del sitio. Los datos tienen que coincidir
       exactamente con los del pie: Jab Marketing, Arroyo Seco (Santa Fe),
       +54 9 3402 41-5366.
-- [ ] **Páginas por servicio.** Hoy los nueve servicios viven solo en la home.
-      Una página por servicio es lo que permite competir por búsquedas del tipo
-      "diseño web Rosario" o "agencia de publicidad Rosario".
+- [x] ~~**Páginas por servicio.**~~ Cinco, en `src/content/servicios`. Ver
+      *Páginas de servicio* más abajo.
 
 ## La página industrial
 
@@ -117,6 +116,33 @@ solo hay una imagen.
 
 Antes de dar de baja GoHighLevel ya se rescató todo lo que estaba alojado ahí
 (los cinco logos de clientes). No queda nada dependiendo de esa cuenta.
+
+## Páginas de servicio
+
+Cada servicio es un archivo `.md` en `src/content/servicios/` y se convierte en
+una página propia. Hoy hay cinco: los que la gente busca por su nombre.
+
+**La barra de solapas se ve como un selector de pestañas, pero cada solapa es un
+enlace a otra página.** Es a propósito, y es la diferencia que hace que esto
+sirva para SEO: si las seis vivieran en una sola dirección, sería una página
+hablando de seis temas y no rankearía por ninguno. Con una página por servicio,
+cada una compite por su búsqueda —"diseño web Rosario", "community manager
+Rosario"— con su propio título, su descripción y sus datos estructurados.
+
+Para sumar un servicio: copiar cualquier archivo de esa carpeta y cambiarle el
+contenido. El nombre del archivo es la dirección. Aparece solo en la barra de
+solapas y en el índice, ordenado por el campo `orden`.
+
+Cada página genera tres fichas de datos estructurados: `Service` atada al negocio
+local, `BreadcrumbList` y `FAQPage`. Esta última es la que puede hacer que las
+preguntas aparezcan desplegadas en Google.
+
+Los otros cuatro servicios —consultoría, marketing digital, CRM y el industrial—
+siguen viviendo en la home. Los tres primeros casi no se buscan por su nombre y
+el industrial ya tiene `/industrial`.
+
+**Ojo con los dos puntos en el frontmatter.** Un valor sin comillas que contenga
+`: ` rompe el YAML. Por eso los textos van entrecomillados.
 
 ## Logos de clientes
 

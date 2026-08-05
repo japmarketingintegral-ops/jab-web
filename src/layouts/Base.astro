@@ -92,6 +92,10 @@ const imagenAbs = new URL(imagen, Astro.site);
     ].map((n) => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: n } })),
   },
 })} />
+
+<!-- Cada página puede sumar sus propias fichas de datos estructurados
+     (migas de pan, servicio, preguntas frecuentes). -->
+<slot name="cabeza" />
 </head>
 <body>
 <a class="skip-link" href="#contenido">Saltar al contenido</a>

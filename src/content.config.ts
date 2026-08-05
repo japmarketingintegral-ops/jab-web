@@ -18,4 +18,27 @@ const blog = defineCollection({
   }),
 });
 
-export const collections = { blog };
+// Cada servicio es un archivo .md en src/content/servicios y se convierte en una
+// página propia. Son páginas separadas y no solapas de una sola: es lo que
+// permite competir por búsquedas como "diseño web Rosario", que apuntan a un
+// servicio concreto y no a la agencia entera.
+const servicios = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/servicios' }),
+  schema: z.object({
+    titulo: z.string(),
+    /** El que va en la solapa: más corto que el título de la página. */
+    solapa: z.string(),
+    /** Manda el orden de las solapas. */
+    orden: z.number().int(),
+    bajada: z.string(),
+    metaTitulo: z.string(),
+    metaDescripcion: z.string(),
+    /** Qué incluye el servicio, en viñetas. */
+    incluye: z.array(z.string()).min(1),
+    /** Preguntas frecuentes: alimentan el bloque visible y el schema FAQPage. */
+    faq: z.array(z.object({ p: z.string(), r: z.string() })).default([]),
+    borrador: z.boolean().default(false),
+  }),
+});
+
+export const collections = { blog, servicios };

@@ -1,0 +1,153 @@
+---
+import Base from '../../layouts/Base.astro';
+import SolapasServicios from '../../components/SolapasServicios.astro';
+import Formulario from '../../components/Formulario.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const servicios = await getCollection('servicios', ({ data }) => !data.borrador);
+  return servicios.map((servicio) => ({
+    params: { slug: servicio.id },
+    props: { servicio },
+  }));
+}
+
+const { servicio } = Astro.props;
+const { Content } = await render(servicio);
+const d = servicio.data;
+
+const sitio = Astro.site?.origin ?? 'https://jabmarketing.site';
+const url = `${sitio}/servicios/${servicio.id}/`;
+
+// El servicio, atado al negocio local: es lo que le permite a Google entender
+// que lo prestamos acá y no en cualquier lado.
+const fichaServicio = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: d.titulo,
+  description: d.metaDescripcion,
+  url,
+  serviceType: d.titulo,
+  provider: {
+    '@type': 'ProfessionalService',
+    name: 'Jab Marketing',
+    '@id': `${sitio}/#negocio`,
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Arroyo Seco',
+      addressRegion: 'Santa Fe',
+      addressCountry: 'AR',
+    },
+    telephone: '+5493402415366',
+  },
+  areaServed: ['Arroyo Seco', 'Rosario', 'Santa Fe', 'Argentina'].map((n) => ({
+    '@type': 'Place', name: n,
+  })),
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: `Qué incluye ${d.titulo}`,
+    itemListElement: d.incluye.map((n) => ({
+      '@type': 'Offer', itemOffered: { '@type': 'Service', name: n },
+    })),
+  },
+};
+
+const migas = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Inicio', item: `${sitio}/` },
+    { '@type': 'ListItem', position: 2, name: 'Servicios', item: `${sitio}/servicios/` },
+    { '@type': 'ListItem', position: 3, name: d.titulo, item: url },
+  ],
+};
+
+const fichaFaq = d.faq.length > 0 ? {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: d.faq.map((f) => ({
+    '@type': 'Question',
+    name: f.p,
+    acceptedAnswer: { '@type': 'Answer', text: f.r },
+  })),
+} : null;
+---
+
+<Base titulo={d.metaTitulo} descripcion={d.metaDescripcion}>
+  <Fragment slot="cabeza">
+    <script type="application/ld+json" set:html={JSON.stringify(fichaServicio)} />
+    <script type="application/ld+json" set:html={JSON.stringify(migas)} />
+    {fichaFaq && <script type="application/ld+json" set:html={JSON.stringify(fichaFaq)} />}
+  </Fragment>
+
+  <section class="servicio-pag">
+    <div class="wrap">
+
+      <nav class="migas" aria-label="Dónde estás">
+        <a href="/">Inicio</a>
+        <span aria-hidden="true">/</span>
+        <a href="/servicios/">Servicios</a>
+        <span aria-hidden="true">/</span>
+        <span aria-current="page">{d.titulo}</span>
+      </nav>
+
+      <SolapasServicios activo={servicio.id} />
+
+      <div class="servicio-pag__head" data-reveal>
+        <h1 class="servicio-pag__title">{d.titulo}</h1>
+        <p class="servicio-pag__lead">{d.bajada}</p>
+      </div>
+
+      <div class="servicio-pag__cuerpo">
+        <article class="servicio-pag__texto" data-reveal>
+          <Content />
+        </article>
+
+        <aside class="servicio-pag__aparte">
+          <div class="servicio-caja" data-reveal>
+            <h2 class="servicio-caja__title">Qué incluye</h2>
+            <ul class="servicio-caja__lista">
+              {d.incluye.map((i) => <li>{i}</li>)}
+            </ul>
+          </div>
+
+          <div class="servicio-caja servicio-caja--cta" data-reveal>
+            <p class="servicio-caja__texto">¿Te sirve para lo que necesitás?</p>
+            <a class="btn btn--cta" href="#contacto">
+              Pedir una propuesta <span class="btn__arrow" aria-hidden="true">&rarr;</span>
+            </a>
+          </div>
+        </aside>
+      </div>
+
+      {d.faq.length > 0 && (
+        <div class="servicio-faq" data-reveal>
+          <h2 class="servicio-faq__title">Preguntas frecuentes</h2>
+          <div class="servicio-faq__lista">
+            {d.faq.map((f) => (
+              <details class="servicio-faq__item">
+                <summary>{f.p}</summary>
+                <p>{f.r}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      )}
+
+    </div>
+  </section>
+
+  <section class="contacto" id="contacto">
+    <div class="contacto__grid">
+      <div>
+        <p class="eyebrow">[ CONTACTO ]</p>
+        <h2 class="contacto__title">Hablemos de tu proyecto</h2>
+        <p class="contacto__texto">
+          Contanos qué necesitás y te respondemos con una propuesta concreta para
+          {' '}{d.titulo.toLowerCase()}.
+        </p>
+      </div>
+      <Formulario asunto={`Consulta por ${d.titulo}`} />
+    </div>
+  </section>
+</Base>

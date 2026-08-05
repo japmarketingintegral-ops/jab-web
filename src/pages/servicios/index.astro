@@ -1,0 +1,90 @@
+---
+import Base from '../../layouts/Base.astro';
+import SolapasServicios from '../../components/SolapasServicios.astro';
+import Formulario from '../../components/Formulario.astro';
+import { getCollection } from 'astro:content';
+
+const servicios = (await getCollection('servicios', ({ data }) => !data.borrador))
+  .sort((a, b) => a.data.orden - b.data.orden);
+
+const sitio = Astro.site?.origin ?? 'https://jabmarketing.site';
+
+const migas = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Inicio', item: `${sitio}/` },
+    { '@type': 'ListItem', position: 2, name: 'Servicios', item: `${sitio}/servicios/` },
+  ],
+};
+---
+
+<Base
+  titulo="Servicios de marketing en Rosario y Arroyo Seco | Jab Marketing"
+  descripcion="Desarrollo web, redes sociales, publicidad en Google y Meta, producción audiovisual y diseño de marca para empresas de Rosario y Arroyo Seco."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(migas)} slot="cabeza" />
+
+  <section class="servicio-pag">
+    <div class="wrap">
+
+      <div class="servicio-pag__head" data-reveal>
+        <p class="eyebrow">[ SERVICIOS ]</p>
+        <h1 class="servicio-pag__title">Todo lo que hace falta para que<br><strong>el marketing funcione.</strong></h1>
+        <p class="servicio-pag__lead">
+          No vendemos servicios sueltos. Cada uno existe porque resuelve una parte
+          del problema, y casi siempre se necesitan combinados. Elegí por dónde
+          empezar.
+        </p>
+      </div>
+
+      <SolapasServicios activo="todos" />
+
+      <div class="servicio-lista">
+        {servicios.map((s) => (
+          <a class="servicio-lista__item" href={`/servicios/${s.id}/`} data-reveal>
+            <h2 class="servicio-lista__title">{s.data.titulo}</h2>
+            <p class="servicio-lista__texto">{s.data.bajada}</p>
+            <span class="servicio-lista__cta">Ver el servicio <span aria-hidden="true">&rarr;</span></span>
+          </a>
+        ))}
+
+        <a class="servicio-lista__item servicio-lista__item--vertical" href="/industrial/" data-reveal>
+          <p class="servicio-lista__rotulo">Vertical</p>
+          <h2 class="servicio-lista__title">Sistemas B2B industriales</h2>
+          <p class="servicio-lista__texto">
+            Sistemas de captación diseñados para el ciclo de venta B2B industrial.
+            Consultas calificadas de forma recurrente, sin depender de referidos.
+          </p>
+          <span class="servicio-lista__cta">Ver el sistema <span aria-hidden="true">&rarr;</span></span>
+        </a>
+      </div>
+
+      <div class="servicio-pag__otros" data-reveal>
+        <h2 class="servicio-pag__otros-title">También hacemos</h2>
+        <p>
+          <strong>Consultoría</strong> para fundamentar decisiones con datos propios y de
+          mercado. <strong>CRM y automatizaciones</strong>, como partners oficiales de Kommo,
+          para ordenar el proceso comercial. Y <strong>marketing digital</strong> integral,
+          cuando lo que hace falta es que todo lo anterior trabaje junto.
+        </p>
+        <p>Si no ves lo que buscás, preguntá igual: probablemente lo hagamos.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="contacto" id="contacto">
+    <div class="contacto__grid">
+      <div>
+        <p class="eyebrow">[ CONTACTO ]</p>
+        <h2 class="contacto__title">Contanos qué necesitás</h2>
+        <p class="contacto__texto">
+          Escribinos qué querés resolver y te respondemos con una propuesta concreta,
+          no con un catálogo.
+        </p>
+      </div>
+      <Formulario asunto="Consulta desde la página de servicios" />
+    </div>
+  </section>
+</Base>

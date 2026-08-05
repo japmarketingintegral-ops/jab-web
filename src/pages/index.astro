@@ -22,17 +22,17 @@ const servicios = [
     texto: 'Analizamos datos internos y de mercado para fundamentar la toma de decisiones. Definimos el posicionamiento de la marca mediante un enfoque integral y sostenible a largo plazo, garantizando coherencia en cada acción.' },
   { ico: 'digital', titulo: 'Marketing digital',
     texto: 'Ejecutamos estrategias digitales guiadas por la medición y el análisis de datos. Realizamos un seguimiento constante de las métricas clave en cada canal para saber qué funciona, respaldando cada decisión con información concreta.' },
-  { ico: 'paid', titulo: 'Paid media',
+  { ico: 'paid', titulo: 'Paid media', pagina: 'paid-media',
     texto: 'Gestionamos campañas publicitarias en Meta, Google y TikTok Ads. Optimizamos la inversión seleccionando los canales y formatos adecuados para alcanzar los objetivos comerciales.' },
-  { ico: 'diseno', titulo: 'Diseño y comunicación',
+  { ico: 'diseno', titulo: 'Diseño y comunicación', pagina: 'diseno-y-comunicacion',
     texto: 'Construimos marcas con un lenguaje visual sólido y adaptable a múltiples plataformas. Diseñamos piezas de comunicación enfocadas en transmitir los valores de la marca y consolidar su posicionamiento en el mercado.' },
-  { ico: 'web', titulo: 'Desarrollo web',
+  { ico: 'web', titulo: 'Desarrollo web', pagina: 'desarrollo-web',
     texto: 'Diseñamos y programamos sitios web y landing pages a medida. Cada desarrollo se estructura para optimizar la experiencia del usuario, cumplir una función específica y acompañar el ciclo de venta del negocio.' },
   { ico: 'crm', titulo: 'CRM y automatizaciones',
     texto: 'Optimizamos la gestión mediante la implementación de CRM (partners oficiales de Kommo). Diseñamos automatizaciones a medida para ordenar los procesos comerciales y agilizar la calificación y el seguimiento de contactos.' },
-  { ico: 'social', titulo: 'Social media',
+  { ico: 'social', titulo: 'Social media', pagina: 'social-media',
     texto: 'Diseñamos estrategias de contenido alineadas con la etapa en la que se encuentra el negocio. Desarrollamos calendarios editoriales para fortalecer la autoridad de la marca y conectar de forma genuina con su audiencia.' },
-  { ico: 'audiovisual', titulo: 'Producción audiovisual',
+  { ico: 'audiovisual', titulo: 'Producción audiovisual', pagina: 'produccion-audiovisual',
     texto: 'Ejecutamos producciones de alto nivel, incluyendo tomas con drone y cobertura de eventos. Desarrollamos desde videos para redes hasta spots publicitarios para pauta digital o presentaciones institucionales.' },
   // El único que además es enlace: lleva a la landing del servicio.
   { ico: 'industrial', titulo: 'Sistemas B2B industriales', enlace: '/industrial/',
@@ -101,16 +101,21 @@ const notas = (await getCollection('blog', ({ data }) => !data.borrador))
     -->
     <div class="servicios__grid">
       {servicios.map((s) => {
-        const Caja = s.enlace ? 'a' : 'article';
+        // Los que tienen página propia se vuelven enlace. El industrial además
+        // lleva el rótulo de vertical, porque no es un servicio más.
+        const destino = s.enlace ?? (s.pagina ? `/servicios/${s.pagina}/` : undefined);
+        const Caja = destino ? 'a' : 'article';
         return (
-          <Caja class={`servicio${s.enlace ? ' servicio--vertical' : ''}`} href={s.enlace} data-reveal>
+          <Caja class={`servicio${s.enlace ? ' servicio--vertical' : ''}`} href={destino} data-reveal>
             <IconoServicio nombre={s.ico} />
             <div>
               {s.enlace && <p class="servicio__rotulo">Vertical</p>}
               <h3 class="servicio__title">{s.titulo}</h3>
               <p>{s.texto}</p>
-              {s.enlace && (
-                <span class="servicio__cta">Ver el sistema <span aria-hidden="true">&rarr;</span></span>
+              {destino && (
+                <span class="servicio__cta">
+                  {s.enlace ? 'Ver el sistema' : 'Ver el servicio'} <span aria-hidden="true">&rarr;</span>
+                </span>
               )}
             </div>
           </Caja>
