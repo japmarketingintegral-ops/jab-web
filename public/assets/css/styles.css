@@ -881,9 +881,10 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; }
   transform: scale(1.08);
 }
 
-/* En pantalla táctil no hay dónde pasar el mouse: van a color directamente */
+/* En celular quedan en gris igual que en desktop. Se les sube un poco la
+   opacidad porque a ese tamaño el gris al 55% se pierde. */
 @media (hover: none) {
-  .cinta-clientes__marca img { filter: none; opacity: 1; }
+  .cinta-clientes__marca img { opacity: 0.68; }
 }
 
 /* Sin movimiento no hay cinta: quedan todos quietos, sin las copias */
