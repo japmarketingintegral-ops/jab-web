@@ -7,6 +7,39 @@ import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import { clientes } from '../datos/clientes';
 
+// -- El orden de la cinta de clientes --
+// Estas marcas son las que más pesan, así que abren el desfile y después
+// vuelven a aparecer repartidas entre el resto: en una cinta infinita el
+// arranque lo ve sólo el que llega, y así se cruzan con cualquiera que mire.
+const DESTACADOS = [
+  'FIAT', 'Geronzi', 'Montenegro', 'Gimetal',
+  'BM Trading', 'Global Farm Foods', 'La Vie en Miel',
+];
+
+const porNombre = new Map(clientes.map((c) => [c.nombre, c]));
+const destacados = DESTACADOS.map((n) => porNombre.get(n)).filter(Boolean);
+
+// El resto va mezclado. Se baraja al compilar, así que el orden cambia con cada
+// publicación y ninguna marca queda siempre relegada al mismo lugar.
+const resto = clientes.filter((c) => !DESTACADOS.includes(c.nombre));
+for (let i = resto.length - 1; i > 0; i--) {
+  const j = Math.floor(Math.random() * (i + 1));
+  [resto[i], resto[j]] = [resto[j], resto[i]];
+}
+
+// Arranca con los destacados y después mete uno cada tres del resto, girando
+// la lista: así aparecen repartidos de punta a punta y no se agotan a mitad de
+// camino dejando un tramo largo sin ninguno.
+const cinta = [...destacados];
+const CADA = 3;
+let vuelta = 0;
+resto.forEach((c, i) => {
+  cinta.push(c);
+  if ((i + 1) % CADA === 0) {
+    cinta.push(destacados[vuelta++ % destacados.length]);
+  }
+});
+
 // Para editar un servicio: cambiar el texto acá. El orden de la lista es el
 // orden en que aparecen. Los iconos viven en components/IconoServicio.astro.
 const servicios = [
@@ -230,17 +263,22 @@ const notas = (await getCollection('blog', ({ data }) => !data.borrador))
       <h2 class="section-title clientes__title" data-reveal>Clientes</h2>
     </div>
 
-    <div class="wrap">
-      <!-- Todos a la vista, quietos. Con esta cantidad la grilla llena la
-           pantalla y la cantidad se lee de un vistazo, que era lo que la cinta
-           resolvía con movimiento. -->
-      <ul class="clientes__grid">
-        {clientes.map((c) => (
-          <li class="cliente">
+    <!-- Una sola cinta, sin fin. La lista va dos veces: el desfile se corta a
+         la mitad y vuelve a empezar sin salto visible. La copia lleva alt
+         vacío para que los nombres no se lean dos veces. -->
+    <div class="cinta-clientes">
+      <div class="cinta-clientes__pista" style={`--desfile:${(cinta.length * 3.8).toFixed(1)}s`}>
+        {cinta.map((c) => (
+          <div class="cinta-clientes__marca">
             <Image src={c.logo} alt={c.nombre} width={300} loading="lazy" />
-          </li>
+          </div>
         ))}
-      </ul>
+        {cinta.map((c) => (
+          <div class="cinta-clientes__marca" aria-hidden="true">
+            <Image src={c.logo} alt="" width={300} loading="lazy" />
+          </div>
+        ))}
+      </div>
     </div>
   </section>
 
