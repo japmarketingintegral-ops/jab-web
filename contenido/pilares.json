@@ -1,0 +1,16 @@
+{
+  "pillars": [
+    {"name": "Educational",   "description": "El porque antes del que - desarmar el marketing por imitacion", "emoji": "🎯", "weight": 6},
+    {"name": "Product",       "description": "Como trabajamos - metodo, cuatro etapas, credenciales",          "emoji": "⚙️", "weight": 5},
+    {"name": "Inspirational", "description": "Criterio aplicado - decidir con numeros",                        "emoji": "📐", "weight": 4},
+    {"name": "Community",     "description": "IA aplicada al negocio del cliente",                             "emoji": "🤖", "weight": 3},
+    {"name": "Promotional",   "description": "Prueba - casos con numeros y clientes",                          "emoji": "📊", "weight": 2}
+  ],
+  "platforms": [
+    {"name": "IG-Jab",          "posts_per_week": 3, "best_days": ["Monday","Wednesday","Friday"]},
+    {"name": "LinkedIn-Jab",    "posts_per_week": 2, "best_days": ["Tuesday","Thursday"]},
+    {"name": "LinkedIn-Santi",  "posts_per_week": 2, "best_days": ["Wednesday","Friday"]}
+  ],
+  "start_date": "2026-08-10",
+  "weeks": 4
+}
