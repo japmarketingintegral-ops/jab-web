@@ -255,13 +255,20 @@ y los enlaces desde otros sitios. Sin eso, el trabajo técnico rinde la mitad.
 
 ## Formulario de contacto
 
-Los mensajes se envían con [Web3Forms](https://web3forms.com) y llegan por mail a
-**jabmarketingintegral@gmail.com**. Plan gratuito: 250 mensajes por mes.
+Los mensajes se envían con [Web3Forms](https://web3forms.com). Plan gratuito:
+250 mensajes por mes.
 
 La `access_key` está en el HTML, en un campo oculto del formulario. **No es un
 secreto**: viaja en el código y cualquiera puede leerla. Lo único que habilita es
 mandar mensajes por este formulario. Si algún día entra spam, se da de baja la
 clave en web3forms.com y se genera otra.
+
+**A dónde llegan los mensajes se configura del lado de Web3Forms, no acá.** El
+mail visible del sitio es `hola@jabmarketing.site`, pero cambiarlo en el código
+no mueve el destino de la `access_key`: eso se edita entrando a
+[web3forms.com](https://web3forms.com), en el dashboard de esa clave. Si el
+mail visible y el destino real de Web3Forms quedan desalineados, las consultas
+siguen llegando, sólo que a la casilla vieja.
 
 Si el servicio no responde, el JavaScript abre WhatsApp con el mensaje ya armado,
 así la consulta no se pierde. El campo `empresa-web` es una trampa anti-spam
