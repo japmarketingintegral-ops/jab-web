@@ -4,6 +4,15 @@
 
   var WHATSAPP = '5493402415366';
 
+  // -- Medición --------------------------------------------------------------
+  // Un solo punto de entrada para avisarle a Tag Manager que pasó algo. GTM ya
+  // crea window.dataLayer en el <head>; esto sólo empuja el evento con nombre
+  // propio, para no depender de que alguien adivine una clase de botón.
+  function medir(evento, datos) {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push(Object.assign({ event: evento }, datos || {}));
+  }
+
   // Marca que hay JS: el CSS recién ahí se anima a ocultar los bloques que va a
   // revelar. Sin esta clase (JS caído, bot, navegador viejo) todo queda visible.
   document.documentElement.classList.add('js');
@@ -19,7 +28,19 @@
     carrusel();
     revelar();
     formulario();
+    medirWhatsapp();
   });
+
+  // Un solo listener para los nueve botones de WhatsApp del sitio, delegado en
+  // document: cada uno lleva data-wsp con dónde está, así en Tag Manager se ve
+  // qué ubicación convierte y no hace falta enganchar botón por botón.
+  function medirWhatsapp() {
+    document.addEventListener('click', function (e) {
+      var enlace = e.target.closest('[data-wsp]');
+      if (!enlace) return;
+      medir('whatsapp_click', { ubicacion: enlace.getAttribute('data-wsp') });
+    });
+  }
 
   /* --- El cliente recorriendo las etapas del ciclo ----------------------- */
 
@@ -191,6 +212,7 @@
       if (!boton) return;
 
       boton.addEventListener('click', function () {
+        medir('video_reproducido', { pagina: window.location.pathname });
         var id = caja.getAttribute('data-video');
         var marco = document.createElement('iframe');
         marco.src = 'https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0';
@@ -354,9 +376,18 @@
       var datos = new FormData(form);
       guardarEnHoja(form, datos);
 
+      // El evento se mide acá y no adentro de entregar(): entregar() también
+      // la llama la trampa anti-spam de arriba, y un bot no puede contar como
+      // un lead conseguido.
       fetch(form.action, { method: 'POST', body: datos })
         .catch(function () { /* se entrega igual */ })
-        .then(entregar);
+        .then(function () {
+          medir('recurso_descargado', {
+            recurso: datos.get('subject') || '',
+            pagina: window.location.pathname,
+          });
+          entregar();
+        });
     });
   }
 
@@ -399,6 +430,7 @@
       // Sin servicio configurado: abrimos WhatsApp con la consulta ya escrita.
       if (!accion) {
         window.open(enlaceWhatsapp(datos), '_blank', 'noopener');
+        medirContacto('whatsapp_directo');
         exito('Te abrimos WhatsApp con el mensaje listo para enviar.');
         return;
       }
@@ -407,15 +439,27 @@
       fetch(accion, { method: 'POST', body: datos, headers: { Accept: 'application/json' } })
         .then(function (r) {
           if (!r.ok) throw new Error(r.status);
+          medirContacto('mail');
           exito();
         })
         .catch(function () {
           // El servicio no respondió. Antes que perder la consulta, la pasamos
           // a WhatsApp con todo lo que la persona ya había escrito.
           window.open(enlaceWhatsapp(datos), '_blank', 'noopener');
+          medirContacto('whatsapp_fallback');
           mostrar('No pudimos enviar el mail. Te abrimos WhatsApp con el mensaje listo.', 'error');
         })
         .finally(function () { enviando(false); });
+
+      // Se mide sólo en estos tres caminos, nunca en la trampa anti-spam de
+      // arriba: un bot no puede figurar como una consulta conseguida.
+      function medirContacto(via) {
+        medir('contacto_enviado', {
+          via: via,
+          pagina: window.location.pathname,
+          asunto: datos.get('subject') || '',
+        });
+      }
     });
 
     function enlaceWhatsapp(datos) {
