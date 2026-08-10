@@ -15,10 +15,25 @@ const { titulo, descripcion, imagen = '/assets/img/og.jpg', articulo = false } =
 
 const canonica = new URL(Astro.url.pathname, Astro.site);
 const imagenAbs = new URL(imagen, Astro.site);
+
+// Único contenedor de medición del sitio. GA4 y cualquier otro píxel (Meta Ads,
+// etc.) se configuran adentro de este contenedor en tagmanager.google.com, no
+// acá: así se pueden sumar o sacar sin volver a tocar código.
+const GTM_ID = 'GTM-K3D5RKF5';
 ---
 <!DOCTYPE html>
 <html lang="es-AR">
 <head>
+<!-- Google Tag Manager: va lo más arriba posible del <head> para que nada se
+     dispare antes de que el contenedor esté listo. -->
+<script define:vars={{ GTM_ID }}>
+(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer',GTM_ID);
+</script>
+<!-- End Google Tag Manager -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{titulo}</title>
@@ -98,6 +113,10 @@ const imagenAbs = new URL(imagen, Astro.site);
 <slot name="cabeza" />
 </head>
 <body>
+<!-- Google Tag Manager (noscript): cubre a quien navega sin JavaScript -->
+<noscript><iframe src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
 <a class="skip-link" href="#contenido">Saltar al contenido</a>
 
 <Nav />
