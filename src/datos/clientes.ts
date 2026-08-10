@@ -28,6 +28,7 @@ const escrituras: Record<string, string> = {
   'csm': 'CSM',
   'pavon': 'Pavón',
   'fiat': 'FIAT',
+  'la-barra-olimpica': 'La Barra Olímpica',
   'mandalas-led': 'Mandalas LED',
   'municipalidad-de-arroyo-seco': 'Municipalidad de Arroyo Seco',
   'niche': 'Niché',
