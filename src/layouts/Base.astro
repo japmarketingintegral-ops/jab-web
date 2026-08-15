@@ -90,6 +90,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     { '@type': 'State', name: 'Santa Fe' },
     { '@type': 'Country', name: 'Argentina' },
   ],
+  // Debe coincidir con el horario cargado en el Perfil de Negocio de Google.
+  openingHoursSpecification: {
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+    opens: '08:00',
+    closes: '17:00',
+  },
   knowsLanguage: 'es-AR',
   hasOfferCatalog: {
     '@type': 'OfferCatalog',

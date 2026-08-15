@@ -1,5 +1,6 @@
 ---
 const WHATSAPP = 'https://wa.me/5493402415366?text=Hola%20Jab%2C%20quiero%20hablar%20de%20mi%20negocio';
+const CRM = 'https://clientes.jabmarketing.site';
 
 // En el home los links apuntan a secciones de la misma página; desde el blog
 // tienen que volver al home primero, si no el ancla no encuentra nada.
@@ -17,6 +18,7 @@ const base = enHome ? '' : '/';
     <a class="nav__link" href="/industrial/">Industriales</a>
     <a class="nav__link" href="/blog/">Blog</a>
     <a class="nav__link nav__link--opcional" href={`${base}#clientes`}>Clientes</a>
+    <a class="btn btn--ghost btn--sm" href={CRM} target="_blank" rel="noopener">Ingresar</a>
     <a class="btn btn--cta btn--sm" href={WHATSAPP} target="_blank" rel="noopener" data-wsp="nav">WhatsApp</a>
   </div>
 </nav>
