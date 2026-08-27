@@ -118,8 +118,16 @@ meses de presupuesto.
 
 ## Probalo con tus números
 
-Cargá lo tuyo acá abajo — no pedimos mail, no se guarda en ningún lado. Si ya
-pauteaste, dejá el modo "Ya pauteé antes" con tu costo por consulta real. Si
+Cargá lo tuyo acá abajo — no pedimos mail, no se guarda en ningún lado. Si
 todavía no corriste nada, tocá "Todavía no pauteé": vas a ver el techo que te
 conviene pagar por cliente, calculado solo con tu margen, sin que tengas que
 inventar ningún número.
+
+Si ya pauteaste, dejá el modo "Ya pauteé antes" y cargá tu inversión y tus
+consultas del período — el costo por consulta lo calculamos nosotros. Si
+además sumás impresiones y clics (los tenés en el mismo panel de resultados
+de Meta Ads), la calculadora te dice **dónde está el problema** cuando algo
+no cierra: si es el anuncio que no engancha, la landing que no convierte, o
+la venta que no cierra. Cada etapa se mide distinto y se arregla distinto —
+no sirve de nada cambiar la creatividad si el problema está en el
+seguimiento comercial.
