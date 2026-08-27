@@ -50,17 +50,34 @@
     </div>
 
     <details class="calc__avanzado" data-campo-avanzado>
-      <summary>+ Sumar impresiones y clics (para el diagnóstico completo)</summary>
+      <summary class="calc__avanzado-boton">+ Sumar más datos de Meta Ads para un diagnóstico completo</summary>
       <div class="calc__avanzado-campos">
+        <label class="calc__campo">
+          <span>¿A dónde manda la campaña?</span>
+          <select data-calc-destino>
+            <option value="landing">Sitio web / landing page</option>
+            <option value="whatsapp">WhatsApp (clic para chatear)</option>
+            <option value="formulario">Formulario nativo de Meta</option>
+          </select>
+        </label>
         <label class="calc__campo">
           <span>Impresiones</span>
           <input type="number" inputmode="numeric" min="0" step="1" placeholder="18000" data-calc-impresiones>
+        </label>
+        <label class="calc__campo">
+          <span>Alcance</span>
+          <input type="number" inputmode="numeric" min="0" step="1" placeholder="6000" data-calc-alcance>
         </label>
         <label class="calc__campo">
           <span>Clics en el enlace</span>
           <input type="number" inputmode="numeric" min="0" step="1" placeholder="220" data-calc-clics>
         </label>
       </div>
+      <p class="calc__avanzado-ayuda">
+        Todo esto está en el mismo panel de resultados de tu campaña en Meta
+        Ads. El alcance es opcional — sirve para detectar creativos
+        desgastados (mucha frecuencia, poco clic).
+      </p>
     </details>
 
     <p class="calc__ayuda" data-calc-ayuda hidden>
@@ -179,24 +196,62 @@
   .calc__campo-grupo { display: contents; }
   .calc__campo-grupo[hidden] { display: none; }
 
-  .calc__avanzado {
-    margin-top: 14px;
-    padding: 4px 0;
-  }
+  .calc__avanzado { margin-top: 18px; }
   .calc__avanzado[hidden] { display: none; }
-  .calc__avanzado summary {
-    font-size: 13px;
+
+  .calc__avanzado-boton {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    background: transparent;
+    border: 1px dashed var(--border-dark-strong);
     color: var(--text-soft);
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 600;
     cursor: pointer;
     user-select: none;
+    list-style: none;
+    transition: color .2s var(--ease), border-color .2s var(--ease);
   }
-  .calc__avanzado summary:hover { color: var(--lime-500); }
+  .calc__avanzado-boton::-webkit-details-marker { display: none; }
+  .calc__avanzado-boton:hover { color: var(--lime-500); border-color: var(--lime-500); }
+  .calc__avanzado[open] > .calc__avanzado-boton {
+    border-style: solid;
+    border-color: var(--blue-600);
+    color: var(--celeste-100);
+  }
+
   .calc__avanzado-campos {
-    margin-top: 14px;
+    margin-top: 16px;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 14px;
   }
+  .calc__avanzado-ayuda {
+    margin: 12px 0 0;
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: var(--text-faint);
+  }
+
+  .calc__campo select {
+    width: 100%;
+    padding: 13px 14px;
+    background: rgba(0, 0, 46, 0.5);
+    border: 1px solid var(--border-dark-strong);
+    color: var(--celeste-100);
+    font-family: var(--font-body);
+    font-size: 14px;
+    appearance: none;
+    background-image: linear-gradient(45deg, transparent 50%, var(--text-faint) 50%), linear-gradient(135deg, var(--text-faint) 50%, transparent 50%);
+    background-position: calc(100% - 20px) center, calc(100% - 15px) center;
+    background-size: 5px 5px, 5px 5px;
+    background-repeat: no-repeat;
+  }
+  .calc__campo select:focus-visible { outline: 2px solid var(--blue-600); outline-offset: 1px; }
+  .calc__campo select option { background: var(--navy-900); color: var(--celeste-100); }
 
   .calc__ayuda {
     margin: 14px 0 0;
@@ -368,7 +423,9 @@
   document.querySelectorAll<HTMLElement>('[data-calc]').forEach((raiz) => {
     const gastoInput = raiz.querySelector<HTMLInputElement>('[data-calc-gasto]')!;
     const consultasInput = raiz.querySelector<HTMLInputElement>('[data-calc-consultas]')!;
+    const destinoSelect = raiz.querySelector<HTMLSelectElement>('[data-calc-destino]')!;
     const impresionesInput = raiz.querySelector<HTMLInputElement>('[data-calc-impresiones]')!;
+    const alcanceInput = raiz.querySelector<HTMLInputElement>('[data-calc-alcance]')!;
     const clicsInput = raiz.querySelector<HTMLInputElement>('[data-calc-clics]')!;
     const cierreInput = raiz.querySelector<HTMLInputElement>('[data-calc-cierre]')!;
     const campoMetricas = raiz.querySelector<HTMLElement>('[data-campo-metricas]')!;
@@ -448,7 +505,14 @@
       const tasaCierre = compran / 10;
       const costoPorCliente = costoConsulta / tasaCierre;
 
-      renderDiagnostico({ compran, consultas, impresiones: parseFloat(impresionesInput.value), clics: parseFloat(clicsInput.value) });
+      renderDiagnostico({
+        compran,
+        consultas,
+        impresiones: parseFloat(impresionesInput.value),
+        alcance: parseFloat(alcanceInput.value),
+        clics: parseFloat(clicsInput.value),
+        destino: destinoSelect.value as 'landing' | 'whatsapp' | 'formulario',
+      });
 
       let total = 0;
       let huboProducto = false;
@@ -543,61 +607,96 @@
       contenedor.appendChild(linea);
     }
 
-    // Umbrales de CTR, conversión de landing (clic → consulta) y tasa de
-    // cierre (consulta → venta) tomados de benchmarks públicos de Meta Ads y
-    // de cierre comercial general (WordStream, referencias de la industria):
-    // CTR de campañas de generación de clientes ronda 2,6% en promedio;
-    // conversión de landing, ~1,6%; un cierre de 20-30% se considera sano.
-    // No usamos CPM/CPC en pesos: varían demasiado con la inflación local
-    // como para dar un umbral confiable.
+    // Umbrales tomados de benchmarks públicos, no inventados:
+    // - CTR de campañas de generación de clientes: ronda 2,6% en promedio
+    //   (WordStream). No usamos CPM/CPC en pesos: la inflación local los
+    //   deja viejos en semanas.
+    // - Landing (clic → consulta): conversión promedio ~1,6%, hasta 4,2% en
+    //   servicios locales (WordStream).
+    // - WhatsApp (clic → conversación): entre 12% y 25% de quienes tocan el
+    //   anuncio llegan a mandar el mensaje precargado (benchmarks de
+    //   Click-to-WhatsApp Ads 2026).
+    // - Formulario nativo de Meta: pensado para completarse casi solo
+    //   (autocompleta datos de la cuenta) — una finalización baja es rara y
+    //   señala otra cosa, no fricción del formulario. Ojo con el efecto
+    //   contrario: el algoritmo Andromeda (2026) infló el volumen de envíos
+    //   "sin querer", así que un cierre muy bajo con formulario nativo puede
+    //   ser calidad de lead, no venta floja.
+    // - Cierre (consulta → venta): 20-30% se considera un rango sano en
+    //   ventas B2B/B2C en general.
     function evaluar(valor: number, feo: number, ok: number): 0 | 1 | 2 {
       if (valor < feo) return 0;
       if (valor < ok) return 1;
       return 2;
     }
 
-    function renderDiagnostico({ compran, consultas, impresiones, clics }:
-      { compran: number; consultas: number; impresiones: number; clics: number }) {
+    const DESTINO_INFO = {
+      landing: { clave: 'Landing (clic → consulta)', feo: 1, ok: 3 },
+      whatsapp: { clave: 'WhatsApp (clic → conversación)', feo: 8, ok: 20 },
+      formulario: { clave: 'Formulario (clic → envío)', feo: 50, ok: 75 },
+    } as const;
+
+    function renderDiagnostico({ compran, consultas, impresiones, alcance, clics, destino }: {
+      compran: number; consultas: number; impresiones: number; alcance: number; clics: number;
+      destino: 'landing' | 'whatsapp' | 'formulario';
+    }) {
       diagFilas.innerHTML = '';
       const items: { clave: string; nivel: 0 | 1 | 2; texto: string }[] = [];
 
       const pctCierre = compran * 10;
       const nivelCierre = evaluar(pctCierre, 15, 30);
+      const avisoCalidadLead = destino === 'formulario' && nivelCierre === 0
+        ? ' Con formulario nativo esto también puede ser calidad del lead (envíos "sin querer") y no solo el proceso de venta — mirá si esas consultas responden cuando les escribís.'
+        : '';
       items.push({
         clave: 'Cierre (consulta → venta)',
         nivel: nivelCierre,
-        texto: nivelCierre === 0
+        texto: (nivelCierre === 0
           ? `${pctCierre}% de cierre. No parece un problema de la pauta: es lo que pasa después de la consulta. Revisá tiempo de respuesta, seguimiento y argumento de venta.`
           : nivelCierre === 1
             ? `${pctCierre}% de cierre, dentro de lo normal (20-30% se considera sano). Hay margen puliendo el proceso de venta.`
-            : `${pctCierre}% de cierre — muy bueno. Tu proceso de venta convierte bien lo que le llega.`,
+            : `${pctCierre}% de cierre — muy bueno. Tu proceso de venta convierte bien lo que le llega.`) + avisoCalidadLead,
       });
 
       if (clics > 0 && consultas > 0) {
+        const info = DESTINO_INFO[destino];
         const cvr = (consultas / clics) * 100;
-        const nivelCvr = evaluar(cvr, 1, 3);
-        items.push({
-          clave: 'Landing (clic → consulta)',
-          nivel: nivelCvr,
-          texto: nivelCvr === 0
-            ? `${cvr.toFixed(1)}% de los clics dejan sus datos. Revisá la landing: velocidad de carga, largo del formulario, y que la oferta sea la misma que promete el anuncio.`
-            : nivelCvr === 1
-              ? `${cvr.toFixed(1)}% de conversión de landing, aceptable. Un formulario más corto o una oferta más concreta puede subirlo.`
-              : `${cvr.toFixed(1)}% de conversión de landing — muy bien. Quien llega, deja sus datos sin drama.`,
-        });
+        const nivelCvr = evaluar(cvr, info.feo, info.ok);
+        const textos = {
+          landing: [
+            `${cvr.toFixed(1)}% de los clics dejan sus datos. Revisá la landing: velocidad de carga, largo del formulario, y que la oferta sea la misma que promete el anuncio.`,
+            `${cvr.toFixed(1)}% de conversión de landing, aceptable. Un formulario más corto o una oferta más concreta puede subirlo.`,
+            `${cvr.toFixed(1)}% de conversión de landing — muy bien. Quien llega, deja sus datos sin drama.`,
+          ],
+          whatsapp: [
+            `${cvr.toFixed(1)}% de quienes tocan el anuncio llegan a mandar el mensaje (lo normal es 12-25%). Revisá el mensaje precargado: que sea corto y hable del mismo producto que el anuncio, no algo genérico.`,
+            `${cvr.toFixed(1)}% manda el mensaje, dentro de lo normal. Probar otro mensaje precargado o otra imagen puede subirlo un poco más.`,
+            `${cvr.toFixed(1)}% manda el mensaje — muy bueno. La gente que toca el anuncio efectivamente te escribe.`,
+          ],
+          formulario: [
+            `Solo ${cvr.toFixed(1)}% completa el formulario. Es raro con un formulario nativo (se autocompleta): puede ser un problema del anuncio en sí, no del formulario — revisá si el copy prepara bien lo que viene después.`,
+            `${cvr.toFixed(1)}% completa el formulario, algo por debajo de lo esperable para un formulario nativo. No es grave, pero hay margen.`,
+            `${cvr.toFixed(1)}% completa el formulario — como se espera de un formulario nativo. Si después no cierran, mirá la calidad de esos leads.`,
+          ],
+        };
+        items.push({ clave: info.clave, nivel: nivelCvr, texto: textos[destino][nivelCvr] });
       }
 
       if (impresiones > 0 && clics > 0) {
         const ctr = (clics / impresiones) * 100;
         const nivelCtr = evaluar(ctr, 1, 2);
+        const frecuencia = alcance > 0 ? impresiones / alcance : null;
+        const avisoFatiga = frecuencia && frecuencia > 3.5 && nivelCtr < 2
+          ? ` Con una frecuencia de ${frecuencia.toFixed(1)} probablemente sea fatiga de creativo: la misma persona ya vio el anuncio varias veces y dejó de prestarle atención — es momento de renovarlo, no de subir presupuesto.`
+          : '';
         items.push({
           clave: 'Anuncios (impresión → clic)',
           nivel: nivelCtr,
-          texto: nivelCtr === 0
+          texto: (nivelCtr === 0
             ? `CTR de ${ctr.toFixed(2)}%, bajo. Tus anuncios no están frenando el scroll: probá otro gancho en los primeros segundos, otro formato o otro ángulo de copy.`
             : nivelCtr === 1
               ? `CTR de ${ctr.toFixed(2)}%, aceptable. Probar 2 o 3 variantes de creativo nuevas puede mejorarlo.`
-              : `CTR de ${ctr.toFixed(2)}% — muy bueno. La gente reacciona a tus anuncios; si hay un problema, está más adelante en el embudo.`,
+              : `CTR de ${ctr.toFixed(2)}% — muy bueno. La gente reacciona a tus anuncios; si hay un problema, está más adelante en el embudo.`) + avisoFatiga,
         });
       }
 
@@ -642,7 +741,9 @@
 
     gastoInput.addEventListener('input', calcular);
     consultasInput.addEventListener('input', calcular);
+    destinoSelect.addEventListener('change', calcular);
     impresionesInput.addEventListener('input', calcular);
+    alcanceInput.addEventListener('input', calcular);
     clicsInput.addEventListener('input', calcular);
     cierreInput.addEventListener('input', calcular);
     botonAgregar.addEventListener('click', agregarFila);
