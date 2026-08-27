@@ -84,6 +84,12 @@ collections:
         required: false
         hint: Qué se ve en la imagen. Para lectores de pantalla y para Google.
 
+      - label: Agregar calculadora de presupuesto
+        name: calculadora
+        widget: boolean
+        default: false
+        hint: Suma la calculadora de presupuesto de pauta al final de la nota.
+
       - label: Guardar como borrador
         name: borrador
         widget: boolean

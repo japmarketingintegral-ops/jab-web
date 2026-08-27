@@ -27,6 +27,11 @@ const blog = defineCollection({
       asunto: z.string(),
       incluye: z.array(z.string()).default([]),
     }).optional(),
+    /**
+     * Si está activado, agrega la calculadora de presupuesto de pauta al
+     * final de la nota (ver src/components/CalculadoraPresupuesto.astro).
+     */
+    calculadora: z.boolean().default(false),
     borrador: z.boolean().default(false),
   }),
 });

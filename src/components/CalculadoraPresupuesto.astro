@@ -1,0 +1,355 @@
+---
+// Calculadora de presupuesto de pauta: toma costo por consulta + tasa de
+// cierre (compartidos, porque suelen venir del mismo embudo) y, por cada
+// producto que vende el negocio —cada uno con su propio margen—, calcula si
+// conviene y cuánto presupuesto hace falta para la cantidad de clientes que
+// se pongan como objetivo. Vive dentro de la nota "Cuánto invertir en
+// pauta", enlazada desde el carrusel de Instagram del mismo tema.
+---
+
+<section class="calc" data-calc>
+  <div class="calc__caja">
+    <p class="calc__rotulo">Calculadora gratis</p>
+    <h2 class="calc__title">Calculá tu presupuesto de pauta</h2>
+    <p class="calc__texto">
+      Cargá tus números y mirá el resultado al toque. Si vendés más de un
+      producto, agregalos todos: cada uno tiene su propio margen.
+    </p>
+
+    <div class="calc__compartidos">
+      <label class="calc__campo">
+        <span>Costo por consulta</span>
+        <div class="calc__input-money">
+          <span aria-hidden="true">$</span>
+          <input type="number" inputmode="decimal" min="0" step="1" placeholder="3500" data-calc-costo>
+        </div>
+      </label>
+      <label class="calc__campo">
+        <span>De cada 10 consultas, ¿cuántas compran?</span>
+        <input type="number" inputmode="decimal" min="0" max="10" step="0.5" placeholder="1" data-calc-cierre>
+      </label>
+    </div>
+
+    <div class="calc__productos" data-calc-productos></div>
+
+    <button type="button" class="calc__agregar" data-calc-agregar>
+      + Agregar otro producto
+    </button>
+
+    <div class="calc__resultado" data-calc-resultado hidden>
+      <div class="calc__filas" data-calc-filas></div>
+      <div class="calc__total">
+        <span>Presupuesto total sugerido</span>
+        <strong data-calc-total>$0</strong>
+      </div>
+      <p class="calc__nota" data-calc-mensaje></p>
+    </div>
+  </div>
+</section>
+
+<template data-calc-fila-tpl>
+  <div class="calc__fila" data-fila>
+    <input type="text" class="calc__fila-nombre" placeholder="Nombre del producto" data-nombre>
+    <label class="calc__fila-campo">
+      <span>Margen por venta</span>
+      <div class="calc__input-money">
+        <span aria-hidden="true">$</span>
+        <input type="number" inputmode="decimal" min="0" step="1" placeholder="20000" data-margen>
+      </div>
+    </label>
+    <label class="calc__fila-campo">
+      <span>Clientes que querés este mes</span>
+      <input type="number" inputmode="numeric" min="0" step="1" placeholder="5" data-clientes>
+    </label>
+    <button type="button" class="calc__fila-quitar" data-quitar aria-label="Quitar producto">×</button>
+  </div>
+</template>
+
+<style>
+  .calc { margin-top: clamp(40px, 6vh, 72px); }
+
+  .calc__caja {
+    padding: clamp(26px, 3.4vw, 44px);
+    background: linear-gradient(150deg, rgba(61, 106, 241, 0.16), rgba(1, 9, 53, 0.6));
+    border: 1px solid var(--border-dark-strong);
+  }
+
+  .calc__rotulo {
+    margin: 0 0 12px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--lime-500);
+  }
+
+  .calc__title {
+    margin: 0 0 10px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(22px, 3vw, 32px);
+    line-height: 1.12;
+    color: var(--celeste-100);
+  }
+
+  .calc__texto {
+    margin: 0;
+    font-size: clamp(15px, 1.6vw, 17px);
+    line-height: 1.6;
+    color: var(--text-muted);
+  }
+
+  .calc__compartidos {
+    margin-top: 24px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  .calc__campo { display: grid; gap: 6px; }
+  .calc__campo > span,
+  .calc__fila-campo > span {
+    font-size: 12.5px;
+    color: var(--text-soft);
+  }
+
+  .calc__campo input,
+  .calc__fila-nombre,
+  .calc__fila-campo input {
+    width: 100%;
+    min-width: 0;
+    padding: 13px 14px;
+    background: rgba(0, 0, 46, 0.5);
+    border: 1px solid var(--border-dark-strong);
+    color: var(--celeste-100);
+    font-family: var(--font-body);
+    font-size: 15px;
+  }
+  .calc__campo input:focus-visible,
+  .calc__fila-nombre:focus-visible,
+  .calc__fila-campo input:focus-visible {
+    outline: 2px solid var(--blue-600);
+    outline-offset: 1px;
+  }
+
+  .calc__input-money { position: relative; }
+  .calc__input-money span {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-faint);
+    pointer-events: none;
+  }
+  .calc__input-money input { padding-left: 26px; }
+
+  .calc__productos {
+    margin-top: 20px;
+    display: grid;
+    gap: 12px;
+  }
+
+  .calc__fila {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr auto;
+    align-items: end;
+    gap: 10px;
+    padding: 14px;
+    background: rgba(0, 0, 46, 0.3);
+    border: 1px solid var(--border-dark);
+  }
+  .calc__fila-nombre { align-self: stretch; }
+  .calc__fila-campo { display: grid; gap: 6px; }
+
+  .calc__fila-quitar {
+    width: 36px;
+    height: 44px;
+    border: 1px solid var(--border-dark-strong);
+    background: transparent;
+    color: var(--text-faint);
+    font-size: 18px;
+    cursor: pointer;
+    transition: color .2s var(--ease), border-color .2s var(--ease);
+  }
+  .calc__fila-quitar:hover { color: var(--lime-500); border-color: var(--lime-500); }
+  .calc__fila-quitar:disabled { opacity: .3; cursor: not-allowed; }
+
+  .calc__agregar {
+    margin-top: 14px;
+    padding: 10px 18px;
+    background: transparent;
+    border: 1px dashed var(--border-dark-strong);
+    color: var(--text-soft);
+    font-family: var(--font-body);
+    font-size: 14px;
+    cursor: pointer;
+    transition: color .2s var(--ease), border-color .2s var(--ease);
+  }
+  .calc__agregar:hover { color: var(--lime-500); border-color: var(--lime-500); }
+
+  .calc__resultado { margin-top: 28px; border-top: 1px solid var(--border-dark); padding-top: 24px; }
+  .calc__resultado[hidden] { display: none; }
+
+  .calc__filas { display: grid; gap: 10px; }
+
+  .calc__linea {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 6px 10px;
+    padding: 12px 14px;
+    background: rgba(0, 0, 46, 0.35);
+    border-left: 3px solid var(--border-dark-strong);
+    font-size: 14px;
+  }
+  .calc__linea strong { color: var(--celeste-100); font-family: var(--font-display); }
+  .calc__linea small { color: var(--text-faint); width: 100%; }
+  .calc__linea--conviene { border-left-color: var(--lime-500); }
+  .calc__linea--ajustado { border-left-color: #f5c542; }
+  .calc__linea--no-conviene { border-left-color: #ff5a5a; }
+
+  .calc__total {
+    margin-top: 18px;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 16px 18px;
+    background: rgba(213, 255, 60, 0.08);
+    border: 1px solid rgba(213, 255, 60, 0.3);
+  }
+  .calc__total span { font-size: 13px; color: var(--text-soft); text-transform: uppercase; letter-spacing: .1em; }
+  .calc__total strong { font-family: var(--font-display); font-size: clamp(24px, 3vw, 32px); color: var(--lime-500); }
+
+  .calc__nota { margin: 14px 0 0; font-size: 13px; line-height: 1.5; color: var(--text-faint); }
+
+  @media (max-width: 720px) {
+    .calc__compartidos { grid-template-columns: 1fr; }
+    .calc__fila { grid-template-columns: 1fr; }
+    .calc__fila-quitar { justify-self: end; width: 44px; }
+  }
+</style>
+
+<script>
+  function medirCalculadora(datos: Record<string, unknown>) {
+    (window as any).dataLayer = (window as any).dataLayer || [];
+    (window as any).dataLayer.push(Object.assign({ event: 'calculadora_usada' }, datos));
+  }
+
+  function formatearPesos(valor: number): string {
+    return '$' + Math.round(valor).toLocaleString('es-AR');
+  }
+
+  document.querySelectorAll<HTMLElement>('[data-calc]').forEach((raiz) => {
+    const costoInput = raiz.querySelector<HTMLInputElement>('[data-calc-costo]')!;
+    const cierreInput = raiz.querySelector<HTMLInputElement>('[data-calc-cierre]')!;
+    const contenedorProductos = raiz.querySelector<HTMLElement>('[data-calc-productos]')!;
+    const botonAgregar = raiz.querySelector<HTMLButtonElement>('[data-calc-agregar]')!;
+    const resultado = raiz.querySelector<HTMLElement>('[data-calc-resultado]')!;
+    const filasResultado = raiz.querySelector<HTMLElement>('[data-calc-filas]')!;
+    const totalEl = raiz.querySelector<HTMLElement>('[data-calc-total]')!;
+    const mensajeEl = raiz.querySelector<HTMLElement>('[data-calc-mensaje]')!;
+    const plantilla = document.querySelector<HTMLTemplateElement>('[data-calc-fila-tpl]')!;
+
+    let yaMedido = false;
+
+    function agregarFila() {
+      const nodo = plantilla.content.cloneNode(true) as DocumentFragment;
+      const fila = nodo.querySelector<HTMLElement>('[data-fila]')!;
+      fila.querySelectorAll('input').forEach((input) => input.addEventListener('input', calcular));
+      fila.querySelector('[data-quitar]')!.addEventListener('click', () => {
+        fila.remove();
+        actualizarBotonesQuitar();
+        calcular();
+      });
+      contenedorProductos.appendChild(fila);
+      actualizarBotonesQuitar();
+    }
+
+    function actualizarBotonesQuitar() {
+      const filas = contenedorProductos.querySelectorAll('[data-fila]');
+      filas.forEach((fila) => {
+        const boton = fila.querySelector<HTMLButtonElement>('[data-quitar]')!;
+        boton.disabled = filas.length <= 1;
+      });
+    }
+
+    function calcular() {
+      const costoConsulta = parseFloat(costoInput.value);
+      const compran = parseFloat(cierreInput.value);
+      const filas = Array.from(contenedorProductos.querySelectorAll<HTMLElement>('[data-fila]'));
+
+      if (!costoConsulta || !compran || costoConsulta <= 0 || compran <= 0) {
+        resultado.hidden = true;
+        return;
+      }
+
+      const tasaCierre = compran / 10;
+      const costoPorCliente = costoConsulta / tasaCierre;
+
+      let total = 0;
+      let huboProducto = false;
+      let algunoNoConviene = false;
+      filasResultado.innerHTML = '';
+
+      filas.forEach((fila, i) => {
+        const nombre = (fila.querySelector<HTMLInputElement>('[data-nombre]')!.value || `Producto ${i + 1}`).trim();
+        const margen = parseFloat(fila.querySelector<HTMLInputElement>('[data-margen]')!.value);
+        const clientes = parseFloat(fila.querySelector<HTMLInputElement>('[data-clientes]')!.value);
+
+        if (!margen || !clientes || margen <= 0 || clientes <= 0) return;
+        huboProducto = true;
+
+        const presupuesto = costoPorCliente * clientes;
+        total += presupuesto;
+
+        const ratio = costoPorCliente / margen;
+        let estado: 'conviene' | 'ajustado' | 'no-conviene';
+        let etiqueta: string;
+        if (ratio > 1) {
+          estado = 'no-conviene';
+          etiqueta = 'No conviene: te cuesta más de lo que ganás por cliente';
+          algunoNoConviene = true;
+        } else if (ratio > 0.5) {
+          estado = 'ajustado';
+          etiqueta = 'Ajustado: te deja poco margen de maniobra';
+        } else {
+          estado = 'conviene';
+          etiqueta = 'Conviene: tenés margen de sobra';
+        }
+
+        const linea = document.createElement('div');
+        linea.className = `calc__linea calc__linea--${estado}`;
+        linea.innerHTML = `
+          <strong>${nombre}</strong>
+          <span>— costo por cliente: <strong>${formatearPesos(costoPorCliente)}</strong></span>
+          <span>· presupuesto: <strong>${formatearPesos(presupuesto)}</strong></span>
+          <small>${etiqueta}</small>
+        `;
+        filasResultado.appendChild(linea);
+      });
+
+      if (!huboProducto) {
+        resultado.hidden = true;
+        return;
+      }
+
+      totalEl.textContent = formatearPesos(total);
+      mensajeEl.textContent = algunoNoConviene
+        ? 'Al menos un producto no cubre el costo del cliente con pauta a este ritmo: no lo empujes con publicidad todavía, o subí el margen antes.'
+        : 'Todos tus productos cubren el costo del cliente. Este es el piso que necesitás para la cantidad de clientes que pediste.';
+      resultado.hidden = false;
+
+      if (!yaMedido) {
+        yaMedido = true;
+        medirCalculadora({ pagina: window.location.pathname, productos: filas.length });
+      }
+    }
+
+    costoInput.addEventListener('input', calcular);
+    cierreInput.addEventListener('input', calcular);
+    botonAgregar.addEventListener('click', agregarFila);
+
+    agregarFila();
+  });
+</script>
