@@ -1,10 +1,14 @@
 ---
-// Calculadora de presupuesto de pauta: toma costo por consulta + tasa de
-// cierre (compartidos, porque suelen venir del mismo embudo) y, por cada
-// producto que vende el negocio —cada uno con su propio margen—, calcula si
-// conviene y cuánto presupuesto hace falta para la cantidad de clientes que
-// se pongan como objetivo. Vive dentro de la nota "Cuánto invertir en
-// pauta", enlazada desde el carrusel de Instagram del mismo tema.
+// Calculadora de presupuesto de pauta, con dos modos:
+//
+// - "Ya pauteé": el clásico costo por consulta ÷ tasa de cierre = costo por
+//   cliente, comparado contra el margen de cada producto.
+// - "Todavía no pauteé": alguien que nunca corrió un peso de pauta no tiene
+//   forma de saber cuánto le cuesta una consulta — ese dato no existe hasta
+//   que la campaña arranca. Para no pedir un número que no puede tener, este
+//   modo da vuelta la cuenta: a partir del margen (que sí conoce) calcula el
+//   TECHO que le conviene pagar por cliente con la regla del 20% ya usada en
+//   el resto del sitio, y de ahí un presupuesto de prueba para arrancar.
 ---
 
 <section class="calc" data-calc>
@@ -16,8 +20,17 @@
       producto, agregalos todos: cada uno tiene su propio margen.
     </p>
 
-    <div class="calc__compartidos">
-      <label class="calc__campo">
+    <div class="calc__modo" role="tablist" data-calc-modo>
+      <button type="button" class="calc__modo-btn is-activo" data-modo-btn="con-dato" role="tab" aria-selected="true">
+        Ya pauteé antes
+      </button>
+      <button type="button" class="calc__modo-btn" data-modo-btn="sin-dato" role="tab" aria-selected="false">
+        Todavía no pauteé
+      </button>
+    </div>
+
+    <div class="calc__compartidos" data-calc-compartidos>
+      <label class="calc__campo" data-campo-costo>
         <span>Costo por consulta</span>
         <div class="calc__input-money">
           <span aria-hidden="true">$</span>
@@ -25,10 +38,19 @@
         </div>
       </label>
       <label class="calc__campo">
-        <span>De cada 10 consultas, ¿cuántas compran?</span>
+        <span data-label-cierre>De cada 10 consultas, ¿cuántas compran?</span>
         <input type="number" inputmode="decimal" min="0" max="10" step="0.5" placeholder="1" data-calc-cierre>
       </label>
     </div>
+
+    <p class="calc__ayuda" data-calc-ayuda hidden>
+      Sin pautear todavía no hay forma de saber esto con certeza — ni falta
+      que hace. Calculamos el techo máximo que te conviene pagar a partir de
+      tu margen (no más del 20%, la misma regla que usamos en toda la nota).
+      Si nunca mediste tu tasa de cierre, pensá en tus últimas consultas por
+      WhatsApp o mostrador; si no tenés ni idea, dejá el 2 de acá arriba como
+      piso conservador.
+    </p>
 
     <div class="calc__productos" data-calc-productos></div>
 
@@ -39,7 +61,7 @@
     <div class="calc__resultado" data-calc-resultado hidden>
       <div class="calc__filas" data-calc-filas></div>
       <div class="calc__total">
-        <span>Presupuesto total sugerido</span>
+        <span data-calc-total-label>Presupuesto total sugerido</span>
         <strong data-calc-total>$0</strong>
       </div>
       <p class="calc__nota" data-calc-mensaje></p>
@@ -99,12 +121,44 @@
     color: var(--text-muted);
   }
 
+  .calc__modo {
+    margin-top: 22px;
+    display: inline-flex;
+    gap: 6px;
+    padding: 4px;
+    background: rgba(0, 0, 46, 0.4);
+    border: 1px solid var(--border-dark);
+  }
+  .calc__modo-btn {
+    padding: 9px 16px;
+    background: transparent;
+    border: 0;
+    color: var(--text-soft);
+    font-family: var(--font-body);
+    font-size: 13.5px;
+    cursor: pointer;
+    transition: background .2s var(--ease), color .2s var(--ease);
+  }
+  .calc__modo-btn.is-activo { background: var(--blue-600); color: var(--white); }
+  .calc__modo-btn:not(.is-activo):hover { color: var(--celeste-100); }
+
   .calc__compartidos {
-    margin-top: 24px;
+    margin-top: 20px;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 14px;
   }
+  .calc__compartidos.calc__compartidos--una-columna { grid-template-columns: 1fr; }
+  .calc__ayuda {
+    margin: 14px 0 0;
+    padding: 12px 14px;
+    background: rgba(61, 106, 241, 0.1);
+    border-left: 3px solid var(--blue-600);
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--text-soft);
+  }
+  .calc__ayuda[hidden] { display: none; }
 
   .calc__campo { display: grid; gap: 6px; }
   .calc__campo > span,
@@ -207,6 +261,7 @@
   .calc__linea--conviene { border-left-color: var(--lime-500); }
   .calc__linea--ajustado { border-left-color: #f5c542; }
   .calc__linea--no-conviene { border-left-color: #ff5a5a; }
+  .calc__linea--techo { border-left-color: var(--blue-600); }
 
   .calc__total {
     margin-top: 18px;
@@ -243,15 +298,43 @@
   document.querySelectorAll<HTMLElement>('[data-calc]').forEach((raiz) => {
     const costoInput = raiz.querySelector<HTMLInputElement>('[data-calc-costo]')!;
     const cierreInput = raiz.querySelector<HTMLInputElement>('[data-calc-cierre]')!;
+    const campoCosto = raiz.querySelector<HTMLElement>('[data-campo-costo]')!;
+    const compartidos = raiz.querySelector<HTMLElement>('[data-calc-compartidos]')!;
+    const ayuda = raiz.querySelector<HTMLElement>('[data-calc-ayuda]')!;
+    const labelCierre = raiz.querySelector<HTMLElement>('[data-label-cierre]')!;
+    const botonesModo = raiz.querySelectorAll<HTMLButtonElement>('[data-modo-btn]');
     const contenedorProductos = raiz.querySelector<HTMLElement>('[data-calc-productos]')!;
     const botonAgregar = raiz.querySelector<HTMLButtonElement>('[data-calc-agregar]')!;
     const resultado = raiz.querySelector<HTMLElement>('[data-calc-resultado]')!;
     const filasResultado = raiz.querySelector<HTMLElement>('[data-calc-filas]')!;
     const totalEl = raiz.querySelector<HTMLElement>('[data-calc-total]')!;
+    const totalLabelEl = raiz.querySelector<HTMLElement>('[data-calc-total-label]')!;
     const mensajeEl = raiz.querySelector<HTMLElement>('[data-calc-mensaje]')!;
     const plantilla = document.querySelector<HTMLTemplateElement>('[data-calc-fila-tpl]')!;
 
+    let modo: 'con-dato' | 'sin-dato' = 'con-dato';
     let yaMedido = false;
+
+    function cambiarModo(nuevo: 'con-dato' | 'sin-dato') {
+      modo = nuevo;
+      botonesModo.forEach((boton) => {
+        const activo = boton.dataset.modoBtn === modo;
+        boton.classList.toggle('is-activo', activo);
+        boton.setAttribute('aria-selected', String(activo));
+      });
+      campoCosto.hidden = modo === 'sin-dato';
+      compartidos.classList.toggle('calc__compartidos--una-columna', modo === 'sin-dato');
+      ayuda.hidden = modo === 'con-dato';
+      labelCierre.textContent = modo === 'sin-dato'
+        ? 'De cada 10 consultas que recibas, ¿cuántas creés que van a comprar?'
+        : 'De cada 10 consultas, ¿cuántas compran?';
+      if (modo === 'sin-dato' && !cierreInput.value) cierreInput.value = '2';
+      calcular();
+    }
+
+    botonesModo.forEach((boton) => {
+      boton.addEventListener('click', () => cambiarModo(boton.dataset.modoBtn as 'con-dato' | 'sin-dato'));
+    });
 
     function agregarFila() {
       const nodo = plantilla.content.cloneNode(true) as DocumentFragment;
@@ -274,15 +357,10 @@
       });
     }
 
-    function calcular() {
+    function calcularConDato(filas: HTMLElement[]) {
       const costoConsulta = parseFloat(costoInput.value);
       const compran = parseFloat(cierreInput.value);
-      const filas = Array.from(contenedorProductos.querySelectorAll<HTMLElement>('[data-fila]'));
-
-      if (!costoConsulta || !compran || costoConsulta <= 0 || compran <= 0) {
-        resultado.hidden = true;
-        return;
-      }
+      if (!costoConsulta || !compran || costoConsulta <= 0 || compran <= 0) return null;
 
       const tasaCierre = compran / 10;
       const costoPorCliente = costoConsulta / tasaCierre;
@@ -290,13 +368,11 @@
       let total = 0;
       let huboProducto = false;
       let algunoNoConviene = false;
-      filasResultado.innerHTML = '';
 
       filas.forEach((fila, i) => {
         const nombre = (fila.querySelector<HTMLInputElement>('[data-nombre]')!.value || `Producto ${i + 1}`).trim();
         const margen = parseFloat(fila.querySelector<HTMLInputElement>('[data-margen]')!.value);
         const clientes = parseFloat(fila.querySelector<HTMLInputElement>('[data-clientes]')!.value);
-
         if (!margen || !clientes || margen <= 0 || clientes <= 0) return;
         huboProducto = true;
 
@@ -318,31 +394,89 @@
           etiqueta = 'Conviene: tenés margen de sobra';
         }
 
-        const linea = document.createElement('div');
-        linea.className = `calc__linea calc__linea--${estado}`;
-        linea.innerHTML = `
+        agregarLinea(estado, `
           <strong>${nombre}</strong>
           <span>— costo por cliente: <strong>${formatearPesos(costoPorCliente)}</strong></span>
           <span>· presupuesto: <strong>${formatearPesos(presupuesto)}</strong></span>
           <small>${etiqueta}</small>
-        `;
-        filasResultado.appendChild(linea);
+        `);
       });
 
-      if (!huboProducto) {
+      if (!huboProducto) return null;
+      return {
+        total,
+        totalLabel: 'Presupuesto total sugerido',
+        mensaje: algunoNoConviene
+          ? 'Al menos un producto no cubre el costo del cliente con pauta a este ritmo: no lo empujes con publicidad todavía, o subí el margen antes.'
+          : 'Todos tus productos cubren el costo del cliente. Este es el piso que necesitás para la cantidad de clientes que pediste.',
+      };
+    }
+
+    function calcularSinDato(filas: HTMLElement[]) {
+      const compran = parseFloat(cierreInput.value);
+      const tasaCierre = compran > 0 ? compran / 10 : null;
+
+      let total = 0;
+      let huboProducto = false;
+
+      filas.forEach((fila, i) => {
+        const nombre = (fila.querySelector<HTMLInputElement>('[data-nombre]')!.value || `Producto ${i + 1}`).trim();
+        const margen = parseFloat(fila.querySelector<HTMLInputElement>('[data-margen]')!.value);
+        const clientes = parseFloat(fila.querySelector<HTMLInputElement>('[data-clientes]')!.value);
+        if (!margen || !clientes || margen <= 0 || clientes <= 0) return;
+        huboProducto = true;
+
+        const costoPorClienteTecho = margen * 0.2;
+        const presupuesto = costoPorClienteTecho * clientes;
+        total += presupuesto;
+
+        const lineaConsulta = tasaCierre
+          ? `<span>· no pagues más de <strong>${formatearPesos(costoPorClienteTecho * tasaCierre)}</strong> por consulta</span>`
+          : '';
+
+        agregarLinea('techo', `
+          <strong>${nombre}</strong>
+          <span>— techo por cliente: <strong>${formatearPesos(costoPorClienteTecho)}</strong></span>
+          <span>· presupuesto de prueba: <strong>${formatearPesos(presupuesto)}</strong></span>
+          ${lineaConsulta}
+          <small>Techo de seguridad: el 20% de tu margen</small>
+        `);
+      });
+
+      if (!huboProducto) return null;
+      return {
+        total,
+        totalLabel: 'Presupuesto de prueba sugerido',
+        mensaje: 'Esto es un techo de seguridad calculado con tu margen, no un dato real de mercado. Arrancá con esto, medí durante 4 a 6 semanas y volvé a esta calculadora en modo "Ya pauteé antes" con tus números reales para afinarlo.',
+      };
+    }
+
+    function agregarLinea(estado: string, html: string) {
+      const linea = document.createElement('div');
+      linea.className = `calc__linea calc__linea--${estado}`;
+      linea.innerHTML = html;
+      filasResultado.appendChild(linea);
+    }
+
+    function calcular() {
+      const filas = Array.from(contenedorProductos.querySelectorAll<HTMLElement>('[data-fila]'));
+      filasResultado.innerHTML = '';
+
+      const resumen = modo === 'con-dato' ? calcularConDato(filas) : calcularSinDato(filas);
+
+      if (!resumen) {
         resultado.hidden = true;
         return;
       }
 
-      totalEl.textContent = formatearPesos(total);
-      mensajeEl.textContent = algunoNoConviene
-        ? 'Al menos un producto no cubre el costo del cliente con pauta a este ritmo: no lo empujes con publicidad todavía, o subí el margen antes.'
-        : 'Todos tus productos cubren el costo del cliente. Este es el piso que necesitás para la cantidad de clientes que pediste.';
+      totalLabelEl.textContent = resumen.totalLabel;
+      totalEl.textContent = formatearPesos(resumen.total);
+      mensajeEl.textContent = resumen.mensaje;
       resultado.hidden = false;
 
       if (!yaMedido) {
         yaMedido = true;
-        medirCalculadora({ pagina: window.location.pathname, productos: filas.length });
+        medirCalculadora({ pagina: window.location.pathname, productos: filas.length, modo });
       }
     }
 

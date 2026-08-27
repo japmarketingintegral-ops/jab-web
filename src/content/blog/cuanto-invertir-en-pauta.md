@@ -30,13 +30,19 @@ saber si es el correcto.
 
 ## La cuenta, paso a paso
 
-Para calcularlo bien necesitás tres números. Los tres los podés estimar hoy
-mismo, aunque nunca hayas pauteado.
+Para calcularlo bien necesitás tres números. Pero ojo: si nunca pauteaste,
+hay uno que **no podés saber todavía**, y no pasa nada.
 
 **1. Cuánto te cuesta generar una consulta.** Si ya pauteaste alguna vez, es
-un dato que tenés. Si nunca pauteaste, pedile una referencia a quien te
-maneje la cuenta o arrancá con un número conservador y ajustalo con datos
-reales a las dos semanas.
+un dato que tenés — mirá tu cuenta publicitaria. Si nunca pauteaste, este
+número directamente no existe hasta que la campaña arranca, y no hay forma
+honesta de adivinarlo: depende de tu rubro, tu zona, tu creatividad y hasta
+de qué está pasando esa semana en la subasta. Cualquiera que te diga "tu
+consulta te va a salir tanto" sin haber corrido nada todavía te está
+inventando un número. La calculadora de más abajo tiene un modo pensado
+justo para esto: en vez de pedirte ese dato, calcula el techo máximo que te
+conviene pagar a partir de tu margen, así arrancás con un presupuesto de
+prueba sin inventar nada.
 
 **2. De cada diez consultas, cuántas terminan en venta.** Es tu tasa de
 cierre. Si no la tenés anotada, contá las consultas de un mes y las ventas de
@@ -112,6 +118,8 @@ meses de presupuesto.
 
 ## Probalo con tus números
 
-Cargá lo tuyo acá abajo — no pedimos mail, no se guarda en ningún lado, es
-solo para que veas el número real de tu negocio antes de poner un peso en
-pauta.
+Cargá lo tuyo acá abajo — no pedimos mail, no se guarda en ningún lado. Si ya
+pauteaste, dejá el modo "Ya pauteé antes" con tu costo por consulta real. Si
+todavía no corriste nada, tocá "Todavía no pauteé": vas a ver el techo que te
+conviene pagar por cliente, calculado solo con tu margen, sin que tengas que
+inventar ningún número.
