@@ -27,7 +27,12 @@ async function llamarClaude({ modelo, system, prompt, maxTokens }) {
   });
   if (!res.ok) throw new Error(`Anthropic API falló: ${res.status} ${await res.text()}`);
   const data = await res.json();
-  return data.content[0].text;
+  // El primer bloque de content no siempre es el de texto -- el modelo
+  // puede devolver un bloque de razonamiento antes. Bug real: esto rompía
+  // el 100% de las llamadas de generación en la primera corrida real.
+  const bloqueDeTexto = data.content.find((b) => b.type === 'text');
+  if (!bloqueDeTexto) throw new Error(`Respuesta sin bloque de texto: ${JSON.stringify(data)}`);
+  return bloqueDeTexto.text;
 }
 
 /**
