@@ -8,14 +8,14 @@ const ejecutar = promisify(execFile);
 const CARPETA_BLOG = fileURLToPath(new URL('../../src/content/blog/', import.meta.url));
 const CARPETA_PORTADAS = fileURLToPath(new URL('../../public/assets/img/blog/', import.meta.url));
 
-// Las fotos de portada vienen de posts de Instagram, casi siempre verticales
-// (4:5 o 9:16) -- pero la portada del blog es horizontal (1200x675). Un
-// recorte directo tira más de la mitad de la imagen y deja afuera texto o
-// caras. En vez de recortar, se compone sobre una franja del navy de marca
-// (--navy-900 del sitio) a los costados: así no se pierde nada del
-// contenido original y queda en la paleta oficial en vez de un desenfoque.
-const ANCHO_PORTADA = 1200;
-const ALTO_PORTADA = 675;
+// Las placas de Instagram son siempre 4:5 (1080x1350) -- la tarjeta del
+// blog usa ese mismo formato (.post__cover en styles.css) para que entren
+// tal cual, sin recortar. Cuando una placa no es exactamente 4:5 (reels
+// 9:16, cuadradas 1:1), se compone sobre una franja del navy de marca
+// (--navy-900) arriba/abajo o a los costados en vez de recortar: no se
+// pierde nada del contenido original y queda en la paleta oficial.
+const ANCHO_PORTADA = 1080;
+const ALTO_PORTADA = 1350;
 const NAVY_DE_MARCA = '0x00002e';
 const FFMPEG_BIN = process.env.FFMPEG_BIN || 'ffmpeg';
 

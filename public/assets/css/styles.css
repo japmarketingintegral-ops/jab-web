@@ -692,7 +692,7 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; }
 }
 
 .post__cover {
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 4 / 5;
   width: 100%;
   background: var(--navy-900);
   border-bottom: 1px solid var(--border-dark);
@@ -883,6 +883,117 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; }
     rgba(0, 0, 46, 0.05) 0 10px,
     transparent 10px 20px
   );
+}
+
+/* --------------------------------------------------------------------------
+   Testimonios
+   -------------------------------------------------------------------------- */
+
+.testimonios { padding-block: var(--section-y) calc(var(--section-y) * 0.6); }
+.testimonios .wrap { margin-inline: auto; max-width: var(--maxw); padding-inline: var(--gutter); }
+.testimonios .section-title { margin-top: 10px; max-width: 46ch; }
+
+.cinta-testimonios {
+  margin-top: clamp(32px, 5vh, 56px);
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+          mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+}
+
+.cinta-testimonios__pista {
+  display: flex;
+  width: max-content;
+  animation: desfile var(--desfile, 90s) linear infinite;
+}
+/* Se frena al pasar el mouse, igual que la cinta de clientes, y mientras
+   cualquier testimonio está sonando -- que la tarjeta no se vaya de foco. */
+.cinta-testimonios:hover .cinta-testimonios__pista,
+.cinta-testimonios__pista.is-pausada {
+  animation-play-state: paused;
+}
+
+/* Sin suficientes testimonios todavía no hay desfile: quedan centrados y
+   quietos, sin la máscara de desvanecido en los bordes (no hay borde que
+   disimular si no se mueve). */
+.cinta-testimonios--fija { -webkit-mask-image: none; mask-image: none; }
+.cinta-testimonios--fija .cinta-testimonios__pista {
+  animation: none;
+  width: 100%;
+  justify-content: center;
+}
+
+.reel {
+  position: relative;
+  flex: 0 0 auto;
+  width: clamp(168px, 16vw, 224px);
+  aspect-ratio: 9 / 16;
+  margin-inline-end: clamp(14px, 1.6vw, 24px);
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--navy-800);
+}
+
+.reel__video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  background: var(--navy-800);
+}
+
+.reel__play {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  border: 0;
+  cursor: pointer;
+  background: linear-gradient(to top, rgba(0, 0, 46, 0.55), rgba(0, 0, 46, 0) 45%);
+  color: var(--white);
+}
+.reel__icono {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 999px;
+  background: rgba(224, 244, 251, 0.92);
+  color: var(--navy-900);
+  transition: transform .25s var(--ease), background-color .25s var(--ease);
+}
+.reel__icono svg { width: 20px; height: 20px; margin-inline-start: 2px; }
+.reel:hover .reel__icono { transform: scale(1.08); background: var(--white); }
+/* Una vez tocado play, el navegador ya muestra sus propios controles --
+   el botón y el degradé de arriba estorbarían sobre esos controles. */
+.reel.is-reproduciendo .reel__play { display: none; }
+
+.reel__nombre {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  right: 10px;
+  margin: 0;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--white);
+  text-shadow: 0 1px 6px rgba(0, 0, 46, 0.6);
+  pointer-events: none;
+}
+.reel.is-reproduciendo .reel__nombre { display: none; }
+
+@media (hover: none) {
+  .reel__icono { background: var(--white); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cinta-testimonios { -webkit-mask-image: none; mask-image: none; }
+  .cinta-testimonios__pista {
+    animation: none;
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .cinta-testimonios__pista .reel[aria-hidden] { display: none; }
 }
 
 /* --------------------------------------------------------------------------
@@ -1089,7 +1200,6 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; }
   .timeline .paso { padding-bottom: 22px; }
 
   .blog__head { margin-bottom: 40px; }
-  .post__cover { aspect-ratio: 16 / 9; }
   .post__body { gap: 10px; }
 
   .clientes__title { margin-bottom: 26px; }
