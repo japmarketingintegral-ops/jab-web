@@ -11,17 +11,17 @@ const CARPETA_PORTADAS = fileURLToPath(new URL('../../public/assets/img/blog/', 
 // Las fotos de portada vienen de posts de Instagram, casi siempre verticales
 // (4:5 o 9:16) -- pero la portada del blog es horizontal (1200x675). Un
 // recorte directo tira más de la mitad de la imagen y deja afuera texto o
-// caras. En vez de recortar, se compone sobre un fondo desenfocado de la
-// misma imagen (la técnica de las barras difuminadas de Instagram): así no
-// se pierde nada del contenido original.
+// caras. En vez de recortar, se compone sobre una franja del navy de marca
+// (--navy-900 del sitio) a los costados: así no se pierde nada del
+// contenido original y queda en la paleta oficial en vez de un desenfoque.
 const ANCHO_PORTADA = 1200;
 const ALTO_PORTADA = 675;
+const NAVY_DE_MARCA = '0x00002e';
 const FFMPEG_BIN = process.env.FFMPEG_BIN || 'ffmpeg';
 
 async function componerPortada(rutaOriginal, rutaFinal) {
   const filtro =
-    `[0:v]scale=${ANCHO_PORTADA}:${ALTO_PORTADA}:force_original_aspect_ratio=increase,` +
-    `crop=${ANCHO_PORTADA}:${ALTO_PORTADA},gblur=sigma=25,eq=brightness=-0.08[bg];` +
+    `color=c=${NAVY_DE_MARCA}:s=${ANCHO_PORTADA}x${ALTO_PORTADA}[bg];` +
     `[0:v]scale=${ANCHO_PORTADA}:${ALTO_PORTADA}:force_original_aspect_ratio=decrease[fg];` +
     `[bg][fg]overlay=(W-w)/2:(H-h)/2,format=yuvj420p`;
   await ejecutar(FFMPEG_BIN, [
