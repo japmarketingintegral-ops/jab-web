@@ -49,6 +49,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta property="og:url" content={canonica}>
 <meta property="og:image" content={imagenAbs}>
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content={titulo}>
+<meta name="twitter:description" content={descripcion}>
+<meta name="twitter:image" content={imagenAbs}>
 
 <link rel="icon" href="/assets/img/isotipo-blanco.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/assets/img/isotipo-blanco.png">
@@ -80,10 +83,23 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   description: 'Agencia de marketing integral en Arroyo Seco, Santa Fe. Trabaja con empresas de Arroyo Seco, Rosario y la región en consultoría, marketing digital, paid media, diseño, desarrollo web, CRM, social media y producción audiovisual.',
   slogan: 'Strategy Matters',
   url: 'https://jabmarketing.site/',
-  logo: 'https://jabmarketing.site/assets/img/isologo-horizontal-blanco.svg',
+  // Tiene que ser raster (Google no acepta SVG en esta propiedad) y
+  // aproximadamente cuadrado -- por eso el isotipo, no el isologo horizontal.
+  logo: {
+    '@type': 'ImageObject',
+    url: 'https://jabmarketing.site/assets/img/isotipo-navy-square.png',
+    width: 400,
+    height: 400,
+  },
   image: 'https://jabmarketing.site/assets/img/og.jpg',
   email: 'hola@jabmarketing.site',
   telephone: '+5493402415366',
+  // Solo perfiles verificados como reales y de esta cuenta puntual -- "Jab
+  // Marketing" choca con muchas empresas homónimas en otros países, así que
+  // sumar acá un perfil que no sea 100% este negocio confunde más de lo que
+  // ayuda. Sumar LinkedIn/Facebook/Google Business acá cuando estén
+  // confirmados.
+  sameAs: ['https://www.instagram.com/jabmarketing_/'],
   address: {
     '@type': 'PostalAddress',
     addressLocality: 'Arroyo Seco',
@@ -108,16 +124,19 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     '@type': 'OfferCatalog',
     name: 'Servicios de marketing',
     itemListElement: [
-      'Consultoría de marketing',
-      'Marketing digital',
-      'Paid media en Meta, Google y TikTok Ads',
-      'Diseño y comunicación',
-      'Desarrollo web',
-      'CRM y automatizaciones',
-      'Social media',
-      'Producción audiovisual',
-      'Sistemas B2B industriales',
-    ].map((n) => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: n } })),
+      ['Consultoría de marketing', '/servicios/consultoria/'],
+      ['Marketing digital', '/servicios/marketing-digital/'],
+      ['Paid media en Meta, Google y TikTok Ads', '/servicios/paid-media/'],
+      ['Diseño y comunicación', '/servicios/diseno-y-comunicacion/'],
+      ['Desarrollo web', '/servicios/desarrollo-web/'],
+      ['CRM y automatizaciones', '/servicios/crm-y-automatizaciones/'],
+      ['Social media', '/servicios/social-media/'],
+      ['Producción audiovisual', '/servicios/produccion-audiovisual/'],
+      ['Sistemas B2B industriales', '/industrial/'],
+    ].map(([n, ruta]) => ({
+      '@type': 'Offer',
+      itemOffered: { '@type': 'Service', name: n, url: `https://jabmarketing.site${ruta}` },
+    })),
   },
 })} />
 

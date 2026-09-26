@@ -119,7 +119,7 @@ const faq = [
           -->
           <div class="ind-video" data-video={VIDEO} data-reveal>
             <button class="ind-video__btn" type="button" aria-label="Reproducir el video: cómo funciona el sistema, 3 minutos">
-              <img class="ind-video__miniatura" src={`https://img.youtube.com/vi/${VIDEO}/maxresdefault.jpg`} alt="" width="1280" height="720" loading="lazy">
+              <img class="ind-video__miniatura" src={`https://img.youtube.com/vi/${VIDEO}/maxresdefault.jpg`} alt="" width="1280" height="720" loading="eager" fetchpriority="high">
               <span class="ind-video__velo"></span>
               <span class="ind-video__play" aria-hidden="true">
                 <svg width="20" height="20" viewBox="0 0 22 22" fill="none"><path d="M7 4.5l12 6.5-12 6.5V4.5z" fill="currentColor"/></svg>
@@ -348,4 +348,13 @@ const faq = [
     name: f.p,
     acceptedAnswer: { '@type': 'Answer', text: f.r },
   })),
+})} />
+
+<script type="application/ld+json" is:inline set:html={JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Inicio', item: 'https://jabmarketing.site/' },
+    { '@type': 'ListItem', position: 2, name: 'Industriales', item: 'https://jabmarketing.site/industrial/' },
+  ],
 })} />

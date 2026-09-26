@@ -22,4 +22,9 @@ Allow: /
 User-agent: Google-Extended
 Allow: /
 
+# Estándar emergente (contentsignals.org) para declarar en texto plano lo
+# mismo que ya dicen las reglas de arriba: se puede buscar, entrenar y usar
+# como fuente de respuesta.
+Content-Signal: search=yes, ai-train=yes, ai-input=yes
+
 Sitemap: https://jabmarketing.site/sitemap-index.xml

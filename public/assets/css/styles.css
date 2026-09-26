@@ -489,8 +489,8 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; }
 .loop .paso__num,
 .loop .paso__title { transition: color .45s var(--ease), text-shadow .45s var(--ease); }
 
-.loop .paso:not(.is-activo) .paso__num { color: rgba(224, 244, 251, 0.4); }
-.loop .paso:not(.is-activo) .paso__title { color: rgba(255, 255, 255, 0.58); }
+.loop .paso:not(.is-activo) .paso__num { color: rgba(224, 244, 251, 0.62); }
+.loop .paso:not(.is-activo) .paso__title { color: rgba(255, 255, 255, 0.75); }
 .loop .paso.is-activo .paso__title { text-shadow: 0 0 26px rgba(224, 244, 251, 0.4); }
 
 /* Cuatro puntas sobre el anillo, a 45/135/225/315 grados */
@@ -1783,7 +1783,7 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; }
   font-size: clamp(12px, 1vw, 13px);
   font-weight: 500;
   line-height: 1.45;
-  color: rgba(224, 244, 251, 0.4);
+  color: rgba(224, 244, 251, 0.62);
 }
 
 /* ---- Carrusel de logos ---- */
@@ -2116,9 +2116,9 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; }
 .ind-urg {
   margin: 0;
   font-size: 12px;
-  color: rgba(224, 244, 251, 0.28);
+  color: rgba(224, 244, 251, 0.62);
 }
-.ind-urg strong { color: rgba(224, 244, 251, 0.48); font-weight: 600; }
+.ind-urg strong { color: rgba(224, 244, 251, 0.8); font-weight: 600; }
 
 /* El formulario, cuando aparece en esta página, sigue su lenguaje */
 .ind-form {

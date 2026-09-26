@@ -88,7 +88,21 @@ const WHATSAPP = 'https://wa.me/5493402415366?text=Hola%20Jab%2C%20quiero%20habl
     name: 'Jab Marketing',
     logo: {
       '@type': 'ImageObject',
-      url: new URL('/assets/img/isologo-horizontal-blanco.svg', Astro.site).toString(),
+      // Raster cuadrado, no el isologo horizontal en SVG: Google no acepta
+      // SVG en esta propiedad.
+      url: new URL('/assets/img/isotipo-navy-square.png', Astro.site).toString(),
+      width: 400,
+      height: 400,
     },
   },
+})} />
+
+<script type="application/ld+json" is:inline set:html={JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Inicio', item: 'https://jabmarketing.site/' },
+    { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://jabmarketing.site/blog/' },
+    { '@type': 'ListItem', position: 3, name: titulo, item: new URL(Astro.url.pathname, Astro.site).toString() },
+  ],
 })} />

@@ -29,6 +29,15 @@ oportunidades, ejecutar con criterio, analizar y escalar.
 ## Páginas
 
 - [Inicio](https://jabmarketing.site/): servicios, metodología y clientes
+- [Servicios](https://jabmarketing.site/servicios/): catálogo completo
+- [Consultoría de marketing](https://jabmarketing.site/servicios/consultoria/)
+- [Marketing digital](https://jabmarketing.site/servicios/marketing-digital/)
+- [Paid media](https://jabmarketing.site/servicios/paid-media/): Meta, Google y TikTok Ads
+- [Diseño y comunicación](https://jabmarketing.site/servicios/diseno-y-comunicacion/)
+- [Desarrollo web](https://jabmarketing.site/servicios/desarrollo-web/)
+- [CRM y automatizaciones](https://jabmarketing.site/servicios/crm-y-automatizaciones/)
+- [Social media](https://jabmarketing.site/servicios/social-media/)
+- [Producción audiovisual](https://jabmarketing.site/servicios/produccion-audiovisual/)
 - [Sistema B2B Industrial](https://jabmarketing.site/industrial/): captación para empresas industriales
 - [Blog](https://jabmarketing.site/blog/): notas sobre medición, presupuesto de pauta y contenido
 

@@ -31,7 +31,7 @@ const fichaServicio = {
   provider: {
     '@type': 'ProfessionalService',
     name: 'Jab Marketing',
-    '@id': `${sitio}/#negocio`,
+    '@id': `${sitio}/#empresa`,
     address: {
       '@type': 'PostalAddress',
       addressLocality: 'Arroyo Seco',
@@ -40,9 +40,12 @@ const fichaServicio = {
     },
     telephone: '+5493402415366',
   },
-  areaServed: ['Arroyo Seco', 'Rosario', 'Santa Fe', 'Argentina'].map((n) => ({
-    '@type': 'Place', name: n,
-  })),
+  areaServed: [
+    { '@type': 'City', name: 'Arroyo Seco' },
+    { '@type': 'City', name: 'Rosario' },
+    { '@type': 'State', name: 'Santa Fe' },
+    { '@type': 'Country', name: 'Argentina' },
+  ],
   hasOfferCatalog: {
     '@type': 'OfferCatalog',
     name: `Qué incluye ${d.titulo}`,
