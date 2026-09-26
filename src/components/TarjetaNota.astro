@@ -6,10 +6,15 @@ interface Props {
   /** Las tarjetas que se ven sin scroll no deben ir con loading="lazy": eso
    * retrasa su descarga y suele ser la imagen que cuenta para el LCP. */
   prioridad?: boolean;
+  /** Nivel del título de la tarjeta: depende de qué encabezado tiene arriba
+   * en cada página donde se usa este componente (h1 en /blog/, h2 en las
+   * otras) -- para no saltear niveles. */
+  nivelTitulo?: 'h2' | 'h3';
 }
 
-const { nota, prioridad = false } = Astro.props;
+const { nota, prioridad = false, nivelTitulo = 'h3' } = Astro.props;
 const { titulo, bajada, categoria, fecha, lectura, portada, portadaAlt } = nota.data;
+const TituloTarjeta = nivelTitulo;
 
 const fechaCorta = fecha.toLocaleDateString('es-AR', { day: 'numeric', month: 'short', year: 'numeric' });
 ---
@@ -30,7 +35,7 @@ const fechaCorta = fecha.toLocaleDateString('es-AR', { day: 'numeric', month: 's
     <p class="post__meta">
       {categoria}<span></span><span><time datetime={fecha.toISOString()}>{fechaCorta}</time></span>
     </p>
-    <h3 class="post__title">{titulo}</h3>
+    <TituloTarjeta class="post__title">{titulo}</TituloTarjeta>
     <p>{bajada}</p>
     <p class="post__foot">{lectura} min de lectura<span aria-hidden="true">&rarr;</span></p>
   </div>
