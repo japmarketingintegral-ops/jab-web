@@ -20,21 +20,23 @@ console.log(`${posts.length} posts en total, ${nuevos.length} sin procesar.`);
 let generados = 0;
 
 for (const post of nuevos) {
-  // Se marca como procesado apenas se evalúa, sea cual sea el resultado --
-  // así un post que no es educativo no se vuelve a mandar a Claude cada vez
-  // que corre el workflow.
-  procesados.add(post.external_id);
+  // Se marca como procesado solo si se llegó a un resultado definitivo
+  // (descartado, o publicado) -- nunca si algo falló. Bug real de la
+  // primera corrida: un post que fallaba en clasificar o generar quedaba
+  // marcado como procesado igual, y con eso nunca más se reintentaba, ni
+  // arreglando el bug después.
 
   let clasificacion;
   try {
     clasificacion = await esEducativo(post.titulo);
   } catch (err) {
-    console.error(`No se pudo clasificar ${post.external_id}:`, err.message);
+    console.error(`No se pudo clasificar ${post.external_id}, se reintenta la próxima corrida:`, err.message);
     continue;
   }
 
   if (!clasificacion.educativo) {
     console.log(`Descartado (${clasificacion.razon}): ${post.external_id}`);
+    procesados.add(post.external_id);
     continue;
   }
 
@@ -44,7 +46,7 @@ for (const post of nuevos) {
   try {
     contenido = await generarContenido(post.titulo);
   } catch (err) {
-    console.error(`No se pudo generar contenido para ${post.external_id}:`, err.message);
+    console.error(`No se pudo generar contenido para ${post.external_id}, se reintenta la próxima corrida:`, err.message);
     continue;
   }
 
@@ -62,6 +64,7 @@ for (const post of nuevos) {
   });
 
   console.log(`Publicado: ${slug}`);
+  procesados.add(post.external_id);
   generados++;
 }
 

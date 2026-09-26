@@ -18,6 +18,12 @@ async function llamarClaude({ modelo, system, prompt, maxTokens }) {
     body: JSON.stringify({
       model: modelo,
       max_tokens: maxTokens,
+      // Bug real de la primera corrida: sin esto, el modelo gastaba TODO
+      // max_tokens pensando (thinking_tokens == max_tokens) y no le
+      // quedaba nada para la respuesta -- el JSON salía vacío o cortado a
+      // mitad de una string. Esta tarea es una transformación directa, no
+      // necesita razonamiento extendido.
+      thinking: { type: 'disabled' },
       // El prompt del sistema es el mismo en cada llamada de esta corrida
       // (se procesan varios posts seguidos) -- con cache_control se cobra
       // una sola vez cada 5 minutos en vez de una vez por post.
@@ -84,7 +90,11 @@ Devolvé solo JSON válido con esta forma exacta, sin texto extra ni markdown al
   }
 }`,
     prompt: `Caption de Instagram:\n\n${caption}`,
-    maxTokens: 1800,
+    // Con thinking desactivado, 400-600 palabras + el post de LinkedIn en
+    // JSON entran cómodos acá -- se deja algo de margen sobre el cálculo
+    // exacto (~1300) por la estructura del JSON y por si un artículo sale
+    // un poco más largo.
+    maxTokens: 2200,
   });
   const limpio = texto.trim().replace(/^```json\n?|```$/g, '');
   return JSON.parse(limpio);
