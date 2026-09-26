@@ -3,6 +3,7 @@ import { esEducativo, generarContenido } from './claude.mjs';
 import { publicarBlog } from './blog.mjs';
 import { publicarLinkedin } from './linkedin.mjs';
 import { leerProcesados, guardarProcesados } from './estado.mjs';
+import { actualizarNotasDelBlog } from './llms.mjs';
 
 for (const variable of ['SUPABASE_URL', 'SUPABASE_SERVICE_ROLE_KEY', 'ANTHROPIC_API_KEY']) {
   if (!process.env[variable]) {
@@ -73,4 +74,11 @@ for (const post of nuevos) {
 }
 
 await guardarProcesados(procesados);
+
+// El listado de notas en llms.txt se regenera siempre, no solo cuando hay
+// piezas nuevas -- así también corrige el archivo si alguien lo tocó a mano.
+if (await actualizarNotasDelBlog()) {
+  console.log('llms.txt actualizado con las notas del blog.');
+}
+
 console.log(`Listo. ${generados} piezas nuevas generadas.`);

@@ -38,7 +38,7 @@ const WHATSAPP = 'https://wa.me/5493402415366?text=Hola%20Jab%2C%20quiero%20habl
 
     {portada && (
       <div class="nota__portada">
-        <img src={portada} alt={portadaAlt ?? ''} width="1200" height="675">
+        <img src={portada} alt={portadaAlt ?? ''} width="1080" height="1350">
       </div>
     )}
 
@@ -78,6 +78,17 @@ const WHATSAPP = 'https://wa.me/5493402415366?text=Hola%20Jab%2C%20quiero%20habl
   headline: titulo,
   description: bajada,
   datePublished: fecha.toISOString(),
-  author: { '@type': 'Organization', name: 'Jab Marketing' },
-  publisher: { '@type': 'Organization', name: 'Jab Marketing' },
+  dateModified: fecha.toISOString(),
+  inLanguage: 'es-AR',
+  mainEntityOfPage: { '@type': 'WebPage', '@id': new URL(Astro.url.pathname, Astro.site).toString() },
+  ...(portada ? { image: new URL(portada, Astro.site).toString() } : {}),
+  author: { '@type': 'Organization', name: 'Jab Marketing', url: 'https://jabmarketing.site/' },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Jab Marketing',
+    logo: {
+      '@type': 'ImageObject',
+      url: new URL('/assets/img/isologo-horizontal-blanco.svg', Astro.site).toString(),
+    },
+  },
 })} />

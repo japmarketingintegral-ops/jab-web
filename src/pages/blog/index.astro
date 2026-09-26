@@ -22,7 +22,7 @@ const notas = (await getCollection('blog', ({ data }) => !data.borrador))
 
       {notas.length > 0 ? (
         <div class="blog__grid">
-          {notas.map((nota) => <TarjetaNota nota={nota} />)}
+          {notas.map((nota, i) => <TarjetaNota nota={nota} prioridad={i < 4} />)}
         </div>
       ) : (
         <p class="blog__lead" style="text-align:center">Estamos preparando las primeras notas. Volvé en unos días.</p>

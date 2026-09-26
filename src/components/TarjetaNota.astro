@@ -3,9 +3,12 @@ import type { CollectionEntry } from 'astro:content';
 
 interface Props {
   nota: CollectionEntry<'blog'>;
+  /** Las tarjetas que se ven sin scroll no deben ir con loading="lazy": eso
+   * retrasa su descarga y suele ser la imagen que cuenta para el LCP. */
+  prioridad?: boolean;
 }
 
-const { nota } = Astro.props;
+const { nota, prioridad = false } = Astro.props;
 const { titulo, bajada, categoria, fecha, lectura, portada, portadaAlt } = nota.data;
 
 const fechaCorta = fecha.toLocaleDateString('es-AR', { day: 'numeric', month: 'short', year: 'numeric' });
@@ -13,7 +16,14 @@ const fechaCorta = fecha.toLocaleDateString('es-AR', { day: 'numeric', month: 's
 <a class="post" href={`/blog/${nota.id}/`} data-reveal>
   <div class="post__cover">
     {portada
-      ? <img src={portada} alt={portadaAlt ?? ''} loading="lazy" width="800" height="500">
+      ? <img
+          src={portada}
+          alt={portadaAlt ?? ''}
+          width="1080"
+          height="1350"
+          loading={prioridad ? 'eager' : 'lazy'}
+          fetchpriority={prioridad ? 'high' : 'auto'}
+        >
       : <div class="slot">{categoria}</div>}
   </div>
   <div class="post__body">

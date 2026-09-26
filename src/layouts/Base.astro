@@ -56,7 +56,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&family=Funnel+Sans:wght@300..800&display=swap" rel="stylesheet">
+<!-- La hoja de Google Fonts se carga sin bloquear el render (truco
+     media="print" -> "all" al cargar): con display=swap ya no hay texto
+     invisible, pero la hoja en sí frenaba el primer pintado varios cientos
+     de ms. El noscript cubre a quien navega sin JavaScript. -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&family=Funnel+Sans:wght@300..800&display=swap">
+<link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&family=Funnel+Sans:wght@300..800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&family=Funnel+Sans:wght@300..800&display=swap" rel="stylesheet"></noscript>
 <link rel="stylesheet" href="/assets/css/styles.css">
 
 <!--
