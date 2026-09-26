@@ -1,7 +1,7 @@
 import { traerPostsInstagramDeJab } from './supabase.mjs';
 import { esEducativo, generarContenido } from './claude.mjs';
 import { publicarBlog } from './blog.mjs';
-import { guardarBorradorLinkedin } from './linkedin.mjs';
+import { publicarLinkedin } from './linkedin.mjs';
 import { leerProcesados, guardarProcesados } from './estado.mjs';
 
 for (const variable of ['SUPABASE_URL', 'SUPABASE_SERVICE_ROLE_KEY', 'ANTHROPIC_API_KEY']) {
@@ -56,14 +56,18 @@ for (const post of nuevos) {
     portadaAlt: contenido.blog.titulo,
   });
 
-  await guardarBorradorLinkedin({
+  const linkedin = await publicarLinkedin({
     slug,
     texto: contenido.linkedin,
     urlBlog: `https://jabmarketing.site/blog/${slug}/`,
     urlInstagramOriginal: post.url,
   });
 
-  console.log(`Publicado: ${slug}`);
+  console.log(
+    linkedin.publicado
+      ? `Publicado: ${slug} (blog + LinkedIn)`
+      : `Publicado: ${slug} (blog -- LinkedIn quedó como borrador para pegar a mano)`,
+  );
   procesados.add(post.external_id);
   generados++;
 }

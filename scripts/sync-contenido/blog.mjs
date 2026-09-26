@@ -1,8 +1,39 @@
-import { writeFile, mkdir } from 'node:fs/promises';
+import { writeFile, mkdir, unlink } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
+import { execFile } from 'node:child_process';
+import { promisify } from 'node:util';
+
+const ejecutar = promisify(execFile);
 
 const CARPETA_BLOG = fileURLToPath(new URL('../../src/content/blog/', import.meta.url));
 const CARPETA_PORTADAS = fileURLToPath(new URL('../../public/assets/img/blog/', import.meta.url));
+
+// Las fotos de portada vienen de posts de Instagram, casi siempre verticales
+// (4:5 o 9:16) -- pero la portada del blog es horizontal (1200x675). Un
+// recorte directo tira más de la mitad de la imagen y deja afuera texto o
+// caras. En vez de recortar, se compone sobre un fondo desenfocado de la
+// misma imagen (la técnica de las barras difuminadas de Instagram): así no
+// se pierde nada del contenido original.
+const ANCHO_PORTADA = 1200;
+const ALTO_PORTADA = 675;
+const FFMPEG_BIN = process.env.FFMPEG_BIN || 'ffmpeg';
+
+async function componerPortada(rutaOriginal, rutaFinal) {
+  const filtro =
+    `[0:v]scale=${ANCHO_PORTADA}:${ALTO_PORTADA}:force_original_aspect_ratio=increase,` +
+    `crop=${ANCHO_PORTADA}:${ALTO_PORTADA},gblur=sigma=25,eq=brightness=-0.08[bg];` +
+    `[0:v]scale=${ANCHO_PORTADA}:${ALTO_PORTADA}:force_original_aspect_ratio=decrease[fg];` +
+    `[bg][fg]overlay=(W-w)/2:(H-h)/2,format=yuvj420p`;
+  await ejecutar(FFMPEG_BIN, [
+    '-y',
+    '-i', rutaOriginal,
+    '-filter_complex', filtro,
+    '-frames:v', '1',
+    '-update', '1',
+    '-q:v', '4',
+    rutaFinal,
+  ]);
+}
 
 function slugificar(titulo) {
   return titulo
@@ -23,8 +54,18 @@ async function descargarPortada(imagenUrl, slug) {
   if (!res.ok) return null;
   await mkdir(CARPETA_PORTADAS, { recursive: true });
   const archivo = `${slug}.jpg`;
+  const rutaOriginal = `${CARPETA_PORTADAS}${slug}.original.jpg`;
+  const rutaFinal = `${CARPETA_PORTADAS}${archivo}`;
   const buffer = Buffer.from(await res.arrayBuffer());
-  await writeFile(`${CARPETA_PORTADAS}${archivo}`, buffer);
+  await writeFile(rutaOriginal, buffer);
+  try {
+    await componerPortada(rutaOriginal, rutaFinal);
+  } catch (err) {
+    console.error(`No se pudo componer la portada de ${slug}, se usa la imagen original sin recortar:`, err.message);
+    await writeFile(rutaFinal, buffer);
+  } finally {
+    await unlink(rutaOriginal).catch(() => {});
+  }
   return `/assets/img/blog/${archivo}`;
 }
 

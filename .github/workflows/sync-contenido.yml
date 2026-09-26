@@ -24,6 +24,14 @@ jobs:
           SUPABASE_URL: ${{ secrets.JAB_CRM_SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.JAB_CRM_SUPABASE_SERVICE_ROLE_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          # Token de "Member authorization code" (perfil personal de Santiago).
+          # Mientras LinkedIn no apruebe "Sign In with LinkedIn using OpenID
+          # Connect" en la app, publicarLinkedin() no puede identificar al
+          # miembro y cae solo a guardar el borrador -- no hace falta tocar
+          # nada acá cuando se apruebe. Ojo: este token vence a los 2 meses y
+          # no tiene refresh automático (limitación de LinkedIn, no del
+          # código) -- hay que regenerarlo a mano cada tanto.
+          LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}
         run: node scripts/sync-contenido/index.mjs
 
       - name: Commitear lo que se haya generado
@@ -31,9 +39,11 @@ jobs:
           git config user.name "jab-content-sync"
           git config user.email "actions@users.noreply.github.com"
           git add src/content/blog/ public/assets/img/blog/ scripts/sync-contenido/procesados.json
-          # linkedin-borradores/ recién se crea si hubo al menos un post
-          # educativo -- `git add` sobre un path que no existe todavía falla
-          # duro (pathspec did not match), así que se agrega sólo si está.
+          # linkedin-borradores/ y linkedin-publicados/ recién se crean si
+          # hubo al menos un post educativo -- `git add` sobre un path que no
+          # existe todavía falla duro (pathspec did not match), así que se
+          # agregan sólo si están.
           [ -d linkedin-borradores ] && git add linkedin-borradores/
+          [ -d linkedin-publicados ] && git add linkedin-publicados/
           git diff --cached --quiet || git commit -m "Sync automático: Instagram -> blog + LinkedIn"
           git push
