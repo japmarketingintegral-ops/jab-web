@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import SolapasServicios from '../../components/SolapasServicios.astro';
 import Formulario from '../../components/Formulario.astro';
+import AgendaLlamada from '../../components/AgendaLlamada.astro';
 import { getCollection } from 'astro:content';
 
 const servicios = (await getCollection('servicios', ({ data }) => !data.borrador))
@@ -71,6 +72,8 @@ const migas = {
 
     </div>
   </section>
+
+  <AgendaLlamada lugar="servicios" />
 
   <section class="contacto" id="contacto">
     <div class="contacto__grid">

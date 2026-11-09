@@ -1,0 +1,70 @@
+---
+/*
+  Calendario para agendar una llamada de 30 minutos (vive en Jab Ventas).
+  Se incrusta con un iframe y se activa con PUBLIC_AGENDA_URL en el entorno:
+  si la variable no está, la sección no se muestra y el sitio queda igual.
+
+  Al cargar, el script le pasa al calendario de dónde llegó la persona
+  (UTM, gclid, fbclid, referrer y página de entrada) para que el CRM
+  sepa el origen de cada lead.
+*/
+interface Props {
+  eyebrow?: string;
+  titulo?: string;
+  texto?: string;
+  /** Distingue desde qué sección se agendó. */
+  lugar?: string;
+}
+const {
+  eyebrow = '[ AGENDÁ ]',
+  titulo = 'Elegí un horario y hablamos.',
+  texto = 'Una llamada de 30 minutos para entender tu negocio y decirte qué haríamos primero. Sin compromiso.',
+  lugar = 'web',
+} = Astro.props;
+const base = import.meta.env.PUBLIC_AGENDA_URL as string | undefined;
+---
+{base && (
+  <section class="agenda-web" id="agendar" data-agenda data-base={base} data-lugar={lugar}>
+    <div class="agenda-web__in">
+      <div class="agenda-web__cab">
+        <p class="eyebrow">{eyebrow}</p>
+        <h2 class="agenda-web__title">{titulo}</h2>
+        <p class="agenda-web__texto">{texto}</p>
+      </div>
+      <iframe class="agenda-web__frame" title="Agendá una llamada con Jab" loading="lazy" height="560"></iframe>
+    </div>
+  </section>
+)}
+
+<script>
+  const bloques = document.querySelectorAll<HTMLElement>('[data-agenda]');
+  if (bloques.length) {
+    // Guarda la primera visita para no perder el origen si navega entre páginas.
+    const K = 'jab_origen';
+    const KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'gclid', 'fbclid'];
+    let o: Record<string, string> | null = null;
+    try { o = JSON.parse(localStorage.getItem(K) || 'null'); } catch { /* sin storage */ }
+    const p = new URLSearchParams(location.search);
+    const trae = KEYS.some((k) => p.get(k));
+    if (!o || (trae && !KEYS.some((k) => o![k]))) {
+      o = { lp: location.href, ref: document.referrer || '' };
+      KEYS.forEach((k) => { const v = p.get(k); if (v) o![k] = v; });
+      try { localStorage.setItem(K, JSON.stringify(o)); } catch { /* sin storage */ }
+    }
+    const frames: HTMLIFrameElement[] = [];
+    bloques.forEach((b) => {
+      const url = new URL(b.dataset.base!, location.href);
+      url.searchParams.set('embed', '1');
+      Object.entries(o || {}).forEach(([k, v]) => { if (v) url.searchParams.set(k, v); });
+      url.searchParams.set('lugar', b.dataset.lugar || 'web');
+      const f = b.querySelector('iframe')!;
+      f.src = url.toString();
+      frames.push(f);
+    });
+    // El calendario avisa su alto para que el iframe no tenga scroll interno.
+    window.addEventListener('message', (e) => {
+      if (e.data?.type !== 'jab-agenda-height') return;
+      frames.forEach((f) => { if (f.contentWindow === e.source) f.style.height = `${Math.ceil(e.data.h)}px`; });
+    });
+  }
+</script>

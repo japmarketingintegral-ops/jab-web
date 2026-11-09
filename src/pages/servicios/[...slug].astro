@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import SolapasServicios from '../../components/SolapasServicios.astro';
 import Formulario from '../../components/Formulario.astro';
+import AgendaLlamada from '../../components/AgendaLlamada.astro';
 import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -139,6 +140,8 @@ const fichaFaq = d.faq.length > 0 ? {
 
     </div>
   </section>
+
+  <AgendaLlamada lugar={`servicio-${d.titulo.toLowerCase().replace(/\s+/g, '-')}`} titulo={`Hablemos de ${d.titulo.toLowerCase()}.`} />
 
   <section class="contacto" id="contacto">
     <div class="contacto__grid">

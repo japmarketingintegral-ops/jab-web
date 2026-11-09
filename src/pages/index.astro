@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import TarjetaNota from '../components/TarjetaNota.astro';
 import Formulario from '../components/Formulario.astro';
+import AgendaLlamada from '../components/AgendaLlamada.astro';
 import IconoServicio from '../components/IconoServicio.astro';
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
@@ -312,5 +313,6 @@ const notas = (await getCollection('blog', ({ data }) => !data.borrador))
     </div>
   </section>
 
+  <AgendaLlamada lugar="home" />
 
 </Base>

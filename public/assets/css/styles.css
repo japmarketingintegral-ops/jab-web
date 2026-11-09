@@ -2916,3 +2916,15 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; }
   .recurso__campos { grid-template-columns: 1fr; }
   .recurso__campos button { justify-content: center; }
 }
+
+/* ---------- Agenda de llamada (calendario incrustado de Jab Ventas) ---------- */
+.agenda-web {
+  background: var(--navy-900);
+  color: var(--celeste-100);
+  padding: var(--section-y) var(--gutter);
+}
+.agenda-web__in { max-width: 1040px; margin-inline: auto; }
+.agenda-web__cab { margin-bottom: 28px; }
+.agenda-web__title { margin: 0 0 12px; font-size: clamp(30px, 4.4vw, 56px); line-height: 1.04; color: #fff; }
+.agenda-web__texto { margin: 0; max-width: 56ch; opacity: .85; }
+.agenda-web__frame { display: block; width: 100%; border: 0; background: transparent; }
